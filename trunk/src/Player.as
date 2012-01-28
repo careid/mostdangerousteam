@@ -27,6 +27,7 @@ package
 			if (jump)
 				push_waypoint();
 			dash = FlxG.keys.pressed("C");
+			usePowerup = FlxG.keys.justPressed("Z");
 
 			super.update();
 		}

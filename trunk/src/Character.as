@@ -29,6 +29,7 @@ package
 		public var goRight:Boolean;
 		public var jump:Boolean;
 		public var dash:Boolean;
+		public var usePowerup:Boolean;
 		
 		public function Character(X:int,Y:int)
 		{
@@ -171,6 +172,12 @@ package
 				play("run");
 			}
 			
+			// POWERUPS
+			if (usePowerup && m_currentPowerup != null)
+			{
+				m_currentPowerup.activate();
+			}
+			
 			if (m_currentPowerup != null)
 			{
 				m_currentPowerup.update();
@@ -195,7 +202,27 @@ package
 			if (!powerup.shouldBeDiscarded)
 			{
 				m_powerupList.push(powerup);
+				if (m_currentPowerup == null)
+				{
+					m_currentPowerup = powerup;
+				}
 			}
+		}
+		
+		/////
+		/// Gets a pointer to a powerup of a given type if it exists, or null otherwise.
+		/////
+		public function getPowerupOfType(type : Class) : Powerup
+		{
+			for (var i:Number = 0; i < m_powerupList.length; i++)
+			{
+				if (m_powerupList[i] is type)
+				{
+					return m_powerupList[i];
+				}
+			}
+			
+			return null;
 		}
 		
 		/////
@@ -211,6 +238,7 @@ package
 			else if (m_currentPowerup != null && m_currentPowerup.shouldBeDiscarded)
 			{
 				m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
+				m_currentPowerup = null;
 			}
 		}
 	}

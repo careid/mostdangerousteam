@@ -23,6 +23,7 @@ package
 		protected var TIMEMACHINEY:Number = 100;
 		
 		protected var checkPoints:Array;
+		public var boomerangs:FlxGroup;
 		
 		protected var timeLeft:Number = 0;
 		
@@ -56,8 +57,10 @@ package
 			
 			//add countdown
 			countDowns = new FlxGroup();
+			boomerangs = new FlxGroup();
 			countDowns.add(new CountDown(0,0));
 			add(countDowns);
+			add(boomerangs);
 			
 			//add characters
 			characters = new FlxGroup();
@@ -111,9 +114,9 @@ package
 			doors.add(debugDoor);
 			
 			
-			debugPowerup = new StaminaRechargePowerup();
+			debugPowerup = new BoomerangPowerup();
 			debugPowerupEntity = new PowerupEntity(50, 50, debugPowerup);
-			debugPowerupEntity.play("stamina");
+			debugPowerupEntity.play("boomerang");
 			add(debugPowerupEntity);
 		
 		}
@@ -130,7 +133,8 @@ package
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(doors, characters);
-			
+			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
+			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
 			updateStateEvents();
 			
 			debugShit();
