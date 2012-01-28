@@ -147,7 +147,9 @@ package
 			if (FlxG.keys.justPressed("B"))
 			{
 				//BRUCE
-				bots.add(new Bot(0, 0, null));
+				var waypoints:Array = player.get_waypoints();
+				var p0:WayPoint = waypoints[0];
+				bots.add(new Bot(p0.x, p0.y, waypoints));
 			}
 			
 			debugTimer.text = String(Math.floor(timeLeft));
