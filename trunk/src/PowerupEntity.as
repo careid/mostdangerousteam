@@ -27,6 +27,11 @@ package
 			addAnimation("doublejump", [1]);
 			addAnimation("stamina", [2]);
 			addAnimation("spikes", [3]);
+			if (powerup == null)
+				visible = false;
+			else
+				play(powerup.animationName);
+			visible = (powerup != null);
 		}
 	
 		/////
@@ -36,6 +41,7 @@ package
 		public function collect(character : Character) : Powerup
 		{
 			FlxG.play(PowerSnd);
+			FlxG.flash(0xffffffff, 0.3);
 			powerup.character = character;
 			character.addPowerup(powerup);
 			powerup.onAdd();
@@ -50,6 +56,7 @@ package
 			FlxG.state.add(emitter);
 			
 			this.kill();
+			(FlxG.state as PlayState).level.powerups.add(new FakePowerupEntity(x, y, character));
 			return powerup;
 		}
 		
@@ -61,7 +68,6 @@ package
 		public static function overlapCharacter(powerupEntity : PowerupEntity, theCharacter: Character ) : void
 		{
 			powerupEntity.collect(theCharacter);
-			FlxG.flash(0xffffffff, 0.3);
 		}
 		
 	}

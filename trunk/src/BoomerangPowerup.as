@@ -8,9 +8,10 @@ package
 	public class BoomerangPowerup extends ChargingPowerup
 	{
 		
-		public function BoomerangPowerup() 
+		public function BoomerangPowerup()
 		{
 			super(100, 0);
+			animationName = "boomerang";
 		}
 		
 		

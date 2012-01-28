@@ -4,8 +4,6 @@ package
 
 	public class Bot extends Hydraman
 	{
-		protected var canFuckUp:Boolean;
-		
 		public function Bot(old_player:Player)
 		{
 			super(old_player.startX, old_player.startY);

@@ -11,6 +11,7 @@ package
 		public function AmmoPowerup(ammo : Number) 
 		{
 			this.ammo = ammo;
+			animationName = "ammo";
 		}
 		
 		

@@ -11,6 +11,9 @@ package
 		[Embed(source = "sounds/playerJump.mp3")] public var DeathSnd:Class;
 		[Embed(source = "sounds/dashOn.mp3")] public var DashSnd:Class;
 		
+		// for bots
+		public var canFuckUp:Boolean;
+		
 		public const OVER_SQRT2:Number = 0.707107;
 		
 		protected var m_dashing:Boolean;

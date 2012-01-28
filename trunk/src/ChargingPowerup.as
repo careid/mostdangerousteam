@@ -15,6 +15,7 @@ package
 			this.maxCharge = maxCharge;
 			this.charge = maxCharge;
 			this.chargeRate = chargeRate;
+			animationName = "charging";
 		}
 		
 		

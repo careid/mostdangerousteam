@@ -162,23 +162,17 @@ package
 				}
 				else if (child.name() == "StaminaRechargePowerup")
 				{
-					obj = new PowerupEntity();
-					obj.powerup = new StaminaRechargePowerup();
-					(obj as PowerupEntity).play("stamina");
+					obj = new PowerupEntity(0,0,new StaminaRechargePowerup());
 					powerups.add(obj as PowerupEntity);
 				}
 				else if (child.name() == "BoomerangPowerup")
 				{
-					obj = new PowerupEntity();
-					obj.powerup = new BoomerangPowerup();
-					(obj as PowerupEntity).play("boomerang");
+					obj = new PowerupEntity(0,0,new BoomerangPowerup());
 					powerups.add(obj as PowerupEntity);
 				}
 				else if (child.name() == "SpikePowerup")
 				{
-					obj = new PowerupEntity();
-					obj.powerup = new SpikePowerup();
-					(obj as PowerupEntity).play("spikes");
+					obj = new PowerupEntity(0,0,new SpikePowerup());
 					powerups.add(obj as PowerupEntity);
 				}
 				else

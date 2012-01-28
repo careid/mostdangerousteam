@@ -10,7 +10,8 @@ package
 	{
 		public var character : Character;
 		public var shouldBeDiscarded : Boolean;
-				
+		public var animationName : String = "powerup";
+		
 		public function Powerup() 
 		{
 			shouldBeDiscarded = false;

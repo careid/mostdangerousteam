@@ -12,6 +12,7 @@ package
 		public function SpikePowerup() 
 		{
 			super(1);
+			animationName = "spikes";
 		}
 		
 		

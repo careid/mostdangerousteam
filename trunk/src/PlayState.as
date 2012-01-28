@@ -27,7 +27,7 @@ package
 		
 		protected const LEVELBOTTOM:int = 600;
 		
-		protected var level:Level;
+		public var level:Level;
 		protected var player:Player;
 		protected var staminaBar:FlxBar;
 		protected var tileMap:FlxTilemap;

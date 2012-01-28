@@ -9,7 +9,7 @@ package
 		
 		public function StaminaRechargePowerup() 
 		{
-			
+			animationName = "stamina";
 		}
 		
 		
