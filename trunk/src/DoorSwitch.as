@@ -10,7 +10,7 @@ package
 		
 		protected var door:Door;
 		
-		protected var id:int;
+		public var id:int;
 		
 		[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
 		
@@ -28,7 +28,7 @@ package
 			for (i = 0; i < doors.length; i++)
 			{
 				d = doors[i];
-				if (d.ID == id)
+				if (d.id == id)
 				{
 					door = d;
 				}
@@ -76,6 +76,11 @@ package
 					break;
 			}
 			state = newState;
+		}
+		
+		public static function overlap(a:FlxObject, b:FlxObject):void
+		{
+			DoorSwitch(a).switchState(DOWN);
 		}
 		
 	}

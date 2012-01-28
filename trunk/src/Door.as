@@ -17,7 +17,7 @@ package
 		protected var hingeHeight:Number;
 		protected var groundHeight:Number;
 		
-		protected var id:int;
+		public var id:int;
 		
 		[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
 		
@@ -64,17 +64,23 @@ package
 		
 		public function switchState(newState:uint):void
 		{
+			if (state == newState)
+			{
+				return;
+			}
 			switch(newState)
 			{
 				case CLOSING:
-					if (state != DOWN)
+					if (state == UP)
 					{
+						groundHeight = y + height-HINGEMARGIN;
 						velocity.y = DOORSPEED;
 					}
 					break;
 				case OPENING:
-					if (state != UP)
+					if (state == DOWN)
 					{
+						hingeHeight = y - height + HINGEMARGIN;
 						velocity.y = -DOORSPEED;
 					}
 					break;

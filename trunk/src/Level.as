@@ -17,6 +17,7 @@ package
 		public var conveyors:FlxGroup = null;
 		public var powerups:FlxGroup = null;
 		public var timeMachine:TimeMachine = null;
+		public var doorSwitches:FlxGroup = null;
 		
 		public function Level() 
 		{
@@ -113,15 +114,17 @@ package
 		/////
 		public function loadFromXML(xmlData:ByteArray) : void
 		{
+			var i:int
 			checkPoints = new Array();
 			doors = new FlxGroup();
 			conveyors = new FlxGroup();
 			powerups = new FlxGroup();
+			doorSwitches = new FlxGroup();
 			
 			var xml_str:String = xmlData.readUTFBytes(xmlData.length);
 			var xml:XML = XML(xml_str);
 			var children:XMLList = xml.children();
-			for (var i:int = 0; i < children.length(); i++)
+			for (i = 0; i < children.length(); i++)
 			{
 				var child = children[i];
 				var obj:Object;
@@ -139,6 +142,11 @@ package
 				{
 					obj = new Door();
 					doors.add(obj as Door);
+				}
+				else if (child.name() == "DoorSwitch")
+				{
+					obj = new DoorSwitch();
+					doorSwitches.add(obj as DoorSwitch);
 				}
 				else if (child.name() == "Conveyor")
 				{
@@ -191,9 +199,20 @@ package
 					{
 						obj.time = Number(attr);
 					}
+					else if (attr.name() == "id")
+					{
+						obj.id = Number(attr);
+					}
 					else
 						trace("Attribute " + child.name() + "." + attr.name() + " unknown.");
 				}
+			}
+			
+			//post processing
+			for (i = 0; i < doorSwitches.members.length; i++)
+			{
+				var ds:DoorSwitch = DoorSwitch(doorSwitches.members[i])
+				ds.connectDoor(doors.members);
 			}
 		}
 	}

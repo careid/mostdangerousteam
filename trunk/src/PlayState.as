@@ -98,6 +98,7 @@ package
 			add(level.tileMap);
 			add(level.timeMachine);
 			add(level.doors);
+			add(level.doorSwitches);
 			add(level.conveyors);
 			add(level.powerups);
 			timeLeft = level.checkPoints[startIndex].time;
@@ -226,6 +227,7 @@ package
 			FlxG.collide(level.doors, characters);
 			FlxG.collide(level.conveyors, characters,Conveyor.overlap);
 			FlxG.overlap(level.powerups, player, PowerupEntity.overlapCharacter);
+			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
 			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
 			FlxG.overlap(spikes, player, SpikeTrap.overlapCharacter);
