@@ -9,7 +9,6 @@ package
 	{	
 		public var tileMap:FlxTilemap = null; 
 		
-		
 		public function Level() 
 		{
 			

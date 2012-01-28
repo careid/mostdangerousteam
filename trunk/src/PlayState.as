@@ -5,7 +5,7 @@ package
 
 	public class PlayState extends FlxState
 	{
-	    [Embed(source = "../maps/map.csv", mimeType = "application/octet-stream")] public var Level1:Class;
+	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1:Class;
 		
 		protected var level:Level;
 		protected var player:Player;
