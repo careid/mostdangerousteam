@@ -50,7 +50,7 @@ package
 			
 			m_gravity = 400;
 			acceleration.y = m_gravity;
-			m_wall_friction = 3;
+			m_wall_friction = 10;
 			
 			jumps = 2;
 			m_remaining_jumps = jumps;
@@ -65,7 +65,9 @@ package
 			addAnimation("idle", [0]);
 			addAnimation("run", [1, 2, 3, 4], 12);
 			addAnimation("jump", [5, 6],12);
-			addAnimation("fall", [7, 8],12);
+			addAnimation("fall", [7, 8], 12);
+			addAnimation("dash", [9, 10, 11, 12],18);
+			addAnimation("wallslide", [13],12);
 		}
 		
 		override public function update():void
@@ -100,9 +102,9 @@ package
 			{
 				m_remaining_jumps = jumps;
 			}
-			if(jump && m_remaining_jumps > 0)
+			if(jump)
 			{
-				if (isTouching(FLOOR))
+				if (isTouching(FLOOR) && m_remaining_jumps > 0)
 				{
 					m_remaining_jumps--;
 					m_dashing = false;
@@ -120,7 +122,7 @@ package
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * -m_jump_power;
 				}
-				else
+				else if (m_remaining_jumps > 0)
 				{
 					m_remaining_jumps--;
 					m_dashing = false;
@@ -161,11 +163,18 @@ package
 			}
 			else if (velocity.y > 0)
 			{
-				play("fall");
+				if (touchLeft || touchRight)
+					play("wallslide");
+				else
+					play("fall");
 			}
 			else if(velocity.x == 0)
 			{
 				play("idle");
+			}
+			else if (maxVelocity.x == m_dash_speed)
+			{
+				play("dash");
 			}
 			else
 			{

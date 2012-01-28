@@ -1,11 +1,16 @@
 package  
 {
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 
 	public class SpikeTrap extends FlxSprite
 	{
 		[Embed(source = "./graphics/spikes.png")] public var Image:Class;
-		private var isActive : Boolean = false;
+		public static const CLOSED:uint = 0;
+		public static const OPENING:uint = 1;
+		public static const OPEN:uint = 2;
+		private var activation : uint = CLOSED;
+		private var landing_zone : FlxPoint = null;
 		
 		/////
 		/// \param X x position of the spike trap.
@@ -20,13 +25,13 @@ package
 			velocity.y = vY;
 			acceleration.y = 400;
 			
-			loadGraphic(Image, true);
+			loadGraphic(Image, true, false, 36, 36);
 			addAnimation("inactive", [0], 0, false);
 			addAnimation("activating", [0, 1, 2, 3, 4], 15, false);
 			play("inactive");
-			offset.x = (width - 10) / 2;
-			offset.y = (height - 7);
-			width = 10;
+			offset.x = (36 - 7) / 2;
+			offset.y = (36 - 7);
+			width  = 7;
 			height = 7;
 
 		}
@@ -38,15 +43,28 @@ package
 				drag.x = 400;
 				drag.y = 400;
 			}
-			if (!isActive && Math.abs(velocity.x * velocity.x + velocity.y * velocity.y) < 0.01)
+			if (activation == CLOSED && Math.abs(velocity.x * velocity.x + velocity.y * velocity.y) < 0.01)
 			{
 				play("activating");
 				width = 34;
 				height = 24;
-				offset.x = 1;
-				offset.y = 12;
-				y -= 20;
-				isActive = true;
+				offset.x = 0;
+				offset.y = 36 - height;
+				y -= 18;
+				x -= 14;
+				landing_zone = new FlxPoint(x, y);
+				//isActive = true;
+				activation = OPENING;
+			}
+			else if (activation == OPENING)
+			{
+				if (landing_zone != null && landing_zone.y + 4 < y)
+				{
+					x = landing_zone.x - 15;
+					y = landing_zone.y;
+					landing_zone = null;
+				}
+				if (finished) activation = OPEN;
 			}
 			super.update();
 		}
@@ -59,7 +77,7 @@ package
 		////
 		public static function overlapCharacter(spikes : SpikeTrap, theCharacter: Character ) : void
 		{
-			if (spikes.isActive)
+			if (spikes.activation == OPEN)
 			{
 				theCharacter.kill();
 				spikes.kill();
