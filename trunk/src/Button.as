@@ -4,7 +4,7 @@ package
 	public class Button extends FlxSprite
 	{
 		//[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
-		public var text:FlxText;
+		public var text:MyText;
 		protected var flashTimer:Number;
 		protected var maxFlashTimer:Number;
 		protected var flashing:Boolean;
@@ -15,7 +15,7 @@ package
 			//loadGraphic(ImgDoor, false);
 			makeGraphic(36, 36,0xffff0000);
 			
-			text = new FlxText(X, Y, width);
+			text = new MyText(X, Y, width);
 		}
 		
 		override public function update():void

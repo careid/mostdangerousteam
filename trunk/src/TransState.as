@@ -5,6 +5,7 @@ package
 
 	public class TransState extends FlxState
 	{
+		
 		protected const MAXDISPLAYTIME:Number = 3.0;
 		
 		protected const RUN:uint = 0;
@@ -54,7 +55,7 @@ package
 			planet.angularVelocity = -0.2*timeLeft;
 			add(planet);
 			
-			displayText = new FlxText(0, 0, FlxG.width, "Traveling back "+int(timeLeft)+" seconds...");
+			displayText = new MyText(0, 0, FlxG.width, "Traveling back " + int(timeLeft) + " seconds...");
 			add(displayText);
 			
 			buttons = new Array();
