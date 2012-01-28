@@ -7,8 +7,9 @@ package
 	/////
 	public class Level
 	{	
-		public var tileMap:FlxTilemap = null;
-
+		public var tileMap:FlxTilemap = null; 
+		
+		
 		public function Level() 
 		{
 			
@@ -31,6 +32,7 @@ package
 			tileMap.loadMap(mapString, FlxTilemap.ImgAuto, 0, 0, FlxTilemap.AUTO);
 			state.add(tileMap);
 		}
+		
 		
 	}
 
