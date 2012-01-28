@@ -30,6 +30,7 @@ package
 		/////
 		public function update() : void
 		{
+			
 		}
 		
 		/////

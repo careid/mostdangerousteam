@@ -230,12 +230,20 @@ package
 			// POWERUPS
 			if (usePowerup && m_currentPowerup != null)
 			{
-				m_currentPowerup.activate();
+				activateCurrentPowerup();
 			}
 			
 			if (m_currentPowerup != null)
 			{
-				m_currentPowerup.update();
+				if (m_currentPowerup.shouldBeDiscarded)
+				{
+					m_powerupList = m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
+					m_currentPowerup = null;
+				}
+				else
+				{
+					m_currentPowerup.update();
+				}
 			}
 			m_dustEmitter.x = x + 5;
 			m_dustEmitter.y = y + 20;
@@ -300,7 +308,7 @@ package
 			}
 			else if (m_currentPowerup != null && m_currentPowerup.shouldBeDiscarded)
 			{
-				m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
+				m_powerupList = m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
 				m_currentPowerup = null;
 			}
 		}

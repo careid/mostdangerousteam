@@ -18,6 +18,7 @@ package
 		override public function activate():Boolean 
 		{
 			character.stamina = character.maxstamina;
+			shouldBeDiscarded = true;
 			return true;
 		}
 		
