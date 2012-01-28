@@ -84,8 +84,18 @@ package
 		
 		private function updateStateEvents():void 
 		{
-			//nothing to be done yet
-			FlxG.overlap(player, timeMachine, reachGoal);
+			switch(state)
+			{
+				case START:
+					break;
+				case MID:
+					FlxG.overlap(player, timeMachine, reachGoal);
+					break;
+				case END:
+					break;
+				default:
+					break;
+			}
 		}
 		
 		private function restartLevel():void 

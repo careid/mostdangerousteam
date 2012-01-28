@@ -1,7 +1,7 @@
 package
 {
 	import org.flixel.*;
-
+	
 	public class Player extends Character
 	{
 		[Embed(source = "graphics/main.png")] protected var ImgPlayer:Class;
