@@ -1,7 +1,10 @@
 package
 {
+	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.text.engine.BreakOpportunity;
+	import flash.utils.Timer;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 	import org.flixel.plugin.photonstorm.FX.StarfieldFX;
@@ -113,20 +116,26 @@ package
 			{
 				trace("TIME TRAVEL!!!");
 				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
-				oldPlayers = [];
 			}
 			else
 			{
-				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
+				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
+				oldPlayers = [];
 			}
 			cameraScrollVelocity = new FlxPoint(player.x, player.y);
 			cameraPreviousScroll = new FlxPoint(0, 0);
 			characters.add(player);
 			
+			player.startTime = level.checkPoints[startIndex].time;
+			
 			//add bots
 			bots = new FlxGroup();
 			for each (var past_self:Player in oldPlayers)
-				bots.add(Bot(past_self));
+			{
+				var timer:Timer = new Timer((timeLeft - past_self.startTime), 1);
+				timer.addEventListener(TimerEvent.TIMER, function (e:Event):void { bots.add(new Bot(past_self)); } );
+				timer.start();
+			}
 			characters.add(bots);
 			
 			//set camera
