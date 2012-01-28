@@ -9,6 +9,7 @@ package
 	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
 		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;
 		
+		
 		protected var level:Level;
 		protected var player:Player;
 		protected var tileMap:FlxTilemap;
@@ -82,9 +83,9 @@ package
 			oldPlayer;
 			//add player
 			if (level.checkPoints != null && level.checkPoints.length == 0)
-			{
+			{				player = new Player(3008, 228);
 				// This should only run if there are no checkpoints in the level's XML file
-				player = new Player(FlxG.width/2 - 5, 200);
+				player = new Player(3008,  228);
 			}
 			else 
 			{
@@ -97,7 +98,7 @@ package
 			characters.add(bots);
 			
 			//set camera
-			FlxG.camera.setBounds(-1000,0,2000,2400,true);
+			FlxG.camera.setBounds(-10000,0,20000,24000,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
 			
 			//set starting variables
