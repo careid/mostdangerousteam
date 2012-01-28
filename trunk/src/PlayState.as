@@ -50,6 +50,7 @@ package
 		protected var runLevel:int;
 		protected var staminaLevel:int;
 		protected var healthLevel:int;
+		protected var isFirstIteration:Boolean = false;
 		
         public function PlayState(startIndex:int = 0,oldPlayers:Array=null,runLevel:int=0,staminaLevel:int=0,healthLevel:int=0)
 		{
@@ -72,21 +73,20 @@ package
 			// First, background stars.
 			FlxG.addPlugin(new FlxSpecialFX());
 
-			starfield = FlxSpecialFX.starfield();
-			starfield.active = true;
-			starfield.create(0,0, FlxG.width, FlxG.height, 100);
-			starfield.setStarSpeed(0, 0);
-			starfield.sprite.scrollFactor.x = 0;
-			starfield.sprite.scrollFactor.y = 0;
-			starfield.sprite.blend = "normal";
-			starfield.sprite.antialiasing = true;
-			add(starfield.sprite);
+
 			
 			//get level
 			level = new Level();
 			level.loadFromCSV(new ShitTest());
-			add(level.tileMap);
 			level.loadFromXML(new Level1XML());
+			starfield = FlxSpecialFX.starfield();
+			starfield.create(0 , 0, FlxG.width, FlxG.height, 100);
+			starfield.active = true;
+			starfield.setStarSpeed(0, 0);
+			starfield.sprite.scrollFactor.x = 0;
+			starfield.sprite.scrollFactor.y = 0;
+			add(starfield.sprite);
+			add(level.tileMap);
 			add(level.timeMachine);
 			add(level.doors);
 			add(level.powerups);
@@ -97,6 +97,7 @@ package
 
 			add(boomerangs);
 			add(spikes);
+			
 			
 			//add characters
 			characters = new FlxGroup();
@@ -118,6 +119,8 @@ package
 			{
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
 			}
+			cameraScrollVelocity = new FlxPoint(player.x, player.y);
+			cameraPreviousScroll = new FlxPoint(0, 0);
 			characters.add(player);
 			
 			//add bots
@@ -174,13 +177,19 @@ package
 			}
 			
 			super.update();
+		 
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
+			
 			cameraPreviousScroll.x = FlxG.camera.scroll.x;
 			cameraPreviousScroll.y = FlxG.camera.scroll.y;
 			
-			starfield.setStarSpeed( cameraScrollVelocity.x*0.1, cameraScrollVelocity.y*0.1);
+			if (!isFirstIteration)
+			{
+				starfield.setStarSpeed(-cameraScrollVelocity.x * 0.1, -cameraScrollVelocity.y * 0.1);
+			}
+			
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
@@ -265,7 +274,7 @@ package
 			updateStateEvents();
 			
 			debugShit();
-
+			isFirstIteration = false;
 		}
 		
 		public function debugShit():void

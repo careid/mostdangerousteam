@@ -18,6 +18,7 @@ package
 		/////
 		override public function activate() : Boolean 
 		{
+			trace("BOOMRANG");
 			if (super.activate())
 			{
 				createBoomerang();
