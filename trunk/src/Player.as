@@ -27,11 +27,16 @@ package
 		
 		override public function update():void
 		{
+			get_movement();
+			super.update();
+		}
+		
+		public function get_movement():void
+		{
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
 			jump = FlxG.keys.justPressed("X");
 			dash = FlxG.keys.pressed("C");
-			super.update();
 		}
 		
 		protected function scheduled_waypoint_push(e:TimerEvent):void
@@ -42,7 +47,7 @@ package
 		public function push_waypoint():void
 		{
 			trace("pushing waypoint...");
-			m_waypoints.push(new WayPoint(x, y, jump, null));
+			m_waypoints.push(new WayPoint(x, y, width, height, jump, null));
 		}
 		
 		public function get_waypoints():Array

@@ -10,24 +10,26 @@ package
 			m_waypoints = waypoints;
 		}
 		
-		override public function update():void
+		override public function get_movement():void
 		{
 			if (m_waypoints.length > 0)
 			{
-				jump = (y > m_waypoints[0].y);
+				jump = (y - 10 > m_waypoints[0].y);
 				// when you hit a waypoint, move onto the next one
 				if (overlaps(m_waypoints[0]))
 				{
 					var hit:WayPoint = m_waypoints.shift();
 					jump = hit.jump;
-					if (hit.powerup == null)
+					if (hit.powerup != null)
 					{
 						hit.powerup.activate();
 					}
 				}
-				goLeft = (x > m_waypoints[0].x);
-				goRight = (x < m_waypoints[0].x);
-				super.update();
+				if (m_waypoints.length > 0)
+				{
+					goLeft = (x > m_waypoints[0].x);
+					goRight = (x < m_waypoints[0].x);
+				}
 			}
 		}
 	}
