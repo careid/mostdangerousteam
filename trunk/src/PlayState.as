@@ -109,6 +109,8 @@ package
 			add(doors);
 			debugDoor = new Door(50, 100);
 			doors.add(debugDoor);
+			
+			FlxG.flash(0xffffffff, 0.7);
 		}
 		
 		override public function update():void
@@ -180,7 +182,7 @@ package
 				case MID:
 					break;
 				case END:
-					FlxG.fade(0xffffff, 1, restartLevel);
+					FlxG.fade(0xffffff, 0.7, restartLevel);
 					break;
 				default:
 					break;
@@ -225,7 +227,7 @@ package
 				}
 			}
 			
-			FlxG.switchState(new PlayState(bestIndex));
+			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
