@@ -188,7 +188,7 @@ package
 			{
 				if (timeLeft - past_self.startTime < 0) continue;
 				var timer:Timer = new Timer((timeLeft - past_self.startTime)*1000, 1);
-				timer.addEventListener(TimerEvent.TIMER, function (e:Event):void { bots.add(new Bot(past_self)); } );
+				timer.addEventListener(TimerEvent.TIMER, function (e:Event):void { if (bots && bots.members) {bots.add(new Bot(past_self));} } );
 				timer.start();
 			}
 			characters.add(bots);
