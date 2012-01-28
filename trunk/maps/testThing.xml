@@ -1,5 +1,6 @@
 <Level1>
 	<TimeMachine x="3008" y="180"/>
+	<CountDown x="3008" y="200"/>
 	<DoorSwitch x="2100" y="192" id="1" />
 	<Door x="2180" y="192" id="1" />
 	<CheckPoint x="2272" y="150" threshold="0" time="30"/>
