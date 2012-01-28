@@ -135,9 +135,12 @@ package
 			
 			//debug shit
 			staminaText = new FlxText(0, 0, 200);
+			staminaText.text = "Stamina: ";
 			staminaText.scrollFactor.x = 0;
 			staminaText.scrollFactor.y = 0;
-			staminaBar = new FlxBar(15, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 20, player, "stamina", 0, 100, true);
+			staminaBar = new FlxBar(15, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 10, player, "stamina", 0, 100, true);
+			staminaBar.scrollFactor.x = 0;
+			staminaBar.scrollFactor.y = 0;
 			add(staminaBar);
 			add(staminaText);
 			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
@@ -192,8 +195,7 @@ package
 			updateStateEvents();
 			
 			debugShit();
-			
-			staminaText.text = String(Math.floor(player.stamina));
+
 		}
 		
 		public function debugShit():void
