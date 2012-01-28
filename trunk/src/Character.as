@@ -80,8 +80,9 @@ package
 		
 		override public function update():void
 		{			
-			var touchLeft:Boolean = isTouching(LEFT);
-			var touchRight:Boolean = isTouching(RIGHT);
+			var isTouchingFloor:Boolean = isTouching(FLOOR);
+			var isTouchingLeft:Boolean = isTouching(LEFT);
+			var isTouchingRight:Boolean = isTouching(RIGHT);
 			
 			// DASHING
 			if (m_dashing)
@@ -90,14 +91,12 @@ package
 				if (stamina <= 0 || dash == false)
 				{
 					m_dashing = false;
-					m_speed = m_run_speed;
-					maxVelocity.x = m_run_speed;
 				}
 			}
-			else if (isTouching(FLOOR))
+			else if (isTouchingFloor)
 			{
 				stamina = Math.min(maxstamina, stamina + staminaregen);
-				if (dash && stamina == maxstamina)
+				if (dash && stamina > 0.25 * maxstamina)
 				{
 					m_dashing = true;
 					m_speed = m_dash_speed;
@@ -106,6 +105,7 @@ package
 				else
 				{
 					m_dashing = false;
+					m_speed = m_run_speed;
 					maxVelocity.x = m_run_speed;
 				}
 			}
@@ -117,19 +117,19 @@ package
 			}
 			if(jump)
 			{
-				if (isTouching(FLOOR) && m_remaining_jumps > 0)
+				if (isTouchingFloor && m_remaining_jumps > 0)
 				{
 					m_remaining_jumps--;
 					m_dashing = false;
 					velocity.y = -m_jump_power;
 				}
-				else if (touchLeft)
+				else if (isTouchingLeft)
 				{
 					m_dashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * m_jump_power;
 				}
-				else if (touchRight)
+				else if (isTouchingRight)
 				{
 					m_dashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
@@ -144,7 +144,7 @@ package
 			}
 			
 			// FRICTION
-			if (velocity.y > 0 && (touchLeft || touchRight))
+			if (velocity.y > 0 && (isTouchingLeft || isTouchingRight))
 			{
 				acceleration.y = m_gravity - velocity.y * m_wall_friction;
 			}
@@ -176,7 +176,7 @@ package
 			}
 			else if (velocity.y > 0)
 			{
-				if (touchLeft || touchRight)
+				if (isTouchingLeft || isTouchingRight)
 					play("wallslide");
 				else
 					play("fall");
