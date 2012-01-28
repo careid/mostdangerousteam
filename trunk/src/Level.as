@@ -12,7 +12,7 @@ package
 	{
 		[Embed(source = "./graphics/tiles.png")] public var Image:Class;
 		public var tileMap:FlxTilemap = null;
-		public var startPoints:Array = null;
+		public var checkPoints:Array = null;
 		public var doors:FlxGroup = null;
 		public var powerups:FlxGroup = null;
 		public var timeMachine:TimeMachine = null;
@@ -30,6 +30,13 @@ package
 		/////
 		public function loadFromCSV(mapString:String) : void
 		{
+			var array:Array = mapString.replace("[\w\n\r]", "").split(",");
+			
+			for (var i:int = 0; i < array.length; i++)
+			{
+				
+			}
+			
 			tileMap = new FlxTilemap();
 			tileMap.loadMap(mapString, Image, 32,32);
 		}
@@ -41,7 +48,7 @@ package
 		/////
 		public function loadFromXML(xmlData:ByteArray) : void
 		{
-			startPoints = new Array();
+			checkPoints = new Array();
 			doors = new FlxGroup();
 			powerups = new FlxGroup();
 			
@@ -52,10 +59,10 @@ package
 			{
 				var child = children[i];
 				var obj:Object;
-				if (child.name() == "StartPoint")
+				if (child.name() == "CheckPoint")
 				{
-					obj = new FlxPoint();
-					startPoints.push(obj);
+					obj = new CheckPoint();
+					checkPoints.push(obj);
 				}
 				else if (child.name() == "TimeMachine")
 				{
@@ -99,11 +106,19 @@ package
 					var attr = attributes[j];
 					if (attr.name() == "x")
 					{
-						obj.x = int(attr);
+						obj.x = Number(attr);
 					}
 					else if (attr.name() == "y")
 					{
-						obj.y = int(attr);
+						obj.y = Number(attr);
+					}
+					else if (attr.name() == "threshold")
+					{
+						obj.threshold = Number(attr);
+					}
+					else if (attr.name() == "time")
+					{
+						obj.time = Number(attr);
 					}
 					else
 						trace("Attribute " + child.name() + "." + attr.name() + " unknown.");

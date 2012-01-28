@@ -12,7 +12,7 @@ package
 		protected var level:Level;
 		protected var player:Player;
 		protected var tileMap:FlxTilemap;
-		protected var startPosition:FlxPoint;
+		protected var startIndex:int;
 		protected var state:uint;
 		protected var characters:FlxGroup;
 		
@@ -35,10 +35,9 @@ package
 		
 		protected var countDowns:FlxGroup;
 		
-		public function PlayState(timeLeft:Number,startPosition:FlxPoint = null)
+		public function PlayState(startIndex:int = 0)
 		{
-			this.startPosition = startPosition;
-			this.timeLeft = timeLeft;
+			this.startIndex = startIndex;
 			super();
 		}
 		
@@ -56,12 +55,13 @@ package
 			add(level.timeMachine);
 			add(level.doors);
 			add(level.powerups);
+			timeLeft = level.checkPoints[startIndex].time;
 			
 			//add countdown
 			countDowns = new FlxGroup();
 			for (i = 0; i < 15; i++)
 			{
-				countDowns.add(new CountDown(Math.random()*FlxG.height,Math.random()*FlxG.width,timeLeft));
+				countDowns.add(new CountDown(Math.random()*FlxG.height,Math.random()*FlxG.width, timeLeft));
 			}
 			add(countDowns);
 			
@@ -76,13 +76,14 @@ package
 			add(characters);
 			
 			//add player
-			if (level.startPoints.length == 0)
+			if (level.checkPoints != null && level.checkPoints.length == 0)
 			{
+				// This should only run if there are no checkpoints in the level's XML file
 				player = new Player(FlxG.width/2 - 5, 200);
 			}
 			else 
 			{
-				player = new Player(level.startPoints[0].x, level.startPoints[0].y);
+				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y);
 			}
 			characters.add(player);
 			
@@ -93,12 +94,6 @@ package
 			//set camera
 			FlxG.camera.setBounds(-1000,0,2000,2400,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
-			
-			//add checkpoints
-			checkPoints = new Array();
-			//NOTE: the threshold should be in increasing order
-			checkPoints = [new CheckPoint(new FlxPoint(200, 100), 0.0, 10.0),
-							new CheckPoint(new FlxPoint(50, 100), 5.0, 15.0)]
 			
 			//set starting variables
 			state = MID;
@@ -132,21 +127,19 @@ package
 			FlxG.overlap(level.powerups, player, PowerupEntity.overlapCharacter);
 			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
+			FlxG.overlap(spikes, player, SpikeTrap.overlapCharacter);
+			FlxG.overlap(spikes, bots, SpikeTrap.overlapCharacter);
 			
 			if (!player.alive)
 			{
 				endGame();
 			}
 			
-			FlxG.overlap(spikes, player, SpikeTrap.overlapCharacter);
-			FlxG.overlap(spikes, bots, SpikeTrap.overlapCharacter);
-			
 			updateStateEvents();
 			
 			debugShit();
 			
 			staminaText.text = String(Math.floor(player.stamina));
-			
 		}
 		
 		public function debugShit():void
@@ -218,17 +211,21 @@ package
 		{
 			//find out which checkpoint the player gets sent to
 			var i:int;
-			var bestCheckPoint:CheckPoint = checkPoints[0]; //hopefully checkPoints is never empty
-			for (i = 0; i < checkPoints.length; i++)
+			var bestIndex:int = 0; //hopefully checkPoints is never empty
+			for (i = 0; i < level.checkPoints.length; i++)
 			{
-				var c:CheckPoint = checkPoints[i];
-				if (timeLeft > c.threshold && c.threshold > bestCheckPoint.threshold)
+				var c:CheckPoint = level.checkPoints[i];
+				if (timeLeft > c.threshold)
 				{
-					bestCheckPoint = c;
+					bestIndex = i;
+				}
+				else
+				{
+					break;
 				}
 			}
 			
-			FlxG.switchState(new PlayState(bestCheckPoint.time,bestCheckPoint.position));
+			FlxG.switchState(new PlayState(bestIndex));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void

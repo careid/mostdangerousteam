@@ -52,7 +52,7 @@ package
 			acceleration.y = m_gravity;
 			m_wall_friction = 10;
 			
-			jumps = 2;
+			jumps = 3;
 			m_remaining_jumps = jumps;
 			m_jump_power = 200;
 			maxVelocity.y = m_jump_power;
