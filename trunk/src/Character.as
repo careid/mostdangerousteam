@@ -16,6 +16,9 @@ package
 		protected var _maxstamina:int;
 		protected var _staminaregen:int;
 		
+		protected var m_powerupList : Array;
+		protected var m_currentPowerup : Powerup;
+		
 		public var goLeft:Boolean;
 		public var goRight:Boolean;
 		public var jump:Boolean;
@@ -23,6 +26,8 @@ package
 		
 		public function Character(X:int,Y:int)
 		{
+			m_powerupList = new Array();
+			m_currentPowerup = null;
 			super(X,Y);
 		}
 		
@@ -120,5 +125,31 @@ package
 			super.update();
 		}
 		
+		/////
+		/// Returns the current powerup.
+		/////
+		public function getCurrentPowerup() : Powerup
+		{
+			return m_currentPowerup;
+		}
+		
+		/////
+		/// Adds the given powerup to the powerup list.
+		/////
+		public function addPowerup(powerup : Powerup) : void
+		{
+			m_powerupList.push(powerup);
+		}
+		
+		/////
+		/// Activates the current powerup, if it exists.
+		/////
+		public function activateCurrentPowerup() : void
+		{
+			if (m_currentPowerup != null)
+			{
+				m_currentPowerup.activate();
+			}
+		}
 	}
 }
