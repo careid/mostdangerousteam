@@ -184,6 +184,11 @@ package
 				endGame();
 			}
 			
+			if (player.y > 2000)
+			{
+				endGame();
+			}
+			
 			updateStateEvents();
 			
 			debugShit();
@@ -272,7 +277,7 @@ package
 			
 			if (oldPlayers)
 			{
-				oldPlayers.unsift(player);
+				oldPlayers.unshift(player);
 			}
 			else
 			{
