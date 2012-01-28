@@ -4,11 +4,12 @@ package
 
 	public class GameOverState extends FlxState
 	{
-		var DisplayText:FlxText;
+		protected var displayText:FlxText;
+		
 		override public function create():void
 		{
-			FlxG.switchState(new PlayState(10));
+			displayText = new FlxText(0, 0, FlxG.width, "GAME OVER NOOB");
+			add(displayText);
 		}
-		
 	}
 }
