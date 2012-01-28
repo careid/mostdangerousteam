@@ -24,10 +24,10 @@ package
 			addAnimation("inactive", [0], 0, false);
 			addAnimation("activating", [0, 1, 2, 3, 4], 15, false);
 			play("inactive");
+			offset.x = (width - 10) / 2;
+			offset.y = (height - 7);
 			width = 10;
 			height = 7;
-			offset.x = (36 - 10) / 2;
-			offset.y = (36 - 7);
 
 		}
 
@@ -38,12 +38,12 @@ package
 				drag.x = 400;
 				drag.y = 400;
 			}
-			if (Math.abs(velocity.x * velocity.x + velocity.y * velocity.y) < 0.01 && ! isActive)
+			if (!isActive && Math.abs(velocity.x * velocity.x + velocity.y * velocity.y) < 0.01)
 			{
 				play("activating");
 				width = 34;
 				height = 24;
-				offset.x = 2;
+				offset.x = 1;
 				offset.y = 12;
 				y -= 20;
 				isActive = true;

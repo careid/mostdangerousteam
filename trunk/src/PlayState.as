@@ -125,7 +125,7 @@ package
 			
 			
 			debugPowerup = new SpikePowerup();
-			debugPowerupEntity = new PowerupEntity(50, 50, debugPowerup);
+			debugPowerupEntity = new PowerupEntity(50, 150, debugPowerup);
 			debugPowerupEntity.play("spikes");
 			add(debugPowerupEntity);
 		
