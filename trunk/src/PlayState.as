@@ -334,13 +334,13 @@ package
 			FlxG.collide(level.doors, characters);
 			FlxG.collide(level.countDowns, characters);
 			FlxG.collide(level.conveyors, characters,Conveyor.overlap);
-			FlxG.overlap(level.powerups, player, PowerupEntity.overlapCharacter);
+			FlxG.overlap(level.powerups, characters, PowerupEntity.overlapCharacter);
 			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
+			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
+			FlxG.overlap(spikes, characters, SpikeTrap.overlapCharacter);
 			FlxG.collide(fallBlocks, characters, fallingBlockCollide);
-			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
-			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
-			FlxG.overlap(spikes, player, SpikeTrap.overlapCharacter);
-			FlxG.overlap(spikes, bots, SpikeTrap.overlapCharacter);
+
+
 			
 			if (!player.alive)
 			{
