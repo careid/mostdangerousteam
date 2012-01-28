@@ -23,6 +23,7 @@ package
 		protected var timeLeft:Number = 0;
 		
 		protected var debugTimer:FlxText;
+		protected var staminaText:FlxText;
 		
 		public function PlayState(timeLeft:Number,startPosition:FlxPoint = null)
 		{
@@ -68,9 +69,12 @@ package
 			state = MID;
 			
 			//debug shit
-			debugTimer = new FlxText(0, 0, 200);
+			staminaText = new FlxText(0, 0, 200);
+			debugTimer = new FlxText(310, 0, 200);
+			staminaText.scrollFactor.x = 0;
+			debugTimer.scrollFactor.x = 0;
+			add(staminaText);
 			add(debugTimer);
-			
 		}
 		
 		override public function update():void
@@ -88,6 +92,8 @@ package
 			updateStateEvents();
 			
 			debugShit();
+			
+			staminaText.text = String(Math.floor(player.stamina));
 		}
 		
 		public function debugShit():void

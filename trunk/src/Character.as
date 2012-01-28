@@ -16,9 +16,9 @@ package
 		protected var m_gravity:Number;
 		protected var m_wall_friction:Number;
 		
-		protected var m_stamina:Number;
+		public var stamina:Number;
 		protected var m_maxstamina:Number;
-		protected var m_staminaregen:Number;
+		protected var staminaregen:Number;
 		
 		protected var m_powerupList : Array;
 		protected var m_currentPowerup : Powerup;
@@ -39,7 +39,7 @@ package
 		{
 			m_dashing = false;
 			m_run_speed = 60;
-			m_dash_speed = 180;
+			m_dash_speed = 120;
 			m_speed = m_run_speed;
 			drag.x = 240;
 			m_accel_constant = 4.0;
@@ -52,9 +52,9 @@ package
 			m_jump_power = 200;
 			maxVelocity.y = m_jump_power;
 			
-			m_staminaregen = 1;
+			staminaregen = 1;
 			m_maxstamina = 100;
-			m_stamina = m_maxstamina;
+			stamina = m_maxstamina;
 			
 			//animations
 			addAnimation("idle", [0]);
@@ -71,8 +71,8 @@ package
 			// DASHING
 			if (m_dashing)
 			{
-				m_stamina--;
-				if (m_stamina <= 0)
+				stamina--;
+				if (stamina <= 0 || dash == false)
 				{
 					m_dashing = false;
 					m_speed = m_run_speed;
@@ -81,8 +81,8 @@ package
 			}
 			else
 			{
-				m_stamina = Math.min(m_maxstamina, m_stamina + m_staminaregen);
-				if (dash && m_stamina == m_maxstamina)
+				stamina = Math.min(m_maxstamina, stamina + staminaregen);
+				if (dash && stamina == m_maxstamina)
 				{
 					m_dashing = true;
 					m_speed = m_dash_speed;
@@ -113,7 +113,7 @@ package
 			}
 			
 			// FRICTION
-			if (touchLeft || touchRight)
+			if (velocity.y > 0 && (touchLeft || touchRight))
 			{
 				acceleration.y = m_gravity - velocity.y * m_wall_friction;
 			}

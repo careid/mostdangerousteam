@@ -24,7 +24,7 @@ package
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
 			jump = FlxG.keys.justPressed("X");
-			dash = FlxG.keys.justPressed("C");
+			dash = FlxG.keys.pressed("C");
 			super.update();
 		}
 		
