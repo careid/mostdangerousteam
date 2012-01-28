@@ -5,9 +5,10 @@ package
 	{
 		public static const CLOSING:uint = 0;
 		public static const OPENING:uint = 1;
-		public static const CHILL:uint = 2;
+		public static const DOWN:uint = 2;
+		public static const UP:uint = 3;
 		
-		public var state:uint = CHILL;
+		public var state:uint = DOWN;
 		
 		protected const DOORSPEED:Number = 100;
 		protected const HINGEMARGIN:Number = 3;
@@ -43,14 +44,14 @@ package
 					if (y < hingeHeight)
 					{
 						y = hingeHeight;
-						switchState(CHILL);
+						switchState(UP);
 					}
 					break;
 				case CLOSING:
 					if (y > groundHeight)
 					{
 						y = groundHeight
-						switchState(CHILL);
+						switchState(DOWN);
 					}
 					break;
 				default:
@@ -61,25 +62,30 @@ package
 		
 		public function switchState(newState:uint):void
 		{
-			if (state == newState)
-			{
-				return;
-			}
-			state = newState;
 			switch(newState)
 			{
 				case CLOSING:
-					velocity.y = DOORSPEED;
-					break;
-				case CHILL:
-					velocity.y = 0;
+					if (state != DOWN)
+					{
+						velocity.y = DOORSPEED;
+					}
 					break;
 				case OPENING:
-					velocity.y = -DOORSPEED;
+					if (state != UP)
+					{
+						velocity.y = -DOORSPEED;
+					}
+					break;
+				case UP:
+					velocity.y = 0;
+					break;
+				case DOWN:
+					velocity.y = 0;
 					break;
 				default:
 					break;
 			}
+			state = newState;
 		}
 		
 	}

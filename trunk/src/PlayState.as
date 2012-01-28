@@ -120,7 +120,14 @@ package
 		{
 			if (FlxG.keys.justPressed("A"))
 			{
-				debugDoor.switchState(Door.OPENING);
+				if (debugDoor.state == Door.DOWN)
+				{
+					debugDoor.switchState(Door.OPENING);
+				}
+				else
+				{
+					debugDoor.switchState(Door.CLOSING);
+				}
 			}
 			
 			debugTimer.text = String(Math.floor(timeLeft));
