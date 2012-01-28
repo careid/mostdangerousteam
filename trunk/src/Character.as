@@ -43,12 +43,18 @@ package
 			if(goLeft)
 			{
 				facing = LEFT;
-				acceleration.x -= drag.x;
+				//acceleration.x -= drag.x;
+				acceleration.x = -maxVelocity.x;
 			}
 			else if(goRight)
 			{
 				facing = RIGHT;
-				acceleration.x += drag.x;
+				//acceleration.x += drag.x;
+				acceleration.x = maxVelocity.x;
+			}
+			else
+			{
+				acceleration.x = 0;
 			}
 			if(jump && !velocity.y)
 			{
