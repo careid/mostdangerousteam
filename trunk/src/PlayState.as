@@ -6,6 +6,7 @@ package
 	public class PlayState extends FlxState
 	{
 	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1:Class;
+		[Embed(source = "../maps/shitTest.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;
 		
 		protected var level:Level;
 		protected var player:Player;
@@ -36,6 +37,8 @@ package
 		
 		protected var bots:FlxGroup;
 		
+		protected var countDowns:FlxGroup;
+		
 		public function PlayState(timeLeft:Number,startPosition:FlxPoint = null)
 		{
 			this.startPosition = startPosition;
@@ -50,6 +53,11 @@ package
 			//get level
 			level = new Level();
 			level.loadFromCSV(new Level1(), this);
+			
+			//add countdown
+			countDowns = new FlxGroup();
+			countDowns.add(new CountDown(0,0));
+			add(countDowns);
 			
 			//add characters
 			characters = new FlxGroup();
@@ -75,7 +83,7 @@ package
 			add(timeMachine);
 			
 			//set camera
-			FlxG.camera.setBounds(-1000,0,2000,240,true);
+			FlxG.camera.setBounds(-1000,0,2000,2000,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
 			
 			//add checkpoints
@@ -94,6 +102,7 @@ package
 			debugTimer.scrollFactor.x = 0;
 			add(staminaText);
 			add(debugTimer);
+			add(new FlxText(0, 30, FlxG.width, "press D to door \npress B to bot"));
 			
 			//add doors
 			doors = new FlxGroup();
