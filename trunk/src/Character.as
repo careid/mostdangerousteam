@@ -6,15 +6,19 @@ package
 	{
 		public const OVER_SQRT2:Number = 0.707107;
 		
-		protected var _runAcceleration:int;
+		protected var m_dashing:Boolean;
+		protected var m_speed:Number;
+		protected var m_run_speed:Number;
+		protected var m_dash_speed:Number;
+		protected var m_accel_constant:Number;
 		
-		protected var _jumpPower:int;
-		protected var _gravity:Number;
-		protected var _wallfriction:Number;
+		protected var m_jump_power:Number;
+		protected var m_gravity:Number;
+		protected var m_wall_friction:Number;
 		
-		protected var _stamina:int;
-		protected var _maxstamina:int;
-		protected var _staminaregen:int;
+		protected var m_stamina:Number;
+		protected var m_maxstamina:Number;
+		protected var m_staminaregen:Number;
 		
 		protected var m_powerupList : Array;
 		protected var m_currentPowerup : Powerup;
@@ -22,7 +26,7 @@ package
 		public var goLeft:Boolean;
 		public var goRight:Boolean;
 		public var jump:Boolean;
-		public var dashing:Boolean;
+		public var dash:Boolean;
 		
 		public function Character(X:int,Y:int)
 		{
@@ -33,21 +37,24 @@ package
 		
 		public function setup():void
 		{
-			var runSpeed:uint = 80;
-			drag.x = runSpeed * 8;
-			_runAcceleration = runSpeed * 4;
-			maxVelocity.x = runSpeed;
+			m_dashing = false;
+			m_run_speed = 60;
+			m_dash_speed = 180;
+			m_speed = m_run_speed;
+			drag.x = 240;
+			m_accel_constant = 4.0;
+			maxVelocity.x = m_run_speed;
 			
-			_gravity = 400;
-			acceleration.y = _gravity;
-			_wallfriction = 3;
+			m_gravity = 400;
+			acceleration.y = m_gravity;
+			m_wall_friction = 3;
 			
-			_jumpPower = 200;
-			maxVelocity.y = _jumpPower;
+			m_jump_power = 200;
+			maxVelocity.y = m_jump_power;
 			
-			_staminaregen = 1;
-			_maxstamina = 100;
-			_stamina = _maxstamina;
+			m_staminaregen = 1;
+			m_maxstamina = 100;
+			m_stamina = m_maxstamina;
 			
 			//animations
 			addAnimation("idle", [0]);
@@ -61,51 +68,77 @@ package
 			var touchLeft:Boolean = isTouching(LEFT);
 			var touchRight:Boolean = isTouching(RIGHT);
 			
-			//MOVEMENT
+			// DASHING
+			if (m_dashing)
+			{
+				m_stamina--;
+				if (m_stamina <= 0)
+				{
+					m_dashing = false;
+					m_speed = m_run_speed;
+					maxVelocity.x = m_run_speed;
+				}
+			}
+			else
+			{
+				m_stamina = Math.min(m_maxstamina, m_stamina + m_staminaregen);
+				if (dash && m_stamina == m_maxstamina)
+				{
+					m_dashing = true;
+					m_speed = m_dash_speed;
+					maxVelocity.x = m_dash_speed;
+				}
+			}
+			
+			// JUMPING
+			if(jump)
+			{
+				if (isTouching(FLOOR))
+				{
+					m_dashing = false;
+					velocity.y = -m_jump_power;
+				}
+				else if (touchLeft)
+				{
+					m_dashing = false;
+					velocity.y = OVER_SQRT2 * -m_jump_power;
+					velocity.x = OVER_SQRT2 * m_jump_power;
+				}
+				else if (touchRight)
+				{
+					m_dashing = false;
+					velocity.y = OVER_SQRT2 * -m_jump_power;
+					velocity.x = OVER_SQRT2 * -m_jump_power;
+				}
+			}
+			
+			// FRICTION
+			if (touchLeft || touchRight)
+			{
+				acceleration.y = m_gravity - velocity.y * m_wall_friction;
+			}
+			else
+			{
+				acceleration.y = m_gravity;
+			}
+			
+			// ACCELEARTION
 			if(goLeft)
 			{
 				facing = LEFT;
-				acceleration.x = -_runAcceleration;
+				acceleration.x = -m_accel_constant * m_speed;
 			}
 			else if(goRight)
 			{
 				facing = RIGHT;				
-				acceleration.x = _runAcceleration;
+				acceleration.x = m_accel_constant * m_speed;
 			}
 			else
 			{
 				acceleration.x = 0;
 			}
 			
-			if (touchLeft || touchRight)
-			{
-				acceleration.y = _gravity - velocity.y * _wallfriction;
-			}
-			else
-			{
-				acceleration.y = _gravity;
-			}
-			
-			// Must be touching a wall or floor to jump
-			if(jump)
-			{
-				if (isTouching(FLOOR))
-				{
-					velocity.y = -_jumpPower;
-				}
-				else if (touchLeft)
-				{
-					velocity.y = OVER_SQRT2 * -_jumpPower;
-					velocity.x = OVER_SQRT2 * _jumpPower;
-				}
-				else if (touchRight)
-				{
-					velocity.y = OVER_SQRT2 * -_jumpPower;
-					velocity.x = OVER_SQRT2 * -_jumpPower;
-				}
-			}
-			
-			//ANIMATION
+			// ANIMATION
 			if(velocity.y < 0)
 			{
 				play("jump");

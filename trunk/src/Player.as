@@ -24,12 +24,13 @@ package
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
 			jump = FlxG.keys.justPressed("X");
+			dash = FlxG.keys.justPressed("C");
 			super.update();
 		}
 		
 		public function push_waypoint():void
 		{
-			m_waypoints.push(new FlxPoint(X, Y));
+			m_waypoints.push(new FlxPoint(x, y));
 		}
 		
 		public function get_waypoints():Array

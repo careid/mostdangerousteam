@@ -42,7 +42,7 @@ package
 			//add player
 			if (!startPosition)
 			{
-				player = new Player(FlxG.width/2 - 5, 50);
+				player = new Player(FlxG.width/2 - 5, 200);
 			}
 			else 
 			{
