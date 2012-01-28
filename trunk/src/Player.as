@@ -9,6 +9,7 @@ package
 	{
 		protected var m_waypoints:Array;
 		protected var m_waypoint_timer:Timer;
+		public var startTime:Number;
 		
 		public function Player(X:int=0,Y:int=0,level:int=0)
 		{

@@ -39,6 +39,8 @@ package
 				{
 					goLeft  = (x > wp.x);
 					goRight = (x < wp.x);
+					if (x == wp.x)
+						velocity.x = 0;
 				}
 			}
 			else

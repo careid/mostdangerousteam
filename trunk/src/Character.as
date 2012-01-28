@@ -38,7 +38,7 @@ package
 			super(X,Y);
 		}
 		
-		public function copyPowerups(old_character:Character)
+		public function copyPowerups(old_character:Character):void
 		{
 			m_powerupList = new Array();
 			for each (var powerup:Powerup in old_character.getPowerupList())
