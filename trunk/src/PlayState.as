@@ -22,6 +22,7 @@ package
 		protected var fallAccum:Number;
 		protected var fallRate:Number;
 		protected var fallAccel:Number;
+		protected var fallJerk:Number;
 		protected var fallBlocks:FlxGroup;
 		
 		protected const LEVELBOTTOM:int = 600;
@@ -42,8 +43,10 @@ package
 		public var boomerangs:FlxGroup;
 		public var spikes:FlxGroup;
 		
+		protected var timeStart:Number = 0;
 		protected var timeLeft:Number = 0;
 		
+		protected var healthText:FlxText;
 		protected var staminaText:FlxText;
 		protected var debugDoor:Door;
 		
@@ -78,7 +81,7 @@ package
 		{
 			FlxG.bgColor = 0xff000000;
 			
-			var i:int;
+			var i:int, x:int, y:int;
 			
 			// First, background stars.
 			FlxG.addPlugin(new FlxSpecialFX());
@@ -111,18 +114,39 @@ package
 			Hydraman.m_initialTimeLeft = timeLeft;
 			
 			tiles = new Array();
+			FlxG.globalSeed = 12345;
 			var data:Array = level.tileMap.getData();
-			for (i = 0; i < data.length; i++)
+			for (x = 0; x < level.tileMap.widthInTiles; x++)
 			{
-				if (data[i] > 0)
-					tiles.push(i);
+				for (y = 0; y < level.tileMap.heightInTiles; y++)
+				{
+					i = y * level.tileMap.widthInTiles + x;
+					if (data[i] > 0)
+						tiles.push(i);
+				}
 			}
+			timeStart = level.checkPoints[level.checkPoints.length - 1].time;
+			var timeEnd:Number = level.checkPoints[startIndex].time;
+			// formula for increasing falling blocks from start of level
+			// # fallen blocks = accel * time^2/2     accel = blocks * 2 / time ^ 2
+			// Calc intermediate 
 			fallAccum = 0;
 			fallRate = 0;
-			// # fallen blocks = accel * time^2/2     accel = blocks * 2 / time ^ 2
-			fallAccel = 0.75 * tiles.length * 2.0 / Math.pow(timeLeft, 2.0);	// Have % of blocks fall by end of level
+			fallAccel = 0;
+			fallJerk = 0.8 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
+			
 			fallBlocks = new FlxGroup();
 			add(fallBlocks);
+			
+			// Simulate the falling from the start time until the current time
+			for (timeLeft = timeStart; timeLeft > timeEnd; timeLeft -= FlxG.elapsed)
+			{
+				updateFallingBlocks();
+				fallBlocks.preUpdate();
+				fallBlocks.update();
+				fallBlocks.postUpdate();
+			}
+			timeLeft = timeEnd;
 			
 			boomerangs = new FlxGroup();
 			spikes = new FlxGroup();
@@ -173,28 +197,22 @@ package
 			FlxG.camera.setBounds(-10000,0,20000,24000,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
 			
-			/*
-			//add countdown
-			countDowns = new FlxGroup();
-			for (i = 0; i < 3; i++)
-			{
-				countDowns.add(new CountDown(player.x + (Math.random()-0.5)*FlxG.height, player.y + (Math.random()-0.5)*FlxG.width, timeLeft));
-			}
-			add(countDowns);
-			*/
-			
 			//set starting variables
 			state = MID;
 			
 			//debug shit
-			staminaText = new FlxText(0, 0, 200);
+			healthText = new FlxText(0, 0, 200);
+			healthText.scrollFactor.x = 0;
+			healthText.scrollFactor.y = 0;
+			staminaText = new FlxText(0, 15, 200);
 			staminaText.text = "Stamina: ";
 			staminaText.scrollFactor.x = 0;
 			staminaText.scrollFactor.y = 0;
-			staminaBar = new FlxBar(15, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 10, player, "stamina", 0, 100, true);
+			staminaBar = new FlxBar(45, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 10, player, "stamina", 0, 100, true);
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
 			
+			add(healthText);
 			add(staminaBar);
 			add(staminaText);
 			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
@@ -209,8 +227,93 @@ package
 			FlxG.flash(0xffffffff, 0.7);
 		}
 		
+		protected function updateFallingBlocks() : void
+		{
+			// Update falling blocks
+			// Remove blocks out of view
+			var i:int;
+			for (i = fallBlocks.length - 1; i >= 0; i--)
+			{
+				var block:FlxSprite = fallBlocks.members[i];
+				if (block == null || block.y > FlxG.camera.scroll.y + FlxG.camera.height + 32)
+				{
+					fallBlocks.remove(block);
+				}
+			}
+			// Add more falling blocks as needed
+			fallAccum += fallRate * FlxG.elapsed + 0.5 * fallAccel * FlxG.elapsed * FlxG.elapsed + 1.0 / 6.0 * fallJerk * FlxG.elapsed * FlxG.elapsed * FlxG.elapsed;
+			fallRate += fallAccel * FlxG.elapsed + 0.5 * fallJerk * FlxG.elapsed * FlxG.elapsed;
+			fallAccel += fallJerk * FlxG.elapsed;
+			if (fallAccum >= 1)
+			{
+				var xmax:int = int((1.0 - timeLeft / timeStart) * level.tileMap.widthInTiles);
+				var imax:int = xmax * tiles.length / level.tileMap.widthInTiles;
+				while (tiles[imax] % level.tileMap.widthInTiles > xmax)
+					imax--;
+				while (tiles[imax] % level.tileMap.widthInTiles < xmax)
+					imax++;
+				while (fallAccum >= 1)
+				{
+					fallAccum--;
+					var idx:uint = tiles.splice(FlxG.random() * imax, 1);
+					var tile_idx:uint = level.tileMap.getTileByIndex(idx);
+					level.tileMap.setTileByIndex(idx, 0);
+					
+					var tile:FlxSprite = new FlxSprite(idx % level.tileMap.widthInTiles * 32, idx / level.tileMap.widthInTiles * 32);
+					tile.loadGraphic(level.Image, true, true, 32, 32);
+					tile.addAnimation("idle", [tile_idx]);
+					tile.play("idle");
+					tile.mass = 2.0;
+					tile.acceleration.y = GRAVITY;
+					tile.velocity.x = 25.0 * (FlxG.random()-0.5);
+					tile.velocity.y = -25.0 * FlxG.random();
+					tile.angularVelocity = 180.0 * (FlxG.random() - 0.5);
+					fallBlocks.add(tile);
+				}
+			}
+		}
+		
+		protected function fallingBlockCollide(Object1:FlxObject,Object2:FlxObject):void
+		{
+			var char:Character;
+			var block:FlxSprite;
+			if (Object1 is Character)
+			{
+				char = Object1 as Character;
+				block = Object2 as FlxSprite;
+			}
+			else
+			{
+				char = Object2 as Character;
+				block = Object1 as FlxSprite;
+			}
+			
+			var nvx:Number = char.velocity.x - block.velocity.x;
+			var nvy:Number = char.velocity.y - block.velocity.y;
+			var sqrMag:Number = nvx * nvx + nvy * nvy;
+			if (sqrMag < 50)
+				return;
+			char.hit();
+			block.solid = false;
+			
+			/*var mag:Number = Math.sqrt(sqrMag);
+			nvx /= mag;
+			nvy /= mag;
+			var blockdirx = block.velocity.x;
+			var blockdiry = block.velocity.y;
+			var blockmag = Math.sqrt(blockdirx * blockdirx + blockdiry * blockdiry);
+			blockdirx /= blockmag;
+			blockdiry /= blockmag;
+			var blocknorm:Number = block.velocity.x * nvx + block.velocity.y * nvy;
+			var blocktang:Number = Math.sqrt(block.velocity.x * block.velocity.x + block.velocity.y * block.velocity.y - blocknorm * blocknorm);
+			blocknorm *= -0.9;
+			blocktang *= 0.9;
+			block.velocity.x = blockdirx * blocknorm * nvx + blockdir*/
+		}
+		
 		override public function update():void
 		{
+
 			timeLeft -= FlxG.elapsed;
 			if (timeLeft < 0)
 			{
@@ -226,8 +329,6 @@ package
 			cameraPreviousScroll.x = FlxG.camera.scroll.x;
 			cameraPreviousScroll.y = FlxG.camera.scroll.y;
 			
-			
-			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
 			FlxG.collide(level.doors, characters);
@@ -235,6 +336,7 @@ package
 			FlxG.collide(level.conveyors, characters,Conveyor.overlap);
 			FlxG.overlap(level.powerups, player, PowerupEntity.overlapCharacter);
 			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
+			FlxG.collide(fallBlocks, characters, fallingBlockCollide);
 			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
 			FlxG.overlap(spikes, player, SpikeTrap.overlapCharacter);
@@ -245,96 +347,7 @@ package
 				endGame();
 			}
 			
-			// Update falling blocks
-			// Remove blocks out of view
-			for (var i:int = fallBlocks.length - 1; i >= 0; i--)
-			{
-				var block:FlxSprite = fallBlocks.members[i];
-				if (block == null || block.y > FlxG.camera.scroll.y + FlxG.camera.height + 32)
-				{
-					fallBlocks.remove(block);
-				}
-			}
-			// Add more falling blocks as
-			fallAccum += fallRate * FlxG.elapsed + 0.5 * fallAccel * FlxG.elapsed * FlxG.elapsed;
-			fallRate += fallAccel * FlxG.elapsed;
-			while (fallAccum >= 1)
-			{
-				fallAccum--;
-				var idx:uint = tiles.splice(FlxMath.rand(0, tiles.length - 1), 1);
-				var tile_idx:uint = level.tileMap.getTileByIndex(idx);
-				level.tileMap.setTileByIndex(idx, 0);
-				
-				var tile:FlxSprite = new FlxSprite(idx % level.tileMap.widthInTiles * 32, idx / level.tileMap.widthInTiles * 32);
-				tile.loadGraphic(level.Image, true, true, 32, 32);
-				tile.addAnimation("idle", [tile_idx]);
-				tile.play("idle");
-				tile.acceleration.y = GRAVITY;
-				tile.velocity.x = 50.0 * (Math.random()-0.5);
-				tile.velocity.y = -50.0 * Math.random();
-				tile.angularVelocity = 150.0 * (Math.random() - 0.5);
-				fallBlocks.add(tile);
-			}
-			
-			// Update countdown clocks
-			/*
-			var countdown_members:Array = countDowns.members;
-			for (var i:int = 0; i < countDowns.length; i++)
-			{
-				var cd:CountDown = countdown_members[i];
-				var members:Array = cd.members;
-				var visible:Boolean = false;
-				for (var j:int = 0; j < cd.length; j++)
-				{
-					var d:FlxSprite = members[j];
-					if (d.onScreen(FlxG.camera))
-					{
-						visible = true;
-						break;
-					}
-				}
-				
-				if (visible)
-					continue;
-					
-				var dx:int = 0;
-				var dy:int = 0;
-				if (player.velocity.x > 0)
-				{
-					if (members[cd.length-1].x < FlxG.camera.scroll.x)
-					{
-						dx = FlxG.camera.scroll.x + FlxG.camera.width + members[cd.length-1].x - 2 * members[0].x;
-					}
-				} else if (player.velocity.x < 0)
-				{
-					if (members[0].x > FlxG.camera.scroll.x + FlxG.camera.width)
-					{
-						dx = FlxG.camera.scroll.x - 2 * members[cd.length-1].x + members[0].x;
-					}
-				}
-				if (player.velocity.y > 0)
-				{
-					if (members[0].y < FlxG.camera.scroll.y)
-					{
-						dy = FlxG.camera.scroll.y + FlxG.camera.height + members[0].height - members[0].y;
-					}
-				}
-				else if (player.velocity.y < 0)
-				{
-					if (members[0].y > player.y && members[0].y > FlxG.camera.scroll.y + FlxG.camera.height)
-					{
-						dy = FlxG.camera.scroll.y - members[0].height - members[0].y;
-					}
-				}
-				
-				for (var j:int = 0; j < 6; j++)
-				{
-					var d:FlxSprite = members[j];
-					d.x += dx;
-					d.y += dy;
-				}
-			}
-			*/
+			updateFallingBlocks();
 			
 			if (player.y > LEVELBOTTOM)
 			{
@@ -342,6 +355,8 @@ package
 			}
 			
 			updateStateEvents();
+			
+			healthText.text = "Health: " + String(Math.floor(player.health));
 			
 			debugShit();
 			isFirstIteration = false;
