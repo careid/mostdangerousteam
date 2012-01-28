@@ -1,5 +1,5 @@
 <Level1>
-	<TimeMachine x="3008" y="150"/>
+	<TimeMachine x="500" y="256"/>
 	<CheckPoint x="352" y="256" threshold="0" time="50"/>
 	<CheckPoint x="160" y="256" threshold="20" time="55"/>
 	<CheckPoint x="50" y="256" threshold="30" time="60"/>
