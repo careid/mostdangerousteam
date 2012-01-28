@@ -46,7 +46,7 @@ package
 			m_currentPowerup = old_character.getCurrentPowerup();
 		}
 		
-		public function setup(run_speed:int=60,dash_speed:int=120,staminaregen:Number=0.1,maxstamina:Number=100):void
+		public function setup(run_speed:int=60,dash_speed:int=120,staminaregen:Number=0.1,maxstamina:Number=100,health:Number=10):void
 		{
 			m_dashing = false;
 			m_run_speed = run_speed;
@@ -68,6 +68,8 @@ package
 			this.staminaregen = staminaregen;
 			this.maxstamina = maxstamina;
 			stamina = maxstamina;
+			
+			this.health = health;
 			
 			//animations
 			addAnimation("idle", [0]);
@@ -266,6 +268,15 @@ package
 			{
 				m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
 				m_currentPowerup = null;
+			}
+		}
+		
+		public function hit(damage:int=10):void
+		{
+			health -= damage;
+			if (health <= 0)
+			{
+				kill();
 			}
 		}
 	}

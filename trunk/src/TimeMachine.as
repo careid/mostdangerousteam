@@ -5,11 +5,12 @@ package
 	
 	public class TimeMachine extends FlxSprite
 	{
+		[Embed(source = "./graphics/timeMachine.png")] public var Image:Class;
 		
 		public function TimeMachine(X:Number=0,Y:Number=0) 
 		{
 			super(X,Y);
-			makeGraphic(64, 64, 0xffff0000);
+			loadGraphic(Image);
 		}
 		
 	}

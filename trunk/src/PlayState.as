@@ -360,6 +360,8 @@ package
 		
 		private function gameOver():void
 		{
+			FlxSpecialFX.remove(starfield);
+			
 			FlxG.switchState(new GameOverState());
 		}
 		

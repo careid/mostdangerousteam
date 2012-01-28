@@ -13,7 +13,8 @@ package
 			m_waypoints = new Array();
 			for each (var waypoint:WayPoint in old_player.get_waypoints())
 				m_waypoints.push(waypoint);
-			m_level = old_player.m_level;
+			m_run_level = old_player.m_run_level;
+			m_stamina_level = old_player.m_stamina_level;
 		}
 		
 		override public function update():void

@@ -51,7 +51,7 @@ package
 			}
 			else
 			{
-				theCharacter.kill();
+				theCharacter.hit();
 			}
 		}
 		

@@ -79,7 +79,7 @@ package
 		{
 			if (spikes.activation == OPEN)
 			{
-				theCharacter.kill();
+				theCharacter.hit();
 				spikes.kill();
 			}
 		}

@@ -11,10 +11,12 @@ package
 		protected var m_waypoint_timer:Timer;
 		public var startTime:Number;
 		
-		public function Player(X:int=0,Y:int=0,level:int=0)
+		public function Player(X:int=0,Y:int=0,runLevel:int=3,staminaLevel:int=3,healthLevel:int=3)
 		{
+			m_run_level = runLevel;
+			m_stamina_level = staminaLevel;
+			m_health_level = healthLevel;
 			super(X, Y);
-			this.m_level = level;
 			m_waypoints = new Array();
 			push_waypoint();
 			m_waypoint_timer = new Timer(1000);
