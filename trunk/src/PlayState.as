@@ -15,6 +15,7 @@ package
 		
 		protected var level:Level;
 		protected var player:Player;
+		protected var staminaBar:FlxBar;
 		protected var tileMap:FlxTilemap;
 		protected var startIndex:int;
 		protected var state:uint;
@@ -44,6 +45,7 @@ package
 		protected var starfield:StarfieldFX;
 		protected var cameraScrollVelocity:FlxPoint;
 		protected var cameraPreviousScroll:FlxPoint;
+		
         public function PlayState(startIndex:int = 0,oldPlayers:Array=null)
 		{
 			this.startIndex = startIndex;
@@ -61,6 +63,7 @@ package
 			
 			// First, background stars.
 			FlxG.addPlugin(new FlxSpecialFX());
+
 			starfield = FlxSpecialFX.starfield();
 			starfield.active = true;
 			starfield.create(0,0, FlxG.width, FlxG.height, 100);
@@ -133,6 +136,9 @@ package
 			//debug shit
 			staminaText = new FlxText(0, 0, 200);
 			staminaText.scrollFactor.x = 0;
+			staminaText.scrollFactor.y = 0;
+			staminaBar = new FlxBar(15, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 20, player, "stamina", 0, 100, true);
+			add(staminaBar);
 			add(staminaText);
 			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
 			
@@ -141,6 +147,8 @@ package
 			add(doors);
 			debugDoor = new Door(50, 100);
 			doors.add(debugDoor);
+			
+			
 			
 			FlxG.flash(0xffffffff, 0.7);
 		}
@@ -244,6 +252,8 @@ package
 		
 		private function restartLevel():void 
 		{
+			FlxSpecialFX.remove(starfield);
+			
 			//find out which checkpoint the player gets sent to
 			var i:int;
 			var bestIndex:int = 0; //hopefully checkPoints is never empty
