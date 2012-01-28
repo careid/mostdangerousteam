@@ -13,6 +13,7 @@ package
 			this.ammo = ammo;
 		}
 		
+		
 		////
 		/// \returns true if the powerup could be used, false if it is out of ammo.
 		////

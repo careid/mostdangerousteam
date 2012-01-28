@@ -62,11 +62,81 @@ package
 		public function copyPowerups(old_character:Character):void
 		{
 			m_powerupList = new Array();
+			if (old_character.getCurrentPowerup() != null)
+			{
+				if (old_character.getCurrentPowerup() is SpikePowerup)
+				{
+					m_currentPowerup = new SpikePowerup();
+					(m_currentPowerup as SpikePowerup).ammo = (old_character.getCurrentPowerup() as SpikePowerup).ammo;
+				}
+				else if (old_character.getCurrentPowerup() is BoomerangPowerup)
+				{
+					m_currentPowerup = new BoomerangPowerup();
+				}
+				else if (old_character.getCurrentPowerup() is ChargingPowerup)
+				{
+					m_currentPowerup = new ChargingPowerup((old_character.getCurrentPowerup() as ChargingPowerup).maxCharge, (old_character.getCurrentPowerup() as ChargingPowerup).chargeRate);
+				}
+				else if (old_character.getCurrentPowerup() is StaminaRechargePowerup)
+				{
+					m_currentPowerup = new StaminaRechargePowerup();
+				}
+				else if (old_character.getCurrentPowerup() is AutoUsePowerup)
+				{
+					m_currentPowerup = new AutoUsePowerup();
+				}
+				else if (old_character.getCurrentPowerup() is AmmoPowerup)
+				{
+					m_currentPowerup = new AmmoPowerup((old_character.getCurrentPowerup() as AmmoPowerup).ammo);
+				}
+				else if (old_character.getCurrentPowerup() is Powerup)
+				{
+					m_currentPowerup = new Powerup();
+				}
+				
+				m_currentPowerup.character = this;
+			}
+			
 			for each (var powerup:Powerup in old_character.getPowerupList())
 			{
-				addPowerup(powerup);
+				if (powerup != old_character.getCurrentPowerup() )
+				{
+					var newPowerup : Powerup;
+					
+					if (powerup is SpikePowerup)
+					{
+						newPowerup = new SpikePowerup();
+						(newPowerup as SpikePowerup).ammo = (powerup as SpikePowerup).ammo;
+					}
+					else if (powerup is BoomerangPowerup)
+					{
+						newPowerup = new BoomerangPowerup();
+					}
+					else if (powerup is ChargingPowerup)
+					{
+						newPowerup = new ChargingPowerup((powerup as ChargingPowerup).maxCharge, (powerup as ChargingPowerup).chargeRate);
+					}
+					else if (powerup is StaminaRechargePowerup)
+					{
+						newPowerup = new StaminaRechargePowerup();
+					}
+					else if (powerup is AutoUsePowerup)
+					{
+						newPowerup = new AutoUsePowerup();
+					}
+					else if (powerup is AmmoPowerup)
+					{
+						newPowerup = new AmmoPowerup((powerup as AmmoPowerup).ammo);
+					}
+					else if (powerup is Powerup)
+					{
+						newPowerup = new Powerup();
+					}
+					
+					newPowerup.character = this;
+					addPowerup(newPowerup);
+				}
 			}
-			m_currentPowerup = old_character.getCurrentPowerup();
 		}
 		
 		public function setup(run_speed:int=60,dash_speed:int=120,staminaregen:Number=0.1,maxstamina:Number=100,health:Number=10):void
@@ -99,7 +169,8 @@ package
 			addAnimation("jump", [5, 6],12);
 			addAnimation("fall", [7, 8], 12);
 			addAnimation("dash", [9, 10, 11, 12],18);
-			addAnimation("wallslide", [13],12);
+			addAnimation("wallslide", [13], 12);
+			addAnimation("pop", [14, 15, 16, 17, 18, 19, 20, 21], 12, false);
 		}
 		
 		override public function update():void
@@ -258,6 +329,7 @@ package
 			// POWERUPS
 			if (usePowerup && m_currentPowerup != null)
 			{
+				trace("Activating");
 				activateCurrentPowerup();
 			}
 			
@@ -302,6 +374,7 @@ package
 			{
 				m_powerupList.push(powerup);
 				powerup.character = this;
+				powerup.onAdd();
 				if (m_currentPowerup == null)
 				{
 					m_currentPowerup = powerup;

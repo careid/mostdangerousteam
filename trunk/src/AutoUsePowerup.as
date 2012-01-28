@@ -8,6 +8,7 @@ package
 		{
 			
 		}
+		
 	
 		/////
 		/// Auto-use powerups are activated automatically when added.
@@ -18,6 +19,7 @@ package
 			shouldBeDiscarded = true;
 			super.onAdd();
 		}
+		
 	}
 
 }

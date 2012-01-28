@@ -17,6 +17,7 @@ package
 			this.chargeRate = chargeRate;
 		}
 		
+		
 		/////
 		/// \return true if could activate, false otherwise.
 		/////

@@ -89,9 +89,9 @@ package
 			starfield = FlxSpecialFX.starfield();
 			starfield.create(0 , 0, FlxG.width, FlxG.height, 100);
 			starfield.active = true;
-			starfield.setStarSpeed(0, 0);
-			starfield.sprite.scrollFactor.x = 0;
-			starfield.sprite.scrollFactor.y = 0;
+			starfield.sprite.scrollFactor.x = 0.0;
+			starfield.sprite.scrollFactor.y = 0.0;
+			starfield.setStarSpeed( -0.25, 0);
 			add(starfield.sprite);
 			add(level.tileMap);
 			add(level.timeMachine);
@@ -226,10 +226,6 @@ package
 			cameraPreviousScroll.x = FlxG.camera.scroll.x;
 			cameraPreviousScroll.y = FlxG.camera.scroll.y;
 			
-			if (!isFirstIteration)
-			{
-				starfield.setStarSpeed(cameraScrollVelocity.x * 0.1, cameraScrollVelocity.y * 0.1);
-			}
 			
 			
 			FlxG.collide(level.tileMap, characters);

@@ -13,6 +13,7 @@ package
 			super(100, 0);
 		}
 		
+		
 		/////
 		/// Creates a boomerang if fully charged. Otherwise, doesn't.
 		/////
@@ -53,6 +54,7 @@ package
 			var playState : PlayState = (PlayState)(FlxG.state);
 			playState.boomerangs.add(boomerang);
 		}
+		
 		
 	}
 

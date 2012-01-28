@@ -12,6 +12,7 @@ package
 			
 		}
 		
+		
 		/////
 		/// Fully recharges the player's stamina and returns true.
 		/////
@@ -21,6 +22,7 @@ package
 			shouldBeDiscarded = true;
 			return true;
 		}
+		
 		
 	}
 
