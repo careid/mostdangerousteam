@@ -18,6 +18,7 @@ package
 		public var powerups:FlxGroup = null;
 		public var timeMachine:TimeMachine = null;
 		public var doorSwitches:FlxGroup = null;
+		public var countDowns:FlxGroup = null;
 		
 		public function Level() 
 		{
@@ -119,6 +120,7 @@ package
 			doors = new FlxGroup();
 			conveyors = new FlxGroup();
 			powerups = new FlxGroup();
+			countDowns = new FlxGroup();
 			doorSwitches = new FlxGroup();
 			
 			var xml_str:String = xmlData.readUTFBytes(xmlData.length);
@@ -137,6 +139,11 @@ package
 				{
 					timeMachine = new TimeMachine();
 					obj = timeMachine;
+				}
+				else if (child.name() == "CountDown")
+				{
+					obj = new CountDown();
+					countDowns.add(obj as CountDown);
 				}
 				else if (child.name() == "Door")
 				{

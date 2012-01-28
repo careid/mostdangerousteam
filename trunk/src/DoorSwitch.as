@@ -12,13 +12,14 @@ package
 		
 		public var id:int;
 		
-		[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
+		[Embed(source = "graphics/button.png")] protected var ImgDoor:Class;
 		
 		public function DoorSwitch(X:Number=0,Y:Number=0) 
 		{
 			super(X, Y);
-			//loadGraphic(ImgDoor, false);
-			makeGraphic(36, 36);
+			loadGraphic(ImgDoor, true, false, 32, 32);
+			addAnimation("up", [0]);
+			addAnimation("down", [1]);
 		}
 		
 		public function connectDoor(doors:Array):void
@@ -40,8 +41,10 @@ package
 			switch(state)
 			{
 				case DOWN:
+					play("down");
 					break;
 				case UP:
+					play("up");
 					break;
 				default:
 					break;

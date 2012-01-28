@@ -19,30 +19,44 @@ package
 		
 		protected var digits:Array;
 		
-		public function CountDown(X:Number,Y:Number,timeLeft:Number) 
+		protected var base:FlxSprite;
+		
+		public var x:Number = 0;
+		public var y:Number = 0;
+		
+		[Embed(source = "graphics/clockBase.png")] protected var ImgBase:Class;
+		
+		public function CountDown(X:Number=0,Y:Number=0,timeLeft:Number=0) 
 		{
 			super();
 			
-			timer = timeLeft;
+		}
+		
+		public function setup()
+		{
+			var x:int = x;
+			base = new FlxSprite(x, y, ImgBase);
+			base.immovable = true;
+			add(base);
 			
 			time = [0, 0, 0];
 			previousTime = [0,0,0];
 			
 			//set the time
 			digits = new Array();
-			var x:int = X;
 			var i:int, j:int;
 			for (i = 0; i < 3; i++)
 			{
 				digits.push(new Array());
 				for (j = 0; j < 2; j++)
 				{
-					var d:Digit = new Digit(x, Y);
+					var d:Digit = new Digit(x, y+13);
 					x += d.width;
 					digits[i].push(d);
 					add(d);
+					trace(d.y);
 				}
-				x += 2;
+				x += 1;
 			}
 			
 			syncTime();

@@ -19,13 +19,12 @@ package
 		
 		public var id:int;
 		
-		[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
+		[Embed(source = "graphics/door.png")] protected var ImgDoor:Class;
 		
 		public function Door(X:Number=0,Y:Number=0) 
 		{
 			super(X, Y);
-			//loadGraphic(ImgDoor, false);
-			makeGraphic(36, 36);
+			loadGraphic(ImgDoor, false);
 			
 			setup();
 		}

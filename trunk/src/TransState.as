@@ -33,6 +33,8 @@ package
 		
 		protected var exp:int;
 		
+		[Embed(source = "graphics/spacestation.png")] protected var SpaceStationImage:Class;
+		
 		public function TransState(index:int,timeLeft:Number,players:Array,exp:int=0)
 		{
 			this.index = index;
@@ -50,8 +52,8 @@ package
 		{
 			var i:int;
 			
-			planet = new FlxSprite(100, 100);
-			planet.makeGraphic(50, 50);
+			planet = new FlxSprite(25, 25);
+			planet.loadGraphic(SpaceStationImage);
 			planet.angularVelocity = -0.2*timeLeft;
 			add(planet);
 			
@@ -61,7 +63,7 @@ package
 			buttons = new Array();
 			for (i = 0; i < 3; i++)
 			{
-				buttons.push(new Button(i * 50 + 30, 100));
+				buttons.push(new Button(i * 50 + 30, 200));
 				add(buttons[i]);
 			}
 			

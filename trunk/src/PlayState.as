@@ -51,8 +51,6 @@ package
 		
 		protected var bots:FlxGroup;
 		
-		protected var countDowns:FlxGroup;
-		
 		protected var oldPlayers:Array;
 		
 		protected var starfield:StarfieldFX;
@@ -101,7 +99,14 @@ package
 			add(level.doorSwitches);
 			add(level.conveyors);
 			add(level.powerups);
+			
 			timeLeft = level.checkPoints[startIndex].time;
+			for (i = 0; i < level.countDowns.members.length; i++)
+			{
+				level.countDowns.members[i].timer = timeLeft;
+				level.countDowns.members[i].setup();
+			}
+			add(level.countDowns);
 
 			Hydraman.m_initialTimeLeft = timeLeft;
 			
@@ -168,6 +173,7 @@ package
 			FlxG.camera.setBounds(-10000,0,20000,24000,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
 			
+			/*
 			//add countdown
 			countDowns = new FlxGroup();
 			for (i = 0; i < 3; i++)
@@ -175,6 +181,7 @@ package
 				countDowns.add(new CountDown(player.x + (Math.random()-0.5)*FlxG.height, player.y + (Math.random()-0.5)*FlxG.width, timeLeft));
 			}
 			add(countDowns);
+			*/
 			
 			//set starting variables
 			state = MID;
@@ -228,6 +235,7 @@ package
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
 			FlxG.collide(level.doors, characters);
+			FlxG.collide(level.countDowns, characters);
 			FlxG.collide(level.conveyors, characters,Conveyor.overlap);
 			FlxG.overlap(level.powerups, player, PowerupEntity.overlapCharacter);
 			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
@@ -273,6 +281,7 @@ package
 			}
 			
 			// Update countdown clocks
+			/*
 			var countdown_members:Array = countDowns.members;
 			for (var i:int = 0; i < countDowns.length; i++)
 			{
@@ -329,6 +338,7 @@ package
 					d.y += dy;
 				}
 			}
+			*/
 			
 			if (player.y > LEVELBOTTOM)
 			{
