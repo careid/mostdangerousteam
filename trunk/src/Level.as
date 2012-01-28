@@ -30,11 +30,51 @@ package
 		/////
 		public function loadFromCSV(mapString:String) : void
 		{
-			var array:Array = mapString.replace("[\w\n\r]", "").split(",");
+			mapString = mapString.replace("[\w\r]", "");
+			var mapArray:Array = mapString.substr(0,mapString.lastIndexOf("\n")).split("\n");
 			
-			for (var i:int = 0; i < array.length; i++)
+			for (var i:int = 0; i < mapArray.length; i++)
 			{
+				var str:String = mapArray[i];
+				var row:Array = str.substr(0, str.lastIndexOf(",")).split(",");
 				
+				for (var j:int = 0; j < row.length; j++)
+				{
+					/*switch (row[j])
+					{
+						case 7:
+							var obj:CheckPoint = new CheckPoint(j, i);
+							checkPoints.push(obj);
+							row[j] = 0;
+							break;
+						case 8:
+							var obj:TimeMachine = new TimeMachine(j, i);
+							checkPoints.push(obj);
+							row[j] = 0;
+							break;
+						case 9:
+							var obj:Door = new Door(j, i);
+							checkPoints.push(obj);
+							row[j] = 0;
+							break;
+						case 10:
+							var obj:StaminaRechargePowerup = new StaminaRechargePowerup(j, i);
+							checkPoints.push(obj);
+							row[j] = 0;
+							break;
+						case 11:
+							var obj:BoomerangPowerup = new BoomerangPowerup(j, i);
+							checkPoints.push(obj);
+							row[j] = 0;
+							break;
+						case 12:
+							var obj:SpikePowerup = new SpikePowerup(j, i);
+							checkPoints.push(obj);
+							row[j] = 0;
+							break;
+					}*/
+				}
+				mapArray[i] = row;
 			}
 			
 			tileMap = new FlxTilemap();

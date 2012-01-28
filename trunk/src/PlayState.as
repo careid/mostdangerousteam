@@ -227,7 +227,7 @@ package
 				}
 			}
 			
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time));
+			FlxG.switchState(new PlayState(bestIndex));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
