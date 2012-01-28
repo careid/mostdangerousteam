@@ -191,7 +191,8 @@ package
 				timer.addEventListener(TimerEvent.TIMER, function (e:Event):void
 					{
 						//trace("adding bot NOW! " + timeLeft);
-						bots.add(new Bot(past_self));
+						if (bots && bots.members)
+							bots.add(new Bot(past_self));
 					}
 				);
 				timer.start();
