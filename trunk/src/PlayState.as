@@ -62,14 +62,13 @@ package
 			countDowns = new FlxGroup();
 			for (i = 0; i < 15; i++)
 			{
-				countDowns.add(new CountDown(Math.random()*FlxG.height,Math.random()*FlxG.width,100));
+				countDowns.add(new CountDown(Math.random()*FlxG.height,Math.random()*FlxG.width,timeLeft));
 			}
 			add(countDowns);
 			
 			boomerangs = new FlxGroup();
 			spikes = new FlxGroup();
-			countDowns.add(new CountDown(0,0,100));
-			add(countDowns);
+
 			add(boomerangs);
 			add(spikes);
 			
@@ -147,8 +146,15 @@ package
 			FlxG.collide(level.tileMap, spikes);
 			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
+			
+			if (!player.alive)
+			{
+				endGame();
+			}
+			
 			FlxG.overlap(spikes, player, SpikeTrap.overlapCharacter);
 			FlxG.overlap(spikes, bots, SpikeTrap.overlapCharacter);
+			
 			updateStateEvents();
 			
 			debugShit();
@@ -214,7 +220,7 @@ package
 				case MID:
 					if (timeLeft <= 0)
 					{
-						FlxG.fade(0xff000000, 1, gameOver);
+						endGame();
 					}
 					FlxG.overlap(player, timeMachine, reachGoal);
 					break;
@@ -245,6 +251,11 @@ package
 		private function reachGoal(a:FlxObject,b:FlxObject):void
 		{
 			transitionState(END);
+		}
+		
+		private function endGame():void
+		{
+			FlxG.fade(0xff000000, 1, gameOver);
 		}
 		
 		private function gameOver():void
