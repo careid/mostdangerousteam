@@ -12,6 +12,8 @@ package
 	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
 		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;		
 		
+		protected const LEVELBOTTOM:int = 600;
+		
 		protected var level:Level;
 		protected var player:Player;
 		protected var staminaBar:FlxBar;
@@ -247,9 +249,9 @@ package
 				}
 			}
 			
-			if (player.y > 2000)
+			if (player.y > LEVELBOTTOM)
 			{
-				endGame();
+				gameOver();
 			}
 			
 			updateStateEvents();
