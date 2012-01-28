@@ -187,7 +187,7 @@ package
 			
 			if (!isFirstIteration)
 			{
-				starfield.setStarSpeed(-cameraScrollVelocity.x * 0.1, -cameraScrollVelocity.y * 0.1);
+				starfield.setStarSpeed(cameraScrollVelocity.x * 0.1, cameraScrollVelocity.y * 0.1);
 			}
 			
 			

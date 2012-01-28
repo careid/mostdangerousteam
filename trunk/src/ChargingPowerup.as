@@ -22,7 +22,6 @@ package
 		/////
 		override public function activate() : Boolean 
 		{
-			trace("CHARGING ACTIVATE!");
 			if (isCharged())
 			{
 				charge = 0;

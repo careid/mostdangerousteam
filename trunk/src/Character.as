@@ -64,7 +64,9 @@ package
 		{
 			m_powerupList = new Array();
 			for each (var powerup:Powerup in old_character.getPowerupList())
-				m_powerupList.push(powerup);
+			{
+				addPowerup(powerup);
+			}
 			m_currentPowerup = old_character.getCurrentPowerup();
 		}
 		
@@ -301,6 +303,7 @@ package
 			if (!powerup.shouldBeDiscarded)
 			{
 				m_powerupList.push(powerup);
+				powerup.character = this;
 				if (m_currentPowerup == null)
 				{
 					m_currentPowerup = powerup;
