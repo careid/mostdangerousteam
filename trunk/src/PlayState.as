@@ -25,9 +25,12 @@ package
 		
 		protected var debugTimer:FlxText;
 		protected var staminaText:FlxText;
+		protected var debugDoor:Door;
 		
 		protected var debugPowerup:Powerup;
 		protected var debugPowerupEntity:PowerupEntity;
+		
+		protected var doors:FlxGroup;
 		
 		public function PlayState(timeLeft:Number,startPosition:FlxPoint = null)
 		{
@@ -80,6 +83,13 @@ package
 			add(staminaText);
 			add(debugTimer);
 			
+			//add doors
+			doors = new FlxGroup();
+			add(doors);
+			debugDoor = new Door(50, 100);
+			doors.add(debugDoor);
+			
+			
 			debugPowerup = new StaminaRechargePowerup();
 			debugPowerupEntity = new PowerupEntity(50, 50, null, debugPowerup);
 			debugPowerupEntity.makeGraphic(32, 32);
@@ -97,6 +107,7 @@ package
 			super.update();
 			
 			FlxG.collide(level.tileMap, player);
+			FlxG.collide(doors, player);
 			
 			updateStateEvents();
 			
@@ -107,6 +118,11 @@ package
 		
 		public function debugShit():void
 		{
+			if (FlxG.keys.justPressed("A"))
+			{
+				debugDoor.switchState(Door.OPENING);
+			}
+			
 			debugTimer.text = String(Math.floor(timeLeft));
 			FlxG.overlap(debugPowerupEntity, player, PowerupEntity.overlapCharacter);
 		}
