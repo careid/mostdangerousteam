@@ -13,6 +13,10 @@ package
 		protected var START:uint = 1;
 		protected var MID:uint = 2;
 		
+		protected var timeMachine:TimeMachine;
+		protected var TIMEMACHINEX:Number = 200;
+		protected var TIMEMACHINEY:Number = 100;
+		
 		protected var timeLeft:Number = 0;
 		
 		public function PlayState(timeLeft:Number,player:Player=null)
@@ -36,6 +40,9 @@ package
 				player = new Player(FlxG.width/2 - 5,0);
 				add(player);
 			}
+			
+			timeMachine = new TimeMachine(TIMEMACHINEX,TIMEMACHINEY);
+			add(timeMachine);
 			
 			FlxG.camera.setBounds(-1000,0,2000,240,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
@@ -78,12 +85,18 @@ package
 		private function updateStateEvents():void 
 		{
 			//nothing to be done yet
+			FlxG.overlap(player, timeMachine, reachGoal);
 		}
 		
 		private function restartLevel():void 
 		{
 			//restart the game
 			FlxG.switchState(new PlayState(10));
+		}
+		
+		private function reachGoal(a:FlxObject,b:FlxObject):void
+		{
+			transitionState(END);
 		}
 		
 	}
