@@ -10,8 +10,7 @@ package
 	{
 	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1CSV:Class;
 	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
-		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;
-		
+		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;		
 		
 		protected var level:Level;
 		protected var player:Player;
@@ -84,14 +83,6 @@ package
 			add(level.powerups);
 			timeLeft = level.checkPoints[startIndex].time;
 			
-			//add countdown
-			countDowns = new FlxGroup();
-			for (i = 0; i < 15; i++)
-			{
-				countDowns.add(new CountDown(Math.random()*FlxG.height,Math.random()*FlxG.width, timeLeft));
-			}
-			add(countDowns);
-			
 			boomerangs = new FlxGroup();
 			spikes = new FlxGroup();
 
@@ -129,6 +120,14 @@ package
 			//set camera
 			FlxG.camera.setBounds(-10000,0,20000,24000,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
+			
+			//add countdown
+			countDowns = new FlxGroup();
+			for (i = 0; i < 3; i++)
+			{
+				countDowns.add(new CountDown(player.x + (Math.random()-0.5)*FlxG.height, player.y + (Math.random()-0.5)*FlxG.width, timeLeft));
+			}
+			add(countDowns);
 			
 			//set starting variables
 			state = MID;
@@ -185,6 +184,67 @@ package
 			if (!player.alive)
 			{
 				endGame();
+			}
+			
+			var countdown_members:Array = countDowns.members;
+			for (var i:int = 0; i < countDowns.length; i++)
+			{
+				var cd:CountDown = countdown_members[i];
+				var members:Array = cd.members;
+				var visible:Boolean = false;
+				for (var j:int = 0; j < cd.length; j++)
+				{
+					var d:FlxSprite = members[j];
+					if (d.onScreen(FlxG.camera))
+					{
+						visible = true;
+						break;
+					}
+				}
+				
+				if (visible)
+					continue;
+					
+				var dx:int = 0;
+				var dy:int = 0;
+				if (player.velocity.x > 0)
+				{
+					if (members[cd.length-1].x < FlxG.camera.scroll.x)
+					{
+						dx = FlxG.camera.scroll.x + FlxG.camera.width + members[cd.length-1].x - 2 * members[0].x;
+						dy = FlxG.camera.scroll.y + (Math.random() - 0.5) * FlxG.camera.height - members[0].y;
+					}
+				} else if (player.velocity.x < 0)
+				{
+					if (members[0].x > FlxG.camera.scroll.x + FlxG.camera.width)
+					{
+						dx = FlxG.camera.scroll.x - 2 * members[cd.length-1].x + members[0].x;
+						dy = FlxG.camera.scroll.y + (Math.random() - 0.5) * FlxG.camera.height - members[0].y;
+					}
+				}
+				if (player.velocity.y > 0)
+				{
+					if (members[0].y < FlxG.camera.scroll.y)
+					{
+						dx = FlxG.camera.scroll.x + (Math.random() - 0.5) * FlxG.camera.width - members[0].y;
+						dy = FlxG.camera.scroll.y + FlxG.camera.height + members[0].height - members[0].y;
+					}
+				}
+				else if (player.velocity.y < 0)
+				{
+					if (members[0].y > player.y && members[0].y > FlxG.camera.scroll.y + FlxG.camera.height)
+					{
+						dx = FlxG.camera.scroll.x + (Math.random() - 0.5) * FlxG.camera.width - members[0].y;
+						dy = FlxG.camera.scroll.y - members[0].height - members[0].y;
+					}
+				}
+				
+				for (var j:int = 0; j < 6; j++)
+				{
+					var d:FlxSprite = members[j];
+					d.x += dx;
+					d.y += dy;
+				}
 			}
 			
 			if (player.y > 2000)
