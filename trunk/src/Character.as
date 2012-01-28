@@ -1,11 +1,16 @@
 package
 {
+	import flash.utils.Dictionary;
 	import org.flixel.*;
 
 	public class Character extends FlxSprite
 	{
 		[Embed(source = "./graphics/Cloud003.png")] public var Cloud:Class;
-				
+		
+		[Embed(source = "./sounds/playerJump.mp3")] public var JumpSnd:Class;
+		[Embed(source = "sounds/playerJump.mp3")] public var DeathSnd:Class;
+		[Embed(source = "sounds/dashOn.mp3")] public var DashSnd:Class;
+		
 		public const OVER_SQRT2:Number = 0.707107;
 		
 		protected var m_dashing:Boolean;
@@ -35,7 +40,9 @@ package
 		public var dash:Boolean;
 		public var usePowerup:Boolean;
 		
-		public function Character(X:int=0,Y:int=0)
+		public var playSounds:Boolean;
+		
+		public function Character(X:int=0,Y:int=0,playSounds:Boolean=false)
 		{
 			m_powerupList = new Array();
 			m_currentPowerup = null;
@@ -47,6 +54,7 @@ package
 			m_dustEmitter.maxParticleSpeed.x = 100;
 			m_dustEmitter.maxParticleSpeed.y = 100;
 			m_sliding = false;
+			this.playSounds = playSounds;
 			FlxG.state.add(m_dustEmitter);
 			
 			super(X,Y);
@@ -95,7 +103,7 @@ package
 		}
 		
 		override public function update():void
-		{			
+		{
 			var isTouchingFloor:Boolean = isTouching(FLOOR);
 			var isTouchingLeft:Boolean = isTouching(LEFT);
 			var isTouchingRight:Boolean = isTouching(RIGHT);
@@ -116,6 +124,10 @@ package
 				stamina = Math.min(maxstamina, stamina + staminaregen);
 				if (dash && stamina > 0.25 * maxstamina)
 				{
+					if (playSounds)
+					{
+						FlxG.play(DashSnd);
+					}
 					m_dashing = true;
 					m_speed = m_dash_speed;
 					maxVelocity.x = m_dash_speed;
@@ -140,6 +152,10 @@ package
 			{
 				if (isTouchingFloor && m_remaining_jumps > 0)
 				{
+					if (playSounds)
+					{
+						FlxG.play(JumpSnd);
+					}
 					m_remaining_jumps--;
 					m_dashing = false;
 					velocity.y = -m_jump_power;
@@ -147,6 +163,10 @@ package
 				}
 				else if (isTouchingLeft)
 				{
+					if (playSounds)
+					{
+						FlxG.play(JumpSnd);
+					}
 					m_dashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * m_jump_power;
@@ -154,6 +174,10 @@ package
 				}
 				else if (isTouchingRight)
 				{
+					if (playSounds)
+					{
+						FlxG.play(JumpSnd);
+					}
 					m_dashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * -m_jump_power;
@@ -161,6 +185,10 @@ package
 				}
 				else if (m_remaining_jumps > 0)
 				{
+					if (playSounds)
+					{
+						FlxG.play(JumpSnd);
+					}
 					m_remaining_jumps--;
 					m_dashing = false;
 					velocity.y = -m_jump_power;
@@ -318,7 +346,15 @@ package
 			health -= damage;
 			if (health <= 0)
 			{
-				kill();
+				die();
+			}
+		}
+		
+		public function die():void
+		{
+			if (playSounds)
+			{
+				FlxG.play(DeathSnd);
 			}
 		}
 	}

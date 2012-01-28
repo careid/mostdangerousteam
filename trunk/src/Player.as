@@ -16,7 +16,7 @@ package
 			m_run_level = runLevel;
 			m_stamina_level = staminaLevel;
 			m_health_level = healthLevel;
-			super(X, Y);
+			super(X, Y,true);
 			m_waypoints = new Array();
 			push_waypoint();
 			m_waypoint_timer = new Timer(1000);

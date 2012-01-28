@@ -14,6 +14,8 @@ package
 		[Embed(source = "./graphics/powerups.png")] public var Image:Class;
 		[Embed(source = "./graphics/littlelight.png")] public var Particle1:Class;
 		[Embed(source = "./graphics/tinyblue.png")] public var Particle2:Class;
+		[Embed(source = "./sounds/powerup.mp3")] public var PowerSnd:Class;
+		
 		public var powerup : Powerup;
 		
 		public function PowerupEntity(X : Number=0, Y : Number=0,  powerup : Powerup=null)
@@ -33,6 +35,7 @@ package
 		/////
 		public function collect(character : Character) : Powerup
 		{
+			FlxG.play(PowerSnd);
 			powerup.character = character;
 			character.addPowerup(powerup);
 			powerup.onAdd();
