@@ -8,7 +8,7 @@ package
 	{
 		public function EZPlatformer()
 		{
-			super(320,240,PlayState,2);
+			super(320,240,DummyLauncher,2);
 			forceDebugger = true;
 		}
 	}

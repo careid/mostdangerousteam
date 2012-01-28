@@ -7,6 +7,20 @@ package
 	    [Embed(source = "../maps/map.csv", mimeType = "application/octet-stream")] public var Level1:Class;
 		public var level:Level;
 		public var player:Player;
+		public var state:uint;
+		
+		protected var END:uint = 0;
+		protected var START:uint = 1;
+		protected var MID:uint = 2;
+		
+		protected var timeLeft:Number = 0;
+		
+		public function PlayState(timeLeft:Number,player:Player=null)
+		{
+			this.player = player;
+			this.timeLeft = timeLeft;
+			super();
+		}
 		
 		override public function create():void
 		{
@@ -17,10 +31,13 @@ package
 			level = new Level();
 			level.loadFromCSV(new Level1(), this);
 			
-			//Create player (a red box)
-			player = new Player(FlxG.width/2 - 5,0);
-			add(player);
+			if (!player)
+			{
+				player = new Player(FlxG.width/2 - 5,0);
+				add(player);
+			}
 			
+			state = START;
 		}
 		
 		override public function update():void
@@ -29,7 +46,41 @@ package
 			super.update();
 			
 			//Finally, bump the player up against the level
-			FlxG.collide(level.tileMap,player);
+			FlxG.collide(level.tileMap, player);
+			
+			updateStateEvents();
+			if (FlxG.keys.justPressed("A"))
+			{
+				transitionState(END);
+			}
+		}
+		
+		public function transitionState(newState:uint):void 
+		{
+			state = newState;
+			switch(state)
+			{
+				case START:
+					break;
+				case MID:
+					break;
+				case END:
+					FlxG.fade(0xffffff, 1, restartLevel);
+					break;
+				default:
+					break;
+			}
+		}
+		
+		private function updateStateEvents():void 
+		{
+			//nothing to be done yet
+		}
+		
+		private function restartLevel():void 
+		{
+			//restart the game
+			FlxG.switchState(new PlayState(10));
 		}
 		
 	}
