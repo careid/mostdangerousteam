@@ -7,7 +7,7 @@ package
 	{
 	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1CSV:Class;
 	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
-		[Embed(source = "../maps/5amTest.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;
+		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;
 		
 		protected var level:Level;
 		protected var player:Player;
