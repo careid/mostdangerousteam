@@ -51,7 +51,10 @@ package
 			}
 			else
 			{
-				theCharacter.hit();
+				if (!theCharacter.flickering)
+				{
+					theCharacter.hit();
+				}
 			}
 		}
 		

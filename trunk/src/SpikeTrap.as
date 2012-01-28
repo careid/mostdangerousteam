@@ -79,7 +79,10 @@ package
 		{
 			if (spikes.activation == OPEN)
 			{
-				theCharacter.hit();
+				if (!theCharacter.flickering)
+				{
+					theCharacter.hit();
+				}
 				spikes.kill();
 			}
 		}

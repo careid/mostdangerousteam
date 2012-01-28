@@ -348,6 +348,10 @@ package
 			{
 				die();
 			}
+			else
+			{
+				flicker(0.5);
+			}
 		}
 		
 		public function die():void
