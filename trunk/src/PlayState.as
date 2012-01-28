@@ -104,14 +104,13 @@ package
 			add(level.powerups);
 			
 			timeLeft = level.checkPoints[startIndex].time;
+			Hydraman.m_initialTimeLeft = timeLeft;
 			for (i = 0; i < level.countDowns.members.length; i++)
 			{
 				level.countDowns.members[i].timer = timeLeft;
 				level.countDowns.members[i].setup();
 			}
 			add(level.countDowns);
-
-			Hydraman.m_initialTimeLeft = timeLeft;
 			
 			tiles = new Array();
 			FlxG.globalSeed = 12345;
@@ -186,9 +185,15 @@ package
 			bots = new FlxGroup();
 			for each (var past_self:Player in oldPlayers)
 			{
-				if (timeLeft - past_self.startTime < 0) continue;
+				if (past_self.startTime > timeLeft) continue;
+				//trace("add bots " + timeLeft + " " + past_self.startTime);
 				var timer:Timer = new Timer((timeLeft - past_self.startTime)*1000, 1);
-				timer.addEventListener(TimerEvent.TIMER, function (e:Event):void { if (bots && bots.members) {bots.add(new Bot(past_self));} } );
+				timer.addEventListener(TimerEvent.TIMER, function (e:Event):void
+					{
+						//trace("adding bot NOW! " + timeLeft);
+						bots.add(new Bot(past_self));
+					}
+				);
 				timer.start();
 			}
 			characters.add(bots);
@@ -263,7 +268,7 @@ package
 					tile.loadGraphic(level.Image, true, true, 32, 32);
 					tile.addAnimation("idle", [tile_idx]);
 					tile.play("idle");
-					tile.mass = 2.0;
+					tile.mass = 5.0;
 					tile.acceleration.y = GRAVITY;
 					tile.velocity.x = 25.0 * (FlxG.random()-0.5);
 					tile.velocity.y = -25.0 * FlxG.random();
@@ -288,27 +293,12 @@ package
 				block = Object1 as FlxSprite;
 			}
 			
-			var nvx:Number = char.velocity.x - block.velocity.x;
+			//var nvx:Number = char.velocity.x - block.velocity.x;
 			var nvy:Number = char.velocity.y - block.velocity.y;
-			var sqrMag:Number = nvx * nvx + nvy * nvy;
-			if (sqrMag < 50)
+			block.solid = false;
+			if (nvy > 0)
 				return;
 			char.hit();
-			block.solid = false;
-			
-			/*var mag:Number = Math.sqrt(sqrMag);
-			nvx /= mag;
-			nvy /= mag;
-			var blockdirx = block.velocity.x;
-			var blockdiry = block.velocity.y;
-			var blockmag = Math.sqrt(blockdirx * blockdirx + blockdiry * blockdiry);
-			blockdirx /= blockmag;
-			blockdiry /= blockmag;
-			var blocknorm:Number = block.velocity.x * nvx + block.velocity.y * nvy;
-			var blocktang:Number = Math.sqrt(block.velocity.x * block.velocity.x + block.velocity.y * block.velocity.y - blocknorm * blocknorm);
-			blocknorm *= -0.9;
-			blocktang *= 0.9;
-			block.velocity.x = blockdirx * blocknorm * nvx + blockdir*/
 		}
 		
 		override public function update():void
@@ -321,7 +311,6 @@ package
 			}
 			
 			super.update();
-			trace(player.m_run_level);
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
@@ -339,22 +328,19 @@ package
 			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
 			FlxG.overlap(spikes, characters, SpikeTrap.overlapCharacter);
 			FlxG.collide(fallBlocks, characters, fallingBlockCollide);
-
-
 			
+			updateFallingBlocks();
+			
+			updateStateEvents();
+
 			if (!player.alive)
 			{
 				endGame();
 			}
-			
-			updateFallingBlocks();
-			
 			if (player.y > LEVELBOTTOM)
 			{
 				gameOver();
 			}
-			
-			updateStateEvents();
 			
 			healthText.text = "Health: " + String(Math.floor(player.health));
 			

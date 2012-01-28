@@ -22,6 +22,7 @@ package
 			}
 			m_run_level = old_player.m_run_level;
 			m_stamina_level = old_player.m_stamina_level;
+			m_timeLeft = old_player.startTime;
 		}
 		
 		override public function update():void
