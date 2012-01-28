@@ -79,6 +79,30 @@ package
 			
 			tileMap = new FlxTilemap();
 			tileMap.loadMap(mapString, Image, 32,32);
+			
+			/*
+			var platforms:Array = new Array();
+			var lines:Array = mapString.split("\n");
+			for (var y:int = 0; y < lines.length; y++)
+			{
+				var tiles:Array = lines[y].split(",");
+				var platform:Boolean = false;
+				var left:int, right:int;
+				for (var x:int = 0; x < tiles.length; x++)
+				{
+					var tile:Boolean = (int(tiles[x]) > 0);
+					if (tile != platform)
+					{
+						if (tile)
+							left = x;
+						else
+							platforms.push(new Platform(left, right, y));
+					}
+					platform = tile;
+					right = x;
+				}
+			}
+			*/
 		}
 		
 		//////
