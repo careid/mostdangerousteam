@@ -156,6 +156,7 @@ package
 			if (FlxG.keys.justPressed("B"))
 			{
 				//BRUCE
+				player.push_waypoint();
 				var waypoints:Array = player.get_waypoints();
 				var p0:WayPoint = waypoints[0];
 				bots.add(new Bot(p0.x, p0.y, waypoints));

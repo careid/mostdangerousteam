@@ -2,19 +2,26 @@ package
 {
 	import org.flixel.*;
 
-	public class Bot extends Player
+	public class Bot extends Hydraman
 	{
+		protected var m_waypoints:Array;
+		
 		public function Bot(X:int,Y:int,waypoints:Array)
 		{
 			super(X, Y);
-			m_waypoints = waypoints;
+			m_waypoints = new Array();
+			for each (var fuckin_waypoint:WayPoint in waypoints)
+			{
+				m_waypoints.push(fuckin_waypoint);
+			}
 		}
 		
-		override public function get_movement():void
+		override public function update():void
 		{
+			trace(m_waypoints.length);
 			if (m_waypoints.length > 0)
 			{
-				jump = (y - 10 > m_waypoints[0].y);
+				jump =  (y - 30 > m_waypoints[0].y);
 				// when you hit a waypoint, move onto the next one
 				if (overlaps(m_waypoints[0]))
 				{
@@ -31,6 +38,14 @@ package
 					goRight = (x < m_waypoints[0].x);
 				}
 			}
+			else
+			{
+				//goLeft = goRight = jump = false;
+				goLeft = false;
+				goRight = false;
+				jump = false;
+			}
+			super.update();
 		}
 	}
 }

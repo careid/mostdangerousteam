@@ -6,11 +6,13 @@ package
 	{
 		public var powerup:Powerup;
 		public var jump:Boolean;
-		public function WayPoint(X:int,Y:int,W:int,H:int,jmp:Boolean,pu:Powerup)
+		public function WayPoint(player:Player,pu:Powerup)
 		{
-			super(X, Y, W, H);
+			super(player.x, player.y, player.width, player.height);
 			powerup = pu;
-			jump = jmp;
+			jump = player.jump;
+			velocity = player.velocity;
+			acceleration = player.velocity;
 		}
 	}
 }

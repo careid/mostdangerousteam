@@ -7,7 +7,7 @@ package
 		
 		override public function create():void
 		{
-			FlxG.switchState(new PlayState(10));
+			FlxG.switchState(new PlayState(100));
 		}
 		
 	}

@@ -4,9 +4,8 @@ package
 	import org.flixel.*;
 	import flash.utils.Timer;
 	
-	public class Player extends Character
+	public class Player extends Hydraman
 	{
-		[Embed(source = "graphics/main.png")] protected var ImgPlayer:Class;
 		protected var m_waypoints:Array;
 		protected var m_waypoint_timer:Timer;
 		
@@ -18,25 +17,18 @@ package
 			m_waypoint_timer = new Timer(1000);
 			m_waypoint_timer.addEventListener(TimerEvent.TIMER, scheduled_waypoint_push);
 			m_waypoint_timer.start();
-			loadGraphic(ImgPlayer, true, true,26,26);
-			super.setup();
-			offset.y -= 1;
-			offset.x = 6;
-			width = 15;
 		}
 		
 		override public function update():void
 		{
-			get_movement();
-			super.update();
-		}
-		
-		public function get_movement():void
-		{
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
 			jump = FlxG.keys.justPressed("X");
+			if (jump)
+				push_waypoint();
 			dash = FlxG.keys.pressed("C");
+
+			super.update();
 		}
 		
 		protected function scheduled_waypoint_push(e:TimerEvent):void
@@ -47,7 +39,7 @@ package
 		public function push_waypoint():void
 		{
 			trace("pushing waypoint...");
-			m_waypoints.push(new WayPoint(x, y, width, height, jump, null));
+			m_waypoints.push(new WayPoint(this, null));
 		}
 		
 		public function get_waypoints():Array
