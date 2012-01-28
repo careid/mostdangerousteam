@@ -35,9 +35,12 @@ package
 		
 		protected var countDowns:FlxGroup;
 		
-		public function PlayState(startIndex:int = 0)
+		protected var oldPlayer:Player;
+		
+		public function PlayState(startIndex:int = 0,oldPlayer:Player=null)
 		{
 			this.startIndex = startIndex;
+			this.oldPlayer = oldPlayer;
 			super();
 		}
 		
@@ -75,6 +78,8 @@ package
 			characters = new FlxGroup();
 			add(characters);
 			
+			//LOOK GUYS
+			oldPlayer;
 			//add player
 			if (level.checkPoints != null && level.checkPoints.length == 0)
 			{
@@ -227,7 +232,7 @@ package
 				}
 			}
 			
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time));
+			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,player));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
