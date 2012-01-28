@@ -29,12 +29,9 @@ package
 			
 			//animations
 			addAnimation("idle", [0]);
-			addAnimation("run", [1, 2, 3, 0], 12);
-			addAnimation("jump", [4]);
-			addAnimation("idle_up", [5]);
-			addAnimation("run_up", [6, 7, 8, 5], 12);
-			addAnimation("jump_up", [9]);
-			addAnimation("jump_down", [10]);
+			addAnimation("run", [1, 2, 3, 4], 12);
+			addAnimation("jump", [5, 6],12);
+			addAnimation("fall", [7, 8],12);
 		}
 		
 		override public function update():void
@@ -70,9 +67,13 @@ package
 			}
 			
 			//ANIMATION
-			if(velocity.y != 0)
+			if(velocity.y < 0)
 			{
 				play("jump");
+			}
+			else if (velocity.y > 0)
+			{
+				play("fall");
 			}
 			else if(velocity.x == 0)
 			{
