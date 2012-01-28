@@ -13,6 +13,8 @@ package
 			//Set the background color to light gray (0xAARRGGBB)
 			FlxG.bgColor = 0xffaaaaaa;
 			
+			//comments
+			
 			//Design your platformer level with 1s and 0s (at 40x30 to fill 320x240 screen)
 			var data:Array = new Array(
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
