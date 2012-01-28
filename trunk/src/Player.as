@@ -10,9 +10,10 @@ package
 		protected var m_waypoints:Array;
 		protected var m_waypoint_timer:Timer;
 		
-		public function Player(X:int=0,Y:int=0)
+		public function Player(X:int=0,Y:int=0,level:int=0)
 		{
 			super(X, Y);
+			this.m_level = level;
 			m_waypoints = new Array();
 			push_waypoint();
 			m_waypoint_timer = new Timer(1000);

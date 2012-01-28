@@ -46,11 +46,11 @@ package
 			m_currentPowerup = old_character.getCurrentPowerup();
 		}
 		
-		public function setup():void
+		public function setup(run_speed:int=60,dash_speed:int=120,staminaregen:Number=0.1,maxstamina:Number=100):void
 		{
 			m_dashing = false;
-			m_run_speed = 60;
-			m_dash_speed = 120;
+			m_run_speed = run_speed;
+			m_dash_speed = dash_speed;
 			m_speed = m_run_speed;
 			drag.x = 240;
 			m_accel_constant = 4.0;
@@ -65,8 +65,8 @@ package
 			m_jump_power = 200;
 			maxVelocity.y = m_jump_power;
 			
-			staminaregen = 0.1;
-			maxstamina = 100;
+			this.staminaregen = staminaregen;
+			this.maxstamina = maxstamina;
 			stamina = maxstamina;
 			
 			//animations
