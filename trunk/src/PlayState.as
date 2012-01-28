@@ -36,12 +36,12 @@ package
 		
 		protected var countDowns:FlxGroup;
 		
-		protected var oldPlayer:Player;
+		protected var oldPlayers:Array;
 		
-		public function PlayState(startIndex:int = 0,oldPlayer:Player=null)
+		public function PlayState(startIndex:int = 0,oldPlayers:Array=null)
 		{
 			this.startIndex = startIndex;
-			this.oldPlayer = oldPlayer;
+			this.oldPlayers = oldPlayers;
 			super();
 		}
 		
@@ -80,17 +80,17 @@ package
 			add(characters);
 			
 			//LOOK GUYS
-			oldPlayer;
+			oldPlayers;
 			//add player
 			if (level.checkPoints != null && level.checkPoints.length == 0)
-			{				player = new Player(3008, 228);
+			{
 				// This should only run if there are no checkpoints in the level's XML file
 				player = new Player(3008,  228);
 			}
-			else if (oldPlayer != null) // asshole
+			else if (oldPlayers != null) // asshole
 			{
 				trace("TIME TRAVEL!!!");
-				player = oldPlayer.timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y);
+				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y);
 			}
 			else
 			{
@@ -232,7 +232,15 @@ package
 				}
 			}
 			
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,player));
+			if (oldPlayers)
+			{
+				oldPlayers.push(player);
+			}
+			else
+			{
+				oldPlayers = [player];
+			}
+			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void

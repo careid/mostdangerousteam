@@ -8,7 +8,7 @@ package
 		
 		protected var timeLeft:Number;
 		protected var index:int;
-		protected var player:Player;
+		protected var players:Array;
 		
 		protected var displayText:FlxText;
 		protected var displayTimer:Number = MAXDISPLAYTIME;
@@ -19,11 +19,11 @@ package
 		protected const STOP:uint = 1;
 		protected var phase:uint = SPIN;
 		
-		public function TransState(index:int,timeLeft:Number,player:Player)
+		public function TransState(index:int,timeLeft:Number,players:Array)
 		{
 			this.index = index;
 			this.timeLeft = timeLeft;
-			this.player = player;
+			this.players = players;
 			super();
 		}
 		
@@ -65,7 +65,7 @@ package
 		
 		protected function startLevel():void
 		{
-			FlxG.switchState(new PlayState(index,player));
+			FlxG.switchState(new PlayState(index,players));
 		}
 	}
 }
