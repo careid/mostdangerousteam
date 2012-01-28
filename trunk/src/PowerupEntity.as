@@ -7,12 +7,19 @@ package
 	/////
 	public class PowerupEntity extends FlxSprite
 	{
+		[Embed(source = "./graphics/powerups.png")] public var Image:Class;
+		
 		public var powerup : Powerup;
 		
-		public function PowerupEntity(X : Number, Y : Number, simpleGraphic : Class,  powerup : Powerup)
+		public function PowerupEntity(X : Number, Y : Number,  powerup : Powerup)
 		{
+			super(X, Y);
 			this.powerup  = powerup;
-			super(X, Y, simpleGraphic);
+			loadGraphic(Image, true, false, 14, 14, false);
+			addAnimation("boomerang", [0]);
+			addAnimation("doublejump", [1]);
+			addAnimation("stamina", [2]);
+			addAnimation("spikes", [3]);
 		}
 	
 		/////

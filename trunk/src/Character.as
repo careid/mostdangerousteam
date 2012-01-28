@@ -173,7 +173,7 @@ package
 			
 			if (m_currentPowerup != null)
 			{
-				m_currentPowerup.activate();
+				m_currentPowerup.update();
 			}
 			
 			super.update();
@@ -192,17 +192,25 @@ package
 		/////
 		public function addPowerup(powerup : Powerup) : void
 		{
-			m_powerupList.push(powerup);
+			if (!powerup.shouldBeDiscarded)
+			{
+				m_powerupList.push(powerup);
+			}
 		}
 		
 		/////
-		/// Activates the current powerup, if it exists.
+		/// Activates the current powerup, if it exists. If the powerup should be discarded,
+		/// removes
 		/////
 		public function activateCurrentPowerup() : void
 		{
-			if (m_currentPowerup != null)
+			if (m_currentPowerup != null && !m_currentPowerup.shouldBeDiscarded)
 			{
 				m_currentPowerup.activate();
+			}
+			else if (m_currentPowerup != null && m_currentPowerup.shouldBeDiscarded)
+			{
+				m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
 			}
 		}
 	}

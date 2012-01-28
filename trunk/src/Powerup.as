@@ -9,10 +9,11 @@ package
 	public class Powerup
 	{
 		public var character : Character;
-
+		public var shouldBeDiscarded : Boolean;
 				
 		public function Powerup() 
 		{
+			shouldBeDiscarded = false;
 		}
 		
 		/////
@@ -38,6 +39,7 @@ package
 		{
 			
 		}
+		
 	}
 	
 

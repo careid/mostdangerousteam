@@ -15,6 +15,7 @@ package
 		override public function onAdd():void 
 		{
 			activate();
+			shouldBeDiscarded = true;
 			super.onAdd();
 		}
 	}

@@ -91,9 +91,10 @@ package
 			
 			
 			debugPowerup = new StaminaRechargePowerup();
-			debugPowerupEntity = new PowerupEntity(50, 50, null, debugPowerup);
-			debugPowerupEntity.makeGraphic(32, 32);
+			debugPowerupEntity = new PowerupEntity(50, 50, debugPowerup);
+			debugPowerupEntity.play("stamina");
 			add(debugPowerupEntity);
+		
 		}
 		
 		override public function update():void
