@@ -112,7 +112,7 @@ package
 			
 			tiles = new Array();
 			var data:Array = level.tileMap.getData();
-			for (var i:int = 0; i < data.length; i++)
+			for (i = 0; i < data.length; i++)
 			{
 				if (data[i] > 0)
 					tiles.push(i);
@@ -218,7 +218,7 @@ package
 			}
 			
 			super.update();
-			//trace(player.x,player.y);
+			trace(player.m_run_level);
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
@@ -436,7 +436,7 @@ package
 			{
 				oldPlayers = [player];
 			}
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers));
+			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers,player));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void

@@ -32,7 +32,7 @@ package
 			
 		}
 		
-		public function setup()
+		public function setup():void
 		{
 			var x:int = x;
 			base = new FlxSprite(x, y, ImgBase);

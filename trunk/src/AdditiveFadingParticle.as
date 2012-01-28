@@ -10,7 +10,7 @@ package
 			super();
 			blend  = "add";
 			antialiasing = true;
-			var randomScale = FlxG.random();
+			var randomScale:Number = FlxG.random();
 			scale.x *= randomScale;
 			scale.y *= randomScale;
 			alpha *= randomScale;
