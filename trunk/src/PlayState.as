@@ -342,7 +342,7 @@ package
 				if (timeLeft > c.threshold)
 				{
 					bestIndex = i;
-				}
+				} 
 				else
 				{
 					break;
