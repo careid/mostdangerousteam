@@ -54,6 +54,7 @@ package
 		
 		protected var bots:FlxGroup;
 		
+		protected var oldPlayersIndex:int;
 		protected var oldPlayers:Array;
 		
 		protected var starfield:StarfieldFX;
@@ -168,7 +169,9 @@ package
 			{
 				trace("TIME TRAVEL!!!");
 				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
-				
+				oldPlayersIndex = 0;
+				while (oldPlayersIndex < oldPlayers.length && oldPlayers[oldPlayersIndex].startTime > timeLeft)
+					oldPlayersIndex++;
 			}
 			else
 			{
@@ -181,22 +184,8 @@ package
 			
 			player.startTime = level.checkPoints[startIndex].time;
 			
-			//add bots
+			// bots
 			bots = new FlxGroup();
-			for each (var past_self:Player in oldPlayers)
-			{
-				if (past_self.startTime > timeLeft) continue;
-				//trace("add bots " + timeLeft + " " + past_self.startTime);
-				var timer:Timer = new Timer((timeLeft - past_self.startTime)*1000, 1);
-				timer.addEventListener(TimerEvent.TIMER, function (e:Event):void
-					{
-						//trace("adding bot NOW! " + timeLeft);
-						if (bots && bots.members)
-							bots.add(new Bot(past_self));
-					}
-				);
-				timer.start();
-			}
 			characters.add(bots);
 			
 			//set camera
@@ -309,6 +298,13 @@ package
 			if (timeLeft < 0)
 			{
 				timeLeft = 0;
+			}
+			if (oldPlayersIndex < oldPlayers.length && oldPlayers[oldPlayersIndex].startTime > timeLeft)
+			{
+				var past_self:Player = oldPlayers[oldPlayersIndex];
+				//trace("add bots " + timeLeft + " " + past_self.startTime + " " + past_self.startX + " " + past_self.startY + " " + past_self.m_waypoints.length);
+				bots.add(new Bot(past_self));
+				oldPlayersIndex++;
 			}
 			
 			super.update();

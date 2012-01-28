@@ -25,7 +25,7 @@ package
 		public static var m_initialTimeLeft:Number;
 		
 		public var m_stateHistory:Array;
-		protected var m_waypoints:Array;
+		public var m_waypoints:Array;
 		public var startX:Number;
 		public var startY:Number;
 		
