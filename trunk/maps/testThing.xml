@@ -24,4 +24,9 @@
 	<Conveyor x="1184" y="129" />
 	<Conveyor x="1216" y="129" />
 	
+	<StaminaRechargePowerup x="2336" y="298"/>
+	<SpikePowerup x="2368" y="298"/>
+	<BoomerangPowerup x="2400" y="298"/>
+	
+	
 </Level1>
