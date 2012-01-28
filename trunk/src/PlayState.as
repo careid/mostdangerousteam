@@ -103,6 +103,8 @@ package
 			add(level.powerups);
 			timeLeft = level.checkPoints[startIndex].time;
 
+			Hydraman.m_initialTimeLeft = timeLeft;
+			
 			tiles = new Array();
 			var data:Array = level.tileMap.getData();
 			for (var i:int = 0; i < data.length; i++)
@@ -155,7 +157,8 @@ package
 			bots = new FlxGroup();
 			for each (var past_self:Player in oldPlayers)
 			{
-				var timer:Timer = new Timer((timeLeft - past_self.startTime), 1);
+				if (timeLeft - past_self.startTime < 0) continue;
+				var timer:Timer = new Timer((timeLeft - past_self.startTime)*1000, 1);
 				timer.addEventListener(TimerEvent.TIMER, function (e:Event):void { bots.add(new Bot(past_self)); } );
 				timer.start();
 			}
@@ -356,8 +359,7 @@ package
 			if (FlxG.keys.justPressed("B"))
 			{
 				//BRUCE
-				player.push_waypoint();
-				bots.add(Bot(player));
+				bots.add(new Bot(player));
 			}
 		}
 		

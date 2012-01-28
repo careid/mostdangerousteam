@@ -7,8 +7,6 @@ package
 	
 	public class Player extends Hydraman
 	{
-		protected var m_waypoints:Array;
-		protected var m_waypoint_timer:Timer;
 		public var startTime:Number;
 		
 		public function Player(X:int=0,Y:int=0,runLevel:int=3,staminaLevel:int=3,healthLevel:int=3)
@@ -17,11 +15,6 @@ package
 			m_stamina_level = staminaLevel;
 			m_health_level = healthLevel;
 			super(X, Y,true);
-			m_waypoints = new Array();
-			push_waypoint();
-			m_waypoint_timer = new Timer(1000);
-			m_waypoint_timer.addEventListener(TimerEvent.TIMER, scheduled_waypoint_push);
-			m_waypoint_timer.start();
 		}
 		
 		public function timeTravel(X:int,Y:int,runLevel:int,staminaLevel:int,healthLevel:int):Player
@@ -36,27 +29,17 @@ package
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
 			jump = FlxG.keys.justPressed("X");
-			if (jump)
-				push_waypoint();
 			dash = FlxG.keys.pressed("C");
 			usePowerup = FlxG.keys.justPressed("Z");
+			
+			var state:int = getState(goLeft, goRight, jump, usePowerup, dash);
+			if (m_stateHistory.length < 2 || m_stateHistory[m_stateHistory.length - 1] != state)
+			{
+				m_stateHistory.push(state);
+				m_stateHistory.push(m_timeLeft);
+			}
 
 			super.update();
-		}
-		
-		protected function scheduled_waypoint_push(e:TimerEvent):void
-		{
-			push_waypoint();
-		}
-		
-		public function push_waypoint():void
-		{
-			m_waypoints.push(new WayPoint(this, null));
-		}
-		
-		public function get_waypoints():Array
-		{
-			return m_waypoints;
-		}
+		}		
 	}
 }
