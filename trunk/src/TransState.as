@@ -65,8 +65,8 @@ package
 			}
 			
 			buttons[0].setText("Press Z for RUN " + String(runLevel+1));
-			buttons[1].setText("Press X for RUN " + String(staminaLevel+1));
-			buttons[2].setText("Press C for RUN " + String(healthLevel+1));
+			buttons[1].setText("Press X for STAMINA " + String(staminaLevel+1));
+			buttons[2].setText("Press C for HEALTH " + String(healthLevel+1));
 			
 			FlxG.flash(0xffffffff, 0.5);
 			
@@ -121,7 +121,7 @@ package
 				b.flash();
 				staminaLevel += 1;
 				exp -= 1;
-				buttons[1].setText("Press X for RUN " + String(staminaLevel+1));
+				buttons[1].setText("Press X for STAMINA " + String(staminaLevel+1));
 			}
 			else if (FlxG.keys.justPressed("C"))
 			{
@@ -129,7 +129,7 @@ package
 				b.flash();
 				healthLevel += 1;
 				exp -= 1;
-				buttons[2].setText("Press C for RUN " + String(healthLevel+1));
+				buttons[2].setText("Press C for HEALTH " + String(healthLevel+1));
 			}
 		}
 		
