@@ -5,12 +5,12 @@ package
 	public class Player extends Character
 	{
 		[Embed(source = "graphics/main.png")] protected var ImgPlayer:Class;
-		protected var _waypoints:Array;
+		protected var m_waypoints:Array;
 		
 		public function Player(X:int,Y:int)
 		{
 			super(X, Y);
-			_waypoints = new Array();
+			m_waypoints = new Array();
 			push_waypoint();
 			loadGraphic(ImgPlayer, true, true,26,26);
 			super.setup();
@@ -29,12 +29,12 @@ package
 		
 		public function push_waypoint():void
 		{
-			//_waypoints.push(new FlxPoint(X, Y));
+			m_waypoints.push(new FlxPoint(X, Y));
 		}
 		
 		public function get_waypoints():Array
 		{
-			return _waypoints;
+			return m_waypoints;
 		}
 	}
 }
