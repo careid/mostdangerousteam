@@ -9,8 +9,9 @@ package
 	/// Class wrapping FlxTileMap, with other stuff in it of importance.
 	/////
 	public class Level
-	{	
-		public var tileMap:FlxTilemap = null; 
+	{
+		[Embed(source = "./graphics/tiles.png")] public var Image:Class;
+		public var tileMap:FlxTilemap = null;
 		public var startPoints:Array = null;
 		public var doors:FlxGroup = null;
 		public var powerups:FlxGroup = null;
@@ -30,7 +31,7 @@ package
 		public function loadFromCSV(mapString:String) : void
 		{
 			tileMap = new FlxTilemap();
-			tileMap.loadMap(mapString, FlxTilemap.ImgAuto, 0, 0, FlxTilemap.AUTO);
+			tileMap.loadMap(mapString, Image, 32,32);
 		}
 		
 		//////
