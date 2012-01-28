@@ -12,6 +12,8 @@ package
 		protected var m_dash_speed:Number;
 		protected var m_accel_constant:Number;
 		
+		public var jumps:int;
+		protected var m_remaining_jumps:int;
 		protected var m_jump_power:Number;
 		protected var m_gravity:Number;
 		protected var m_wall_friction:Number;
@@ -49,6 +51,8 @@ package
 			acceleration.y = m_gravity;
 			m_wall_friction = 3;
 			
+			jumps = 2;
+			m_remaining_jumps = jumps;
 			m_jump_power = 200;
 			maxVelocity.y = m_jump_power;
 			
@@ -91,10 +95,15 @@ package
 			}
 			
 			// JUMPING
-			if(jump)
+			if (justTouched(FLOOR))
+			{
+				m_remaining_jumps = jumps;
+			}
+			if(jump && m_remaining_jumps > 0)
 			{
 				if (isTouching(FLOOR))
 				{
+					m_remaining_jumps--;
 					m_dashing = false;
 					velocity.y = -m_jump_power;
 				}
@@ -109,6 +118,12 @@ package
 					m_dashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * -m_jump_power;
+				}
+				else
+				{
+					m_remaining_jumps--;
+					m_dashing = false;
+					velocity.y = -m_jump_power;
 				}
 			}
 			
