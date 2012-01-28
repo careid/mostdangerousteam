@@ -67,5 +67,14 @@ package
 			super.update();
 			m_timeLeft -= FlxG.elapsed;
 		}
+		
+		override public function kill() : void
+		{
+			// Spawn an eye.
+			var eye : Eye = new Eye(x, y);
+			eye.acceleration.y = 400;
+			(FlxG.state as PlayState).level.eyes.add(eye);
+			super.kill();
+		}
 	}
 }

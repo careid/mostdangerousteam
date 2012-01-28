@@ -31,9 +31,14 @@ package
 		protected var staminaLevel:int = 0;
 		protected var healthLevel:int = 0;
 		
+		protected var eyeSprite:FlxSprite;
+		protected var numEats:Number;
 		protected var exp:int;
+		protected var numEyes:Number;
+		protected var eyesString:FlxText;
 		
 		[Embed(source = "graphics/spacestation.png")] protected var SpaceStationImage:Class;
+		[Embed(source = "graphics/eyescollected.png")] protected var EyesImage:Class;
 		
 		public function TransState(index:int,timeLeft:Number,players:Array,player:Player,exp:int=0)
 		{
@@ -43,8 +48,19 @@ package
 			runLevel = player.m_run_level;
 			staminaLevel = player.m_stamina_level;
 			healthLevel = player.m_health_level;
-			this.exp = exp;
+			eyeSprite = new FlxSprite(FlxG.width - 50, 10);
+			eyeSprite.loadGraphic(EyesImage, true);
+			eyeSprite.addAnimation("Nothing", [0]);
+			eyeSprite.addAnimation("Eat", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 10, false);
+			numEyes = player.numEyes;
+			eyeSprite.play("Nothing");
+			this.exp = numEyes;
+			eyesString = new FlxText(FlxG.width - 60, 50, 60);
+			eyesString.text = "Num Eyes Eaten: " + numEyes;
 			super();
+			add(eyeSprite);
+			add(eyesString);
+			numEats = 0;
 		}
 		
 		override public function create():void
@@ -73,8 +89,6 @@ package
 			buttons[2].setText("Press C for HEALTH " + String(healthLevel+1));
 			
 			FlxG.flash(0xffffffff, 0.5);
-			
-			exp = 3;
 		}
 		
 		override public function update():void 
@@ -104,7 +118,14 @@ package
 				default:
 					break;
 			}
-			
+			if (numEats < numEyes)
+			{
+				if (eyeSprite.finished)
+				{
+					eyeSprite.play("Eat");
+					numEats ++;
+				}
+			}
 			super.update();
 		}
 		

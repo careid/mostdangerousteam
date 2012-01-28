@@ -44,6 +44,8 @@ package
 		
 		public var playSounds:Boolean;
 		
+		public var playingDeathAnimation:Boolean;
+		
 		public function Character(X:int=0,Y:int=0,playSounds:Boolean=false)
 		{
 			trace("New character created!");
@@ -59,7 +61,7 @@ package
 			m_sliding = false;
 			this.playSounds = playSounds;
 			FlxG.state.add(m_dustEmitter);
-			
+			playingDeathAnimation = false;
 			super(X,Y);
 		}
 		
@@ -174,7 +176,7 @@ package
 			addAnimation("fall", [7, 8], 12);
 			addAnimation("dash", [9, 10, 11, 12],18);
 			addAnimation("wallslide", [13], 12);
-			addAnimation("pop", [14, 15, 16, 17, 18, 19, 20, 21], 12, false);
+			addAnimation("pop", [14, 15, 16, 17, 18, 19, 20, 21], 10, false);
 		}
 		
 		override public function update():void
@@ -305,29 +307,32 @@ package
 				acceleration.x = 0;
 			}
 			
-			// ANIMATION
-			if(velocity.y < 0)
+			if (!playingDeathAnimation)
 			{
-				play("jump");
-			}
-			else if (velocity.y > 0)
-			{
-				if (isTouchingLeft || isTouchingRight)
-					play("wallslide");
+				// ANIMATION
+				if(velocity.y < 0)
+				{
+					play("jump");
+				}
+				else if (velocity.y > 0)
+				{
+					if (isTouchingLeft || isTouchingRight)
+						play("wallslide");
+					else
+						play("fall");
+				}
+				else if(velocity.x == 0)
+				{
+					play("idle");
+				}
+				else if (maxVelocity.x == m_dash_speed)
+				{
+					play("dash");
+				}
 				else
-					play("fall");
-			}
-			else if(velocity.x == 0)
-			{
-				play("idle");
-			}
-			else if (maxVelocity.x == m_dash_speed)
-			{
-				play("dash");
-			}
-			else
-			{
-				play("run");
+				{
+					play("run");
+				}
 			}
 			
 			// POWERUPS
@@ -353,6 +358,17 @@ package
 			m_dustEmitter.y = y + 20;
 			m_dustEmitter.setXSpeed(velocity.x - 50, -velocity.x + 50);
 			m_dustEmitter.setYSpeed(velocity.y - 50, -velocity.y + 50);
+			
+			if (playingDeathAnimation)
+			{
+				m_dustEmitter.on = false;
+				velocity.x = 0;
+				velocity.y = 0;
+				if (finished)
+				{
+					this.kill();
+				}			
+			}
 			super.update();
 		}
 		
@@ -438,7 +454,9 @@ package
 			{
 				FlxG.play(DeathSnd);
 			}
-			kill();
+			play("pop");
+			playingDeathAnimation = true;
+		
 		}
 	}
 }

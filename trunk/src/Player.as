@@ -8,6 +8,7 @@ package
 	public class Player extends Hydraman
 	{
 		public var startTime:Number;
+		public var numEyes:Number;
 		protected var m_waypoint_timer:Timer;
 		
 		public function Player(X:int=0,Y:int=0,runLevel:int=3,staminaLevel:int=3,healthLevel:int=3)
@@ -19,6 +20,7 @@ package
 			m_waypoint_timer = new Timer(1000);
 			m_waypoint_timer.addEventListener(TimerEvent.TIMER, scheduled_waypoint_push);
 			m_waypoint_timer.start();
+			numEyes = 0;
 			super(X, Y, true);
 			push_waypoint();
 		}

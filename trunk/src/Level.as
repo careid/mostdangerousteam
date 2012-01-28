@@ -16,6 +16,7 @@ package
 		public var doors:FlxGroup = null;
 		public var conveyors:FlxGroup = null;
 		public var powerups:FlxGroup = null;
+		public var eyes:FlxGroup = null;
 		public var timeMachine:TimeMachine = null;
 		public var doorSwitches:FlxGroup = null;
 		public var countDowns:FlxGroup = null;
@@ -215,6 +216,8 @@ package
 				var ds:DoorSwitch = DoorSwitch(doorSwitches.members[i])
 				ds.connectDoor(doors.members);
 			}
+			
+			eyes = new FlxGroup();
 		}
 	}
 

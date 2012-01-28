@@ -102,7 +102,7 @@ package
 			add(level.doorSwitches);
 			add(level.conveyors);
 			add(level.powerups);
-			
+			add(level.eyes);
 			timeLeft = level.checkPoints[startIndex].time;
 			Hydraman.m_initialTimeLeft = timeLeft;
 			for (i = 0; i < level.countDowns.members.length; i++)
@@ -323,8 +323,9 @@ package
 			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
 			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
 			FlxG.overlap(spikes, characters, SpikeTrap.overlapCharacter);
+			FlxG.overlap(level.eyes, player, Eye.overlapPlayer);
 			FlxG.collide(fallBlocks, characters, fallingBlockCollide);
-			
+			FlxG.collide(level.tileMap, level.eyes);
 			updateFallingBlocks();
 			
 			updateStateEvents();
