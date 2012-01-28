@@ -1,7 +1,7 @@
 <Level1>
 	<TimeMachine x="3008" y="180"/>
-	<DoorSwitch x="2280" y="300" id="1" />
-	<Door x="2310" y="300" id="1" />
+	<DoorSwitch x="2080" y="170" id="1" />
+	<Door x="2080" y="192" id="1" />
 	<CheckPoint x="2272" y="150" threshold="0" time="30"/>
 	<CheckPoint x="2080" y="150" threshold="10" time="40"/>
 	<CheckPoint x="1760" y="150" threshold="20" time="50"/>
