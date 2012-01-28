@@ -86,7 +86,7 @@ package
 					maxVelocity.x = m_run_speed;
 				}
 			}
-			else
+			else if (isTouching(FLOOR))
 			{
 				stamina = Math.min(maxstamina, stamina + staminaregen);
 				if (dash && stamina == maxstamina)
@@ -94,6 +94,11 @@ package
 					m_dashing = true;
 					m_speed = m_dash_speed;
 					maxVelocity.x = m_dash_speed;
+				}
+				else
+				{
+					m_dashing = false;
+					maxVelocity.x = m_run_speed;
 				}
 			}
 			
