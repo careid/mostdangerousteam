@@ -59,7 +59,16 @@ package
 						velocity.x = 0;
 				}
 			}
-	
+			
+			var playState:PlayState = (FlxG.state as PlayState);
+			var player:Character = playState.player;
+			if (playState.level.tileMap.ray(player.origin,this.origin))
+			{
+				var dx:Number = player.x - x;
+				var dy:Number = player.y - y;
+				if (dx*dx+dy*dy <= 100*100)
+					activateCurrentPowerup(player);
+			}
 			
 			super.update();
 		}

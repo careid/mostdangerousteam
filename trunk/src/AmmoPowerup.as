@@ -18,7 +18,7 @@ package
 		////
 		/// \returns true if the powerup could be used, false if it is out of ammo.
 		////
-		override public function activate() : Boolean 
+		override public function activate(target:Character = null) : Boolean 
 		{
 			if (ammo <= 0)
 			{

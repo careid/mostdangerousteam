@@ -46,6 +46,7 @@ package
 		
 		public function Character(X:int=0,Y:int=0,playSounds:Boolean=false)
 		{
+			trace("New character created!");
 			m_powerupList = new Array();
 			m_currentPowerup = null;
 			m_dustEmitter = new FlxEmitter();
@@ -405,11 +406,11 @@ package
 		/// Activates the current powerup, if it exists. If the powerup should be discarded,
 		/// removes
 		/////
-		public function activateCurrentPowerup() : void
+		public function activateCurrentPowerup(target:Character = null) : void
 		{
 			if (m_currentPowerup != null && !m_currentPowerup.shouldBeDiscarded)
 			{
-				m_currentPowerup.activate();
+				m_currentPowerup.activate(target);
 			}
 			else if (m_currentPowerup != null && m_currentPowerup.shouldBeDiscarded)
 			{

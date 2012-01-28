@@ -21,7 +21,7 @@ package
 		/// Override this to activate the effect of the powerup.
 		/// \return true if the powerup could be activated, false otherwise.
 		/////
-		public function activate() : Boolean 
+		public function activate(target:Character = null) : Boolean 
 		{
 			return true;
 		}

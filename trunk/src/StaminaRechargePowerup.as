@@ -16,7 +16,7 @@ package
 		/////
 		/// Fully recharges the player's stamina and returns true.
 		/////
-		override public function activate():Boolean 
+		override public function activate(target:Character = null):Boolean 
 		{
 			character.stamina = character.maxstamina;
 			shouldBeDiscarded = true;

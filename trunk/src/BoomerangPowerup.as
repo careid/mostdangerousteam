@@ -18,11 +18,11 @@ package
 		/////
 		/// Creates a boomerang if fully charged. Otherwise, doesn't.
 		/////
-		override public function activate() : Boolean 
+		override public function activate(target:Character = null) : Boolean 
 		{
-			if (super.activate())
+			if (super.activate(target))
 			{
-				createBoomerang();
+				createBoomerang(target);
 				return true;
 			}
 			
@@ -33,20 +33,33 @@ package
 		/// Creates a boomerang facing away from the character. The boomerang
 		/// will return to the character, and the boomerang power will recharge.
 		/////
-		protected function createBoomerang() : void
+		protected function createBoomerang(target:Character = null) : void
 		{
 			var offsetX : Number = 0;
 			var offsetY : Number = 0;
 			var vX : Number = 0;
 			var vY : Number = 0;
+			var throwLeft:Boolean;
 			
-			if (character.facing == FlxObject.LEFT)
+			if (target == null)
 			{
+				throwLeft = (character.facing == FlxObject.LEFT);
+			}
+			else // aim at someone
+			{
+				throwLeft = (target.x < character.x);
+			}
+			
+			
+			if (throwLeft)
+			{
+				character.facing = FlxObject.LEFT;
 				offsetX = -30;
 				vX = -500;
 			}
 			else
 			{
+				character.facing = FlxObject.RIGHT;
 				offsetX = 20;
 				vX = 500;
 			}

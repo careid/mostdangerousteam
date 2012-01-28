@@ -16,11 +16,11 @@ package
 		}
 		
 		
-		override public function activate():Boolean 
+		override public function activate(target:Character = null):Boolean 
 		{
-			if (super.activate())
+			if (super.activate(target))
 			{
-				createSpikeTrap();
+				createSpikeTrap(target);
 				return true;
 			}
 			else
@@ -29,15 +29,27 @@ package
 			}
 		}
 		
-		public function createSpikeTrap(): void
+		public function createSpikeTrap(target:Character = null): void
 		{
 			var offsetX : Number = 0;
 			var offsetY : Number = 0;
 			var vX : Number = 0;
 			var vY : Number = 0;
+			var throwLeft:Boolean;
 			
-			if (character.facing == FlxObject.LEFT)
+			if (target == null)
 			{
+				throwLeft = (character.facing == FlxObject.LEFT);
+			}
+			else // aim at someone
+			{
+				throwLeft = (target.x < character.x);
+			}
+			
+			
+			if (throwLeft)
+			{
+				character.facing = FlxObject.LEFT;
 				offsetX = -5;
 				offsetY = -5;
 				vX = -50;
@@ -45,6 +57,7 @@ package
 			}
 			else
 			{
+				character.facing = FlxObject.RIGHT;
 				offsetX = 5;
 				offsetY = -5;
 				vX = 50;

@@ -22,7 +22,7 @@ package
 		/////
 		/// \return true if could activate, false otherwise.
 		/////
-		override public function activate() : Boolean 
+		override public function activate(target:Character = null) : Boolean 
 		{
 			if (isCharged())
 			{
