@@ -7,7 +7,7 @@ package
 	{
 	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1CSV:Class;
 	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
-		[Embed(source = "../maps/shitTest.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;
+		[Embed(source = "../maps/5amTest.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;
 		
 		protected var level:Level;
 		protected var player:Player;
@@ -50,7 +50,7 @@ package
 			
 			//get level
 			level = new Level();
-			level.loadFromCSV(new Level1CSV());
+			level.loadFromCSV(new ShitTest());
 			add(level.tileMap);
 			level.loadFromXML(new Level1XML());
 			add(level.timeMachine);
@@ -91,7 +91,7 @@ package
 			characters.add(bots);
 			
 			//set camera
-			FlxG.camera.setBounds(-1000,0,2000,240,true);
+			FlxG.camera.setBounds(-1000,0,2000,2400,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
 			
 			//add checkpoints
