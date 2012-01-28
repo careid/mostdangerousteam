@@ -84,7 +84,7 @@ package
 				{
 					obj = new PowerupEntity();
 					obj.powerup = new SpikePowerup();
-					(obj as PowerupEntity).play("spike");
+					(obj as PowerupEntity).play("spikes");
 					powerups.add(obj as PowerupEntity);
 				}
 				else
