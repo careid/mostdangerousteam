@@ -47,13 +47,19 @@ package
 		protected var cameraScrollVelocity:FlxPoint;
 		protected var cameraPreviousScroll:FlxPoint;
 		
+		protected var runLevel:int;
+		protected var staminaLevel:int;
+		protected var healthLevel:int;
 		
-        public function PlayState(startIndex:int = 0,oldPlayers:Array=null)
+        public function PlayState(startIndex:int = 0,oldPlayers:Array=null,runLevel:int=0,staminaLevel:int=0,healthLevel:int=0)
 		{
 			this.startIndex = startIndex;
 			this.oldPlayers = oldPlayers;
 			this.cameraPreviousScroll = new FlxPoint();
 			this.cameraScrollVelocity = new FlxPoint();
+			this.runLevel = runLevel;
+			this.staminaLevel = staminaLevel;
+			this.healthLevel = healthLevel;
 			super();
 		}
 		
@@ -105,12 +111,12 @@ package
 			else if (oldPlayers != null) // asshole
 			{
 				trace("TIME TRAVEL!!!");
-				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y);
+				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
 				oldPlayers = [];
 			}
 			else
 			{
-				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y);
+				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
 			}
 			characters.add(player);
 			
