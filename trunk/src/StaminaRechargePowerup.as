@@ -17,7 +17,7 @@ package
 		/////
 		override public function activate():Boolean 
 		{
-			character.stamina = character.maxStamina;
+			character.stamina = character.maxstamina;
 			return true;
 		}
 		

@@ -5,6 +5,7 @@ package
 	public class PlayState extends FlxState
 	{
 	    [Embed(source = "../maps/map.csv", mimeType = "application/octet-stream")] public var Level1:Class;
+		
 		protected var level:Level;
 		protected var player:Player;
 		protected var startPosition:FlxPoint;
@@ -24,6 +25,9 @@ package
 		
 		protected var debugTimer:FlxText;
 		protected var staminaText:FlxText;
+		
+		protected var debugPowerup:Powerup;
+		protected var debugPowerupEntity:PowerupEntity;
 		
 		public function PlayState(timeLeft:Number,startPosition:FlxPoint = null)
 		{
@@ -75,6 +79,11 @@ package
 			debugTimer.scrollFactor.x = 0;
 			add(staminaText);
 			add(debugTimer);
+			
+			debugPowerup = new StaminaRechargePowerup();
+			debugPowerupEntity = new PowerupEntity(50, 50, null, debugPowerup);
+			debugPowerupEntity.makeGraphic(32, 32);
+			add(debugPowerupEntity);
 		}
 		
 		override public function update():void
@@ -99,6 +108,7 @@ package
 		public function debugShit():void
 		{
 			debugTimer.text = String(Math.floor(timeLeft));
+			FlxG.overlap(debugPowerupEntity, player, PowerupEntity.overlapCharacter);
 		}
 		
 		public function transitionState(newState:uint):void 

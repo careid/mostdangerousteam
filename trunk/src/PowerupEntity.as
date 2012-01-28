@@ -1,5 +1,6 @@
 package
 {
+	import org.flixel.FlxSprite;
 	//////
 	/// Class PowerupEntity is an entity in the world that, when touched, is collected by the player.
 	/// The player then has a copy of this powerup.
@@ -23,9 +24,19 @@ package
 			powerup.character = character;
 			character.addPowerup(powerup);
 			powerup.onAdd();
+			this.kill();
 			return powerup;
 		}
 		
+		////
+		/// Callback for operlapping with a character.
+		/// \param powerupEntity powerup to be collected.
+		/// \param theCharacter character to collect the powerup.
+		////
+		public static function overlapCharacter(powerupEntity : PowerupEntity, theCharacter: Character ) : void
+		{
+			powerupEntity.collect(theCharacter);
+		}
 		
 	}
 }

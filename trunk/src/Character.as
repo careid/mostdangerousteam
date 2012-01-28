@@ -52,7 +52,7 @@ package
 			m_jump_power = 200;
 			maxVelocity.y = m_jump_power;
 			
-			staminaregen = 1;
+			staminaregen = 0.1;
 			maxstamina = 100;
 			stamina = maxstamina;
 			
