@@ -79,8 +79,6 @@ package
 			characters = new FlxGroup();
 			add(characters);
 			
-			//LOOK GUYS
-			oldPlayers;
 			//add player
 			if (level.checkPoints != null && level.checkPoints.length == 0)
 			{
@@ -91,6 +89,7 @@ package
 			{
 				trace("TIME TRAVEL!!!");
 				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y);
+				oldPlayers = [];
 			}
 			else
 			{
@@ -100,6 +99,8 @@ package
 			
 			//add bots
 			bots = new FlxGroup();
+			for each (var past_self:Player in oldPlayers)
+				bots.add(Bot(past_self));
 			characters.add(bots);
 			
 			//set camera
@@ -234,7 +235,7 @@ package
 			
 			if (oldPlayers)
 			{
-				oldPlayers.push(player);
+				oldPlayers.unsift(player);
 			}
 			else
 			{
