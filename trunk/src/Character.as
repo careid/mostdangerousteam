@@ -128,7 +128,7 @@ package
 				{
 					if (playSounds)
 					{
-						FlxG.play(DashSnd);
+						//play dash sound
 					}
 					m_dashing = true;
 					m_speed = m_dash_speed;

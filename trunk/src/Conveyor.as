@@ -1,93 +1,36 @@
 package  
 {
 	import org.flixel.*;
-	public class Door extends FlxSprite
-	{
-		public static const CLOSING:uint = 0;
-		public static const OPENING:uint = 1;
-		public static const DOWN:uint = 2;
-		public static const UP:uint = 3;
+	public class Conveyor extends FlxSprite
+	{	
+		[Embed(source = "graphics/main.png")] protected var ImgConveyor:Class;
 		
-		public var state:uint = DOWN;
-		
-		protected const DOORSPEED:Number = 100;
-		protected const HINGEMARGIN:Number = 3;
-		
-		public var closing:Boolean = false;
-		protected var hingeHeight:Number;
-		protected var groundHeight:Number;
-		
-		[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
-		
-		public function Door(X:Number=0,Y:Number=0) 
+		public function Conveyor(X:Number=0,Y:Number=0) 
 		{
 			super(X, Y);
-			//loadGraphic(ImgDoor, false);
-			makeGraphic(36, 36);
+			//loadGraphic(ImgConveyor, false);
+			makeGraphic(32, 32);
 			
-			setup();
-		}
-		
-		protected function setup():void
-		{
+			facing = RIGHT;
 			immovable = true;
-			
-			hingeHeight = y - height + HINGEMARGIN;
-			groundHeight = y;
 		}
 		
-		override public function update():void
+		public function getShift(s:FlxSprite):void
 		{
-			switch(state)
+			if (facing == RIGHT)
 			{
-				case OPENING:
-					if (y < hingeHeight)
-					{
-						y = hingeHeight;
-						switchState(UP);
-					}
-					break;
-				case CLOSING:
-					if (y > groundHeight)
-					{
-						y = groundHeight
-						switchState(DOWN);
-					}
-					break;
-				default:
-					break;
+				s.x -= 100 * FlxG.elapsed;
 			}
-			super.update();
+			else if (facing == LEFT)
+			{
+				s.x += 100 * FlxG.elapsed;
+			}
 		}
 		
-		public function switchState(newState:uint):void
+		public static function overlap(a:FlxObject, b:FlxObject):void
 		{
-			switch(newState)
-			{
-				case CLOSING:
-					if (state != DOWN)
-					{
-						velocity.y = DOORSPEED;
-					}
-					break;
-				case OPENING:
-					if (state != UP)
-					{
-						velocity.y = -DOORSPEED;
-					}
-					break;
-				case UP:
-					velocity.y = 0;
-					break;
-				case DOWN:
-					velocity.y = 0;
-					break;
-				default:
-					break;
-			}
-			state = newState;
+			Conveyor(a).getShift(FlxSprite(b));
 		}
-		
 	}
 
 }

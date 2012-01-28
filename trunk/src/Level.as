@@ -14,6 +14,7 @@ package
 		public var tileMap:FlxTilemap = null;
 		public var checkPoints:Array = null;
 		public var doors:FlxGroup = null;
+		public var conveyors:FlxGroup = null;
 		public var powerups:FlxGroup = null;
 		public var timeMachine:TimeMachine = null;
 		
@@ -114,6 +115,7 @@ package
 		{
 			checkPoints = new Array();
 			doors = new FlxGroup();
+			conveyors = new FlxGroup();
 			powerups = new FlxGroup();
 			
 			var xml_str:String = xmlData.readUTFBytes(xmlData.length);
@@ -137,6 +139,11 @@ package
 				{
 					obj = new Door();
 					doors.add(obj as Door);
+				}
+				else if (child.name() == "Conveyor")
+				{
+					obj = new Conveyor();
+					conveyors.add(obj as Conveyor);
 				}
 				else if (child.name() == "StaminaRechargePowerup")
 				{

@@ -1,5 +1,7 @@
 <Level1>
 	<TimeMachine x="3008" y="180"/>
+	<Conveyor x="2280" y="300"/>
+	<Conveyor x="2310" y="300"/>
 	<CheckPoint x="2272" y="150" threshold="0" time="30"/>
 	<CheckPoint x="2080" y="150" threshold="10" time="40"/>
 	<CheckPoint x="1760" y="150" threshold="20" time="50"/>

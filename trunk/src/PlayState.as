@@ -8,7 +8,7 @@ package
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 	import org.flixel.plugin.photonstorm.FX.StarfieldFX;
-
+	
 	public class PlayState extends FlxState
 	{
 	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1CSV:Class;
@@ -92,6 +92,7 @@ package
 			add(level.tileMap);
 			add(level.timeMachine);
 			add(level.doors);
+			add(level.conveyors);
 			add(level.powerups);
 			timeLeft = level.checkPoints[startIndex].time;
 			
@@ -161,7 +162,7 @@ package
 			staminaBar = new FlxBar(15, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 10, player, "stamina", 0, 100, true);
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
-		
+			
 			add(staminaBar);
 			add(staminaText);
 			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
@@ -171,7 +172,6 @@ package
 			add(doors);
 			debugDoor = new Door(50, 100);
 			doors.add(debugDoor);
-			
 			
 			
 			FlxG.flash(0xffffffff, 0.7);
@@ -186,7 +186,7 @@ package
 			}
 			
 			super.update();
-		 
+			//trace(player.x,player.y);
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
@@ -202,7 +202,8 @@ package
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
-			FlxG.collide(doors, characters);
+			FlxG.collide(level.doors, characters);
+			FlxG.collide(level.conveyors, characters,Conveyor.overlap);
 			FlxG.overlap(level.powerups, player, PowerupEntity.overlapCharacter);
 			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
