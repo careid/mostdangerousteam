@@ -9,15 +9,10 @@ package
 	public class Powerup
 	{
 		public var character : Character;
-		public var charge : Number;
-		public var maxCharge : Number;
-		public var chargeRate : Number;
-		
-		public function Powerup(maxCharge : Number, chargeRate : Number) 
+
+				
+		public function Powerup() 
 		{
-			this.maxCharge = maxCharge;
-			this.charge = maxCharge;
-			this.chargeRate = chargeRate;
 		}
 		
 		/////
@@ -26,24 +21,7 @@ package
 		/////
 		public function activate() : Boolean 
 		{
-			if (isCharged())
-			{
-				charge = 0;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		
-		////
-		/// Returns whether or not the powerup is charged.
-		/// \return true if the powerup is fully charged, false otherwise.
-		////
-		public function isCharged() : Boolean
-		{
-			return charge >= maxCharge;
+			return true;
 		}
 		
 		/////
@@ -51,11 +29,6 @@ package
 		/////
 		public function update() : void
 		{
-			charge += chargeRate;
-			if (charge > maxCharge)
-			{
-				charge = maxCharge;
-			}
 		}
 	}
 	

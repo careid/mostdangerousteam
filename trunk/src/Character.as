@@ -155,6 +155,12 @@ package
 			{
 				play("run");
 			}
+			
+			if (m_currentPowerup != null)
+			{
+				m_currentPowerup.activate();
+			}
+			
 			super.update();
 		}
 		
