@@ -6,7 +6,7 @@ package
 	{
 	    [Embed(source = "../maps/map.csv", mimeType = "application/octet-stream")] public var Level1:Class;
 		public var level:Level;
-		public var player:FlxSprite;
+		public var player:Player;
 		
 		override public function create():void
 		{
@@ -18,29 +18,13 @@ package
 			level.loadFromCSV(new Level1(), this);
 			
 			//Create player (a red box)
-			player = new FlxSprite(FlxG.width/2 - 5);
-			player.makeGraphic(10, 12, 0xffaa1111);
-			player.maxVelocity.x = 80;
-			player.maxVelocity.y = 200;
-			player.acceleration.y = 200;
-			player.drag.x = player.maxVelocity.x * 4;
-			player.blend = "normal";
-			player.antialiasing = true;
+			player = new Player(FlxG.width/2 - 5,0);
 			add(player);
 			
 		}
 		
 		override public function update():void
-		{
-			//Player movement and controls
-			player.acceleration.x = 0;
-			if(FlxG.keys.LEFT)
-				player.acceleration.x = -player.maxVelocity.x*4;
-			if(FlxG.keys.RIGHT)
-				player.acceleration.x = player.maxVelocity.x*4;
-			if(FlxG.keys.justPressed("SPACE") && player.isTouching(FlxObject.FLOOR))
-				player.velocity.y = -player.maxVelocity.y/2;
-			
+		{	
 			//Updates all the objects appropriately
 			super.update();
 			
