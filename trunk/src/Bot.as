@@ -6,14 +6,13 @@ package
 	{
 		protected var m_waypoints:Array;
 		
-		public function Bot(X:int,Y:int,waypoints:Array)
+		public function Bot(old_player:Player)
 		{
-			super(X, Y);
+			super(old_player.x,old_player.y);
+			copyPowerups(old_player);
 			m_waypoints = new Array();
-			for each (var fuckin_waypoint:WayPoint in waypoints)
-			{
-				m_waypoints.push(fuckin_waypoint);
-			}
+			for each (var waypoint:WayPoint in old_player.get_waypoints())
+				m_waypoints.push(waypoint);
 		}
 		
 		override public function update():void

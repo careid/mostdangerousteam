@@ -87,7 +87,12 @@ package
 				// This should only run if there are no checkpoints in the level's XML file
 				player = new Player(3008,  228);
 			}
-			else 
+			else if (oldPlayer != null) // asshole
+			{
+				trace("TIME TRAVEL!!!");
+				player = oldPlayer.timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y);
+			}
+			else
 			{
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y);
 			}
@@ -168,14 +173,8 @@ package
 			{
 				//BRUCE
 				player.push_waypoint();
-				bots.add(makeBot(player.get_waypoints()));
+				bots.add(Bot(player));
 			}
-		}
-		
-		public function makeBot(waypoints:Array):Bot
-		{
-			var p0:WayPoint = waypoints[0];
-			return new Bot(p0.x, p0.y, waypoints);
 		}
 		
 		public function transitionState(newState:uint):void 

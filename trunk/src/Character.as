@@ -38,6 +38,14 @@ package
 			super(X,Y);
 		}
 		
+		public function copyPowerups(old_character:Character)
+		{
+			m_powerupList = new Array();
+			for each (var powerup:Powerup in old_character.getPowerupList())
+				m_powerupList.push(powerup);
+			m_currentPowerup = old_character.getCurrentPowerup();
+		}
+		
 		public function setup():void
 		{
 			m_dashing = false;
@@ -206,6 +214,11 @@ package
 		public function getCurrentPowerup() : Powerup
 		{
 			return m_currentPowerup;
+		}
+		
+		public function getPowerupList() : Array
+		{
+			return m_powerupList;
 		}
 		
 		/////
