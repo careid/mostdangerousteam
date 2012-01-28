@@ -24,6 +24,7 @@ package
 		
 		protected var checkPoints:Array;
 		public var boomerangs:FlxGroup;
+		public var spikes:FlxGroup;
 		
 		protected var timeLeft:Number = 0;
 		
@@ -66,7 +67,11 @@ package
 			add(countDowns);
 			
 			boomerangs = new FlxGroup();
+			spikes = new FlxGroup();
+			countDowns.add(new CountDown(0,0));
+			add(countDowns);
 			add(boomerangs);
+			add(spikes);
 			
 			//add characters
 			characters = new FlxGroup();
@@ -120,9 +125,9 @@ package
 			doors.add(debugDoor);
 			
 			
-			debugPowerup = new BoomerangPowerup();
+			debugPowerup = new SpikePowerup();
 			debugPowerupEntity = new PowerupEntity(50, 50, debugPowerup);
-			debugPowerupEntity.play("boomerang");
+			debugPowerupEntity.play("spikes");
 			add(debugPowerupEntity);
 		
 		}
@@ -139,8 +144,11 @@ package
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(doors, characters);
+			FlxG.collide(level.tileMap, spikes);
 			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
+			FlxG.overlap(spikes, player, SpikeTrap.overlapCharacter);
+			FlxG.overlap(spikes, bots, SpikeTrap.overlapCharacter);
 			updateStateEvents();
 			
 			debugShit();
