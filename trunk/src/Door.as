@@ -19,7 +19,7 @@ package
 		
 		[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
 		
-		public function Door(X:Number,Y:Number) 
+		public function Door(X:Number=0,Y:Number=0) 
 		{
 			super(X, Y);
 			//loadGraphic(ImgDoor, false);

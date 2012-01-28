@@ -9,7 +9,7 @@ package
 		protected var m_waypoints:Array;
 		protected var m_waypoint_timer:Timer;
 		
-		public function Player(X:int,Y:int)
+		public function Player(X:int=0,Y:int=0)
 		{
 			super(X, Y);
 			m_waypoints = new Array();

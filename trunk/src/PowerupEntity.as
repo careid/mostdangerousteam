@@ -11,7 +11,7 @@ package
 		
 		public var powerup : Powerup;
 		
-		public function PowerupEntity(X : Number, Y : Number,  powerup : Powerup)
+		public function PowerupEntity(X : Number=0, Y : Number=0,  powerup : Powerup=null)
 		{
 			super(X, Y);
 			this.powerup  = powerup;

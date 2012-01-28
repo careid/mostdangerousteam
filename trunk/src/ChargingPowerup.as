@@ -10,7 +10,7 @@ package
 		public var maxCharge : Number;
 		public var chargeRate : Number;
 		
-		public function ChargingPowerup(maxCharge : Number, chargeRate : Number) 
+		public function ChargingPowerup(maxCharge : Number=0, chargeRate : Number=0) 
 		{
 			this.maxCharge = maxCharge;
 			this.charge = maxCharge;

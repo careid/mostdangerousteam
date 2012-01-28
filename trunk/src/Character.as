@@ -31,7 +31,7 @@ package
 		public var dash:Boolean;
 		public var usePowerup:Boolean;
 		
-		public function Character(X:int,Y:int)
+		public function Character(X:int=0,Y:int=0)
 		{
 			m_powerupList = new Array();
 			m_currentPowerup = null;

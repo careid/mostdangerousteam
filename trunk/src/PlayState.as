@@ -5,11 +5,13 @@ package
 
 	public class PlayState extends FlxState
 	{
-	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1:Class;
+	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1CSV:Class;
+	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
 		[Embed(source = "../maps/shitTest.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;
 		
 		protected var level:Level;
 		protected var player:Player;
+		protected var tileMap:FlxTilemap;
 		protected var startPosition:FlxPoint;
 		protected var state:uint;
 		protected var characters:FlxGroup;
@@ -18,22 +20,14 @@ package
 		protected var START:uint = 1;
 		protected var MID:uint = 2;
 		
-		protected var timeMachine:TimeMachine;
-		protected var TIMEMACHINEX:Number = 200;
-		protected var TIMEMACHINEY:Number = 100;
-		
 		protected var checkPoints:Array;
 		public var boomerangs:FlxGroup;
 		public var spikes:FlxGroup;
 		
 		protected var timeLeft:Number = 0;
 		
-		protected var debugTimer:FlxText;
 		protected var staminaText:FlxText;
 		protected var debugDoor:Door;
-		
-		protected var debugPowerup:Powerup;
-		protected var debugPowerupEntity:PowerupEntity;
 		
 		protected var doors:FlxGroup;
 		
@@ -56,7 +50,12 @@ package
 			
 			//get level
 			level = new Level();
-			level.loadFromCSV(new Level1(), this);
+			level.loadFromCSV(new Level1CSV());
+			add(level.tileMap);
+			level.loadFromXML(new Level1XML());
+			add(level.timeMachine);
+			add(level.doors);
+			add(level.powerups);
 			
 			//add countdown
 			countDowns = new FlxGroup();
@@ -77,23 +76,19 @@ package
 			add(characters);
 			
 			//add player
-			if (!startPosition)
+			if (level.startPoints.length == 0)
 			{
 				player = new Player(FlxG.width/2 - 5, 200);
 			}
 			else 
 			{
-				player = new Player(startPosition.x, startPosition.y);
+				player = new Player(level.startPoints[0].x, level.startPoints[0].y);
 			}
 			characters.add(player);
 			
 			//add bots
 			bots = new FlxGroup();
 			characters.add(bots);
-			
-			//add time machine
-			timeMachine = new TimeMachine(TIMEMACHINEX,TIMEMACHINEY);
-			add(timeMachine);
 			
 			//set camera
 			FlxG.camera.setBounds(-1000,0,2000,240,true);
@@ -110,25 +105,15 @@ package
 			
 			//debug shit
 			staminaText = new FlxText(0, 0, 200);
-			debugTimer = new FlxText(310, 0, 200);
 			staminaText.scrollFactor.x = 0;
-			debugTimer.scrollFactor.x = 0;
 			add(staminaText);
-			add(debugTimer);
-			add(new FlxText(0, 30, FlxG.width, "press D to door \npress B to bot"));
+			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
 			
 			//add doors
 			doors = new FlxGroup();
 			add(doors);
 			debugDoor = new Door(50, 100);
 			doors.add(debugDoor);
-			
-			
-			debugPowerup = new SpikePowerup();
-			debugPowerupEntity = new PowerupEntity(50, 150, debugPowerup);
-			debugPowerupEntity.play("spikes");
-			add(debugPowerupEntity);
-		
 		}
 		
 		override public function update():void
@@ -142,8 +127,9 @@ package
 			super.update();
 			
 			FlxG.collide(level.tileMap, characters);
-			FlxG.collide(doors, characters);
 			FlxG.collide(level.tileMap, spikes);
+			FlxG.collide(doors, characters);
+			FlxG.overlap(level.powerups, player, PowerupEntity.overlapCharacter);
 			FlxG.overlap(boomerangs, player, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, bots, Boomerang.overlapCharacter);
 			
@@ -183,9 +169,6 @@ package
 				player.push_waypoint();
 				bots.add(makeBot(player.get_waypoints()));
 			}
-			
-			debugTimer.text = String(Math.floor(timeLeft));
-			FlxG.overlap(debugPowerupEntity, player, PowerupEntity.overlapCharacter);
 		}
 		
 		public function makeBot(waypoints:Array):Bot
@@ -222,7 +205,7 @@ package
 					{
 						endGame();
 					}
-					FlxG.overlap(player, timeMachine, reachGoal);
+					FlxG.overlap(player, level.timeMachine, reachGoal);
 					break;
 				case END:
 					break;
