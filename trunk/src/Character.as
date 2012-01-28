@@ -434,6 +434,7 @@ package
 			{
 				FlxG.play(DeathSnd);
 			}
+			kill();
 		}
 	}
 }
