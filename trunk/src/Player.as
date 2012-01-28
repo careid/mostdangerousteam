@@ -8,13 +8,25 @@ package
 	public class Player extends Hydraman
 	{
 		public var startTime:Number;
+		protected var m_waypoint_timer:Timer;
 		
 		public function Player(X:int=0,Y:int=0,runLevel:int=3,staminaLevel:int=3,healthLevel:int=3)
 		{
 			m_run_level = runLevel;
 			m_stamina_level = staminaLevel;
 			m_health_level = healthLevel;
-			super(X, Y,true);
+			m_waypoints = new Array();
+			m_waypoint_timer = new Timer(1000);
+			m_waypoint_timer.addEventListener(TimerEvent.TIMER, scheduled_waypoint_push);
+			m_waypoint_timer.start();
+			super(X, Y, true);
+			push_waypoint();
+		}
+		
+		override public function destroy():void
+		{
+			m_waypoint_timer.stop();
+			super.destroy();
 		}
 		
 		public function timeTravel(X:int,Y:int,runLevel:int,staminaLevel:int,healthLevel:int):Player
@@ -40,6 +52,22 @@ package
 			}
 
 			super.update();
-		}		
+		}
+		
+		protected function scheduled_waypoint_push(e:TimerEvent):void
+		{
+			push_waypoint();
+		}
+		
+		public function push_waypoint():void
+		{
+			m_waypoints.push(new WayPoint(this));
+		}
+		
+		public function get_waypoints():Array
+		{
+			return m_waypoints;
+		}
+
 	}
 }
