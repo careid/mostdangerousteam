@@ -119,7 +119,7 @@ package
 					m_dustEmitter.on = false;
 				}
 			}
-			else if (isTouchingFloor)
+			else
 			{
 				stamina = Math.min(maxstamina, stamina + staminaregen);
 				if (dash && stamina > 0.25 * maxstamina)
