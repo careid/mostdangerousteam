@@ -49,7 +49,9 @@ package
 		
 		override public function create():void
 		{
-			FlxG.bgColor = 0xffaaaaaa;
+			FlxG.bgColor = 0xff000000;
+			
+			var i:int;
 			
 			//get level
 			level = new Level();
@@ -57,9 +59,13 @@ package
 			
 			//add countdown
 			countDowns = new FlxGroup();
-			boomerangs = new FlxGroup();
-			countDowns.add(new CountDown(0,0));
+			for (i = 0; i < 15; i++)
+			{
+				countDowns.add(new CountDown(Math.random()*FlxG.height,Math.random()*FlxG.width,11,59,49));
+			}
 			add(countDowns);
+			
+			boomerangs = new FlxGroup();
 			add(boomerangs);
 			
 			//add characters
@@ -86,7 +92,7 @@ package
 			add(timeMachine);
 			
 			//set camera
-			FlxG.camera.setBounds(-1000,0,2000,2000,true);
+			FlxG.camera.setBounds(-1000,0,2000,240,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
 			
 			//add checkpoints
