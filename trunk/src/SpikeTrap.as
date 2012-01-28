@@ -42,9 +42,9 @@ package
 			{
 				play("activating");
 				width = 34;
-				height = 28;
+				height = 24;
 				offset.x = 2;
-				offset.y = 8;
+				offset.y = 12;
 				y -= 20;
 				isActive = true;
 			}
