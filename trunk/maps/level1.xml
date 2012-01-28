@@ -1,5 +1,5 @@
 <Level1>
-	<StartPoint x="160" y="200"/>
+	<StartPoint x="160" y="32*14"/>
 	<TimeMachine x="200" y="100"/>
 	<StaminaRechargePowerup x="50" y="30"/>
 	<BoomerangPowerup x="250" y="40"/>
