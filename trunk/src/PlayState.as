@@ -47,7 +47,7 @@ package
 			FlxG.camera.setBounds(-1000,0,2000,240,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
 			
-			state = START;
+			state = MID;
 		}
 		
 		override public function update():void
