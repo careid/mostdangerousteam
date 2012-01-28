@@ -121,7 +121,7 @@ package
 				case MID:
 					if (timeLeft <= 0)
 					{
-						FlxG.fade(0xff000000, 1, GameOver);
+						FlxG.fade(0xff000000, 1, gameOver);
 					}
 					FlxG.overlap(player, timeMachine, reachGoal);
 					break;
