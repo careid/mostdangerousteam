@@ -1,6 +1,6 @@
 <Level1>
-	<TimeMachine x="90" y="420"/>
-	<CheckPoint x="3008" y="280" threshold="0" time="50"/>
+	<TimeMachine x="3008" y="150"/>
+	<CheckPoint x="2272" y="150" threshold="0" time="50"/>
 	<CheckPoint x="200" y="80" threshold="10" time="55"/>
 	<CheckPoint x="100" y="100" threshold="20" time="60"/>
 	<StaminaRechargePowerup x="50" y="30"/>
