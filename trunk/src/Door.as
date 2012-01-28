@@ -17,6 +17,8 @@ package
 		protected var hingeHeight:Number;
 		protected var groundHeight:Number;
 		
+		protected var id:int;
+		
 		[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
 		
 		public function Door(X:Number=0,Y:Number=0) 
