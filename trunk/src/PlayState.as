@@ -5,10 +5,10 @@ package
 	public class PlayState extends FlxState
 	{
 	    [Embed(source = "../maps/map.csv", mimeType = "application/octet-stream")] public var Level1:Class;
-		public var level:Level;
-		public var player:Player;
-		public var startPosition:FlxPoint;
-		public var state:uint;
+		protected var level:Level;
+		protected var player:Player;
+		protected var startPosition:FlxPoint;
+		protected var state:uint;
 		
 		protected var END:uint = 0;
 		protected var START:uint = 1;
@@ -76,6 +76,10 @@ package
 		override public function update():void
 		{
 			timeLeft -= FlxG.elapsed;
+			if (timeLeft < 0)
+			{
+				timeLeft = 0;
+			}
 			
 			super.update();
 			
@@ -115,6 +119,10 @@ package
 				case START:
 					break;
 				case MID:
+					if (timeLeft <= 0)
+					{
+						FlxG.fade(0xff000000, 1, GameOver);
+					}
 					FlxG.overlap(player, timeMachine, reachGoal);
 					break;
 				case END:
@@ -144,6 +152,11 @@ package
 		private function reachGoal(a:FlxObject,b:FlxObject):void
 		{
 			transitionState(END);
+		}
+		
+		private function gameOver():void
+		{
+			FlxG.switchState(new GameOverState());
 		}
 		
 	}
