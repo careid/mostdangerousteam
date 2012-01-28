@@ -27,7 +27,7 @@ package
 		
 		public function push_waypoint():void
 		{
-			_waypoints.push(new FlxPoint(X, Y));
+			//_waypoints.push(new FlxPoint(X, Y));
 		}
 		
 		public function get_waypoints():Array

@@ -6,6 +6,7 @@ package
 	{
 		protected var _jumpPower:int;
 		protected var _runAcceleration:int;
+		protected var _canjump:Boolean;
 		public var goLeft:Boolean;
 		public var goRight:Boolean;
 		public var jump:Boolean;
@@ -24,6 +25,7 @@ package
 			_jumpPower = 200;
 			maxVelocity.x = runSpeed;
 			maxVelocity.y = _jumpPower;
+			_canjump = true;
 			
 			//animations
 			addAnimation("idle", [0]);
@@ -37,11 +39,14 @@ package
 		
 		override public function update():void
 		{
-			if(justTouched(FLOOR) && (velocity.y > 50))
-				//play landing sound
+			// Make sure character can only jump first time in continuous contact with a wall
+			// i.e. player standing next to wall can only jump once
+			if (justTouched(FLOOR) || justTouched(LEFT) || justTouched(RIGHT))
+			{
+				_canjump = true;
+			}
 			
 			//MOVEMENT
-			acceleration.x = 0;
 			if(goLeft)
 			{
 				facing = LEFT;
@@ -56,8 +61,10 @@ package
 			{
 				acceleration.x = 0;
 			}
-			if(jump && !velocity.y)
+			// Must be touching a wall or floor to jump
+			if(jump && _canjump && (isTouching(FLOOR) || isTouching(LEFT) || isTouching(RIGHT)))
 			{
+				_canjump = false;
 				velocity.y = -_jumpPower;
 				//play jump sound
 			}
