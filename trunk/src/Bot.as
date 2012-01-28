@@ -21,9 +21,12 @@ package
 			trace(m_waypoints.length);
 			if (m_waypoints.length > 0)
 			{
-				jump =  (y - 30 > m_waypoints[0].y);
+				var wp:WayPoint = m_waypoints[0];
+				jump =  (y - 30 > wp.y);
 				// when you hit a waypoint, move onto the next one
-				if (overlaps(m_waypoints[0]))
+				//var dx:int = wp.x - x;
+				//var dy:int = wp.y - y;
+				if (overlaps(wp)) //dx*dx + dy*dy < 20)
 				{
 					var hit:WayPoint = m_waypoints.shift();
 					jump = hit.jump;
@@ -34,8 +37,8 @@ package
 				}
 				if (m_waypoints.length > 0)
 				{
-					goLeft = (x > m_waypoints[0].x);
-					goRight = (x < m_waypoints[0].x);
+					goLeft  = (x > wp.x);
+					goRight = (x < wp.x);
 				}
 			}
 			else

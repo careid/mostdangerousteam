@@ -161,13 +161,17 @@ package
 			{
 				//BRUCE
 				player.push_waypoint();
-				var waypoints:Array = player.get_waypoints();
-				var p0:WayPoint = waypoints[0];
-				bots.add(new Bot(p0.x, p0.y, waypoints));
+				bots.add(makeBot(player.get_waypoints()));
 			}
 			
 			debugTimer.text = String(Math.floor(timeLeft));
 			FlxG.overlap(debugPowerupEntity, player, PowerupEntity.overlapCharacter);
+		}
+		
+		public function makeBot(waypoints:Array):Bot
+		{
+			var p0:WayPoint = waypoints[0];
+			return new Bot(p0.x, p0.y, waypoints);
 		}
 		
 		public function transitionState(newState:uint):void 
