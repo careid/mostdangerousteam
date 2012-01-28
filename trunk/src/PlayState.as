@@ -1,5 +1,6 @@
 package
 {
+	import flash.text.engine.BreakOpportunity;
 	import org.flixel.*;
 
 	public class PlayState extends FlxState
@@ -10,6 +11,7 @@ package
 		protected var player:Player;
 		protected var startPosition:FlxPoint;
 		protected var state:uint;
+		protected var characters:FlxGroup;
 		
 		protected var END:uint = 0;
 		protected var START:uint = 1;
@@ -32,6 +34,8 @@ package
 		
 		protected var doors:FlxGroup;
 		
+		protected var bots:FlxGroup;
+		
 		public function PlayState(timeLeft:Number,startPosition:FlxPoint = null)
 		{
 			this.startPosition = startPosition;
@@ -47,6 +51,10 @@ package
 			level = new Level();
 			level.loadFromCSV(new Level1(), this);
 			
+			//add characters
+			characters = new FlxGroup();
+			add(characters);
+			
 			//add player
 			if (!startPosition)
 			{
@@ -56,7 +64,11 @@ package
 			{
 				player = new Player(startPosition.x, startPosition.y);
 			}
-			add(player);
+			characters.add(player);
+			
+			//add bots
+			bots = new FlxGroup();
+			characters.add(bots);
 			
 			//add time machine
 			timeMachine = new TimeMachine(TIMEMACHINEX,TIMEMACHINEY);
@@ -107,19 +119,20 @@ package
 			
 			super.update();
 			
-			FlxG.collide(level.tileMap, player);
-			FlxG.collide(doors, player);
+			FlxG.collide(level.tileMap, characters);
+			FlxG.collide(doors, characters);
 			
 			updateStateEvents();
 			
 			debugShit();
 			
 			staminaText.text = String(Math.floor(player.stamina));
+			
 		}
 		
 		public function debugShit():void
 		{
-			if (FlxG.keys.justPressed("A"))
+			if (FlxG.keys.justPressed("D"))
 			{
 				if (debugDoor.state == Door.DOWN)
 				{
@@ -129,6 +142,12 @@ package
 				{
 					debugDoor.switchState(Door.CLOSING);
 				}
+			}
+			
+			if (FlxG.keys.justPressed("B"))
+			{
+				//BRUCE
+				bots.add(new Bot(0, 0, null));
 			}
 			
 			debugTimer.text = String(Math.floor(timeLeft));
