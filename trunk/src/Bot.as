@@ -25,8 +25,8 @@ package
 						hit.powerup.activate();
 					}
 				}
-				goLeft = (x > _waypoints[0].x);
-				goRight = (x < _waypoints[0].x);
+				goLeft = (x > m_waypoints[0].x);
+				goRight = (x < m_waypoints[0].x);
 				super.update();
 			}
 		}
