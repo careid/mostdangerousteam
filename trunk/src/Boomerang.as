@@ -26,9 +26,10 @@ package
 			addAnimation("boomerang", [0, 1, 2], 30, true);
 			play("boomerang");
 			m_thrower = thrower;
+			offset.x = offset.y = 8;
+			width = 11;
+			height = 11;
 		}
-		
-		
 				
 		////
 		/// Callback for operlapping with a character.

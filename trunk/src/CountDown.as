@@ -6,9 +6,9 @@ package
 	{
 		
 		//array index code names
-		protected const H:int = 0;
-		protected const M:int = 1;
-		protected const S:int = 2;
+		protected const M:int = 0;
+		protected const S:int = 1;
+		protected const C:int = 2;
 		protected const T:int = 0;
 		protected const O:int = 1;
 		
@@ -19,11 +19,13 @@ package
 		
 		protected var digits:Array;
 		
-		public function CountDown(X:Number,Y:Number,hour:uint,minute:uint,second:uint) 
+		public function CountDown(X:Number,Y:Number,timeLeft:Number) 
 		{
 			super();
 			
-			time = [hour, minute, second]
+			timer = timeLeft;
+			
+			time = [0, 0, 0];
 			previousTime = [0,0,0];
 			
 			//set the time
@@ -71,27 +73,10 @@ package
 		
 		private function updateTime():void
 		{
-			timer += FlxG.elapsed;
-			if (timer > 1)
-			{
-				timer -= 1;
-				
-				if (time[S] < 59)
-				{
-					time[S] += 1;
-				}
-				else if (time[M] < 59)
-				{
-					time[S] = 0;
-					time[M] += 1;
-				}
-				else if (time[H] < 59)
-				{
-					time[S] = 0;
-					time[M] = 0;
-					time[H] += 1;
-				}
-			}
+			timer -= FlxG.elapsed;
+			time[C] = Math.floor(timer * 100) % 100;
+			time[S] = Math.floor(timer) % 60;
+			time[M] = Math.floor(timer/60) % 60;
 		}
 		
 	}

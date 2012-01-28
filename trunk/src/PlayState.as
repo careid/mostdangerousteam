@@ -61,7 +61,7 @@ package
 			countDowns = new FlxGroup();
 			for (i = 0; i < 15; i++)
 			{
-				countDowns.add(new CountDown(Math.random()*FlxG.height,Math.random()*FlxG.width,11,59,49));
+				countDowns.add(new CountDown(Math.random()*FlxG.height,Math.random()*FlxG.width,100));
 			}
 			add(countDowns);
 			
