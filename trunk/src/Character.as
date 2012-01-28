@@ -22,7 +22,6 @@ package
 		public var jumps:int;
 		protected var m_remaining_jumps:int;
 		protected var m_jump_power:Number;
-		protected var m_gravity:Number;
 		protected var m_wall_friction:Number;
 		
 		public var stamina:Number;
@@ -80,8 +79,7 @@ package
 			m_accel_constant = 4.0;
 			maxVelocity.x = m_run_speed;
 			
-			m_gravity = 400;
-			acceleration.y = m_gravity;
+			acceleration.y = PlayState.GRAVITY;
 			m_wall_friction = 10;
 			
 			jumps = 3;
@@ -201,7 +199,7 @@ package
 			// FRICTION
 			if (velocity.y > 0 && (isTouchingLeft || isTouchingRight))
 			{
-				acceleration.y = m_gravity - velocity.y * m_wall_friction;
+				acceleration.y = PlayState.GRAVITY - velocity.y * m_wall_friction;
 				m_dustEmitter.on = true;
 				
 				if (!m_sliding)
@@ -212,7 +210,7 @@ package
 			}
 			else
 			{
-				acceleration.y = m_gravity;
+				acceleration.y = PlayState.GRAVITY;
 				m_sliding = false;
 			}
 			

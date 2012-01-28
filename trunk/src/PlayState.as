@@ -13,7 +13,16 @@ package
 	{
 	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1CSV:Class;
 	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
-		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var ShitTest:Class;		
+		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var TestThingCSV:Class;		
+		[Embed(source = "../maps/testThing.xml", mimeType = "application/octet-stream")] public var TestThingXML:Class;		
+		
+		public static var GRAVITY:int = 400;
+		
+		protected var tiles:Array;
+		protected var fallAccum:Number;
+		protected var fallRate:Number;
+		protected var fallAccel:Number;
+		protected var fallBlocks:FlxGroup;
 		
 		protected const LEVELBOTTOM:int = 600;
 		
@@ -75,12 +84,10 @@ package
 			
 			// First, background stars.
 			FlxG.addPlugin(new FlxSpecialFX());
-
-
 			//get level
 			level = new Level();
-			level.loadFromCSV(new ShitTest());
-			level.loadFromXML(new Level1XML());
+			level.loadFromCSV(new TestThingCSV());
+			level.loadFromXML(new TestThingXML());
 			starfield = FlxSpecialFX.starfield();
 			starfield.create(0 , 0, FlxG.width, FlxG.height, 100);
 			starfield.active = true;
@@ -94,6 +101,20 @@ package
 			add(level.conveyors);
 			add(level.powerups);
 			timeLeft = level.checkPoints[startIndex].time;
+
+			tiles = new Array();
+			var data:Array = level.tileMap.getData();
+			for (var i:int = 0; i < data.length; i++)
+			{
+				if (data[i] > 0)
+					tiles.push(i);
+			}
+			fallAccum = 0;
+			fallRate = 0;
+			// # fallen blocks = accel * time^2/2     accel = blocks * 2 / time ^ 2
+			fallAccel = 0.75 * tiles.length * 2.0 / Math.pow(timeLeft, 2.0);	// Have % of blocks fall by end of level
+			fallBlocks = new FlxGroup();
+			add(fallBlocks);
 			
 			boomerangs = new FlxGroup();
 			spikes = new FlxGroup();
@@ -215,6 +236,38 @@ package
 				endGame();
 			}
 			
+			// Update falling blocks
+			// Remove blocks out of view
+			for (var i:int = fallBlocks.length - 1; i >= 0; i--)
+			{
+				var block:FlxSprite = fallBlocks.members[i];
+				if (block == null || block.y > FlxG.camera.scroll.y + FlxG.camera.height + 32)
+				{
+					fallBlocks.remove(block);
+				}
+			}
+			// Add more falling blocks as
+			fallAccum += fallRate * FlxG.elapsed + 0.5 * fallAccel * FlxG.elapsed * FlxG.elapsed;
+			fallRate += fallAccel * FlxG.elapsed;
+			while (fallAccum >= 1)
+			{
+				fallAccum--;
+				var idx:uint = tiles.splice(FlxMath.rand(0, tiles.length - 1), 1);
+				var tile_idx:uint = level.tileMap.getTileByIndex(idx);
+				level.tileMap.setTileByIndex(idx, 0);
+				
+				var tile:FlxSprite = new FlxSprite(idx % level.tileMap.widthInTiles * 32, idx / level.tileMap.widthInTiles * 32);
+				tile.loadGraphic(level.Image, true, true, 32, 32);
+				tile.addAnimation("idle", [tile_idx]);
+				tile.play("idle");
+				tile.acceleration.y = GRAVITY;
+				tile.velocity.x = 50.0 * (Math.random()-0.5);
+				tile.velocity.y = -50.0 * Math.random();
+				tile.angularVelocity = 150.0 * (Math.random() - 0.5);
+				fallBlocks.add(tile);
+			}
+			
+			// Update countdown clocks
 			var countdown_members:Array = countDowns.members;
 			for (var i:int = 0; i < countDowns.length; i++)
 			{
@@ -241,21 +294,18 @@ package
 					if (members[cd.length-1].x < FlxG.camera.scroll.x)
 					{
 						dx = FlxG.camera.scroll.x + FlxG.camera.width + members[cd.length-1].x - 2 * members[0].x;
-						dy = FlxG.camera.scroll.y + (Math.random() - 0.5) * FlxG.camera.height - members[0].y;
 					}
 				} else if (player.velocity.x < 0)
 				{
 					if (members[0].x > FlxG.camera.scroll.x + FlxG.camera.width)
 					{
 						dx = FlxG.camera.scroll.x - 2 * members[cd.length-1].x + members[0].x;
-						dy = FlxG.camera.scroll.y + (Math.random() - 0.5) * FlxG.camera.height - members[0].y;
 					}
 				}
 				if (player.velocity.y > 0)
 				{
 					if (members[0].y < FlxG.camera.scroll.y)
 					{
-						dx = FlxG.camera.scroll.x + (Math.random() - 0.5) * FlxG.camera.width - members[0].y;
 						dy = FlxG.camera.scroll.y + FlxG.camera.height + members[0].height - members[0].y;
 					}
 				}
@@ -263,7 +313,6 @@ package
 				{
 					if (members[0].y > player.y && members[0].y > FlxG.camera.scroll.y + FlxG.camera.height)
 					{
-						dx = FlxG.camera.scroll.x + (Math.random() - 0.5) * FlxG.camera.width - members[0].y;
 						dy = FlxG.camera.scroll.y - members[0].height - members[0].y;
 					}
 				}

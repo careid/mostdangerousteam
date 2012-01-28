@@ -1,18 +1,8 @@
 <Level1>
-	<TimeMachine x="3008" y="180"/>
-	<Conveyor x="2280" y="300"/>
-	<Conveyor x="2310" y="300"/>
-	<CheckPoint x="2272" y="150" threshold="0" time="30"/>
-	<CheckPoint x="2080" y="150" threshold="10" time="40"/>
-	<CheckPoint x="1760" y="150" threshold="20" time="50"/>
-	<CheckPoint x="1280" y="290" threshold="30" time="60"/>
-	<CheckPoint x="1056" y="288" threshold="35" time="70"/>
-	<CheckPoint x="448" y="512" threshold="40" time="80"/>
-	<StaminaRechargePowerup x="2646" y="342"/>
-	<StaminaRechargePowerup x="2646" y="256"/>
-	<StaminaRechargePowerup x="2646" y="64"/>
-	<StaminaRechargePowerup x="1504" y="160"/>
-	<BoomerangPowerup x="2080" y="206"/>
-	<BoomerangPowerup x="1760" y="352"/>
-	<SpikePowerup x="130" y="10"/>
+	<TimeMachine x="400" y="150"/>
+	<CheckPoint x="100" y="100" threshold="0" time="30"/>
+	<CheckPoint x="300" y="150" threshold="10" time="40"/>
+	<StaminaRechargePowerup x="300" y="50"/>
+	<BoomerangPowerup x="200" y="50"/>
+	<SpikePowerup x="100" y="50"/>
 </Level1>
