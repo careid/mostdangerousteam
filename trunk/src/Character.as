@@ -5,6 +5,7 @@ package
 	public class Character extends FlxSprite
 	{
 		protected var _jumpPower:int;
+		protected var _runAcceleration:int;
 		public var goLeft:Boolean;
 		public var goRight:Boolean;
 		public var jump:Boolean;
@@ -17,7 +18,8 @@ package
 		public function setup():void
 		{
 			var runSpeed:uint = 80;
-			drag.x = runSpeed*8;
+			drag.x = runSpeed * 8;
+			_runAcceleration = runSpeed * 8;
 			acceleration.y = 420;
 			_jumpPower = 200;
 			maxVelocity.x = runSpeed;
@@ -43,14 +45,12 @@ package
 			if(goLeft)
 			{
 				facing = LEFT;
-				//acceleration.x -= drag.x;
-				acceleration.x = -maxVelocity.x;
+				acceleration.x = -_runAcceleration;
 			}
 			else if(goRight)
 			{
-				facing = RIGHT;
-				//acceleration.x += drag.x;
-				acceleration.x = maxVelocity.x;
+				facing = RIGHT;				
+				acceleration.x = _runAcceleration;
 			}
 			else
 			{
