@@ -39,7 +39,6 @@ package
 		
 		public function push_waypoint():void
 		{
-			trace("pushing waypoint...");
 			m_waypoints.push(new WayPoint(this, null));
 		}
 		
