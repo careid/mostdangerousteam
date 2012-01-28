@@ -77,7 +77,6 @@ package
 			FlxG.addPlugin(new FlxSpecialFX());
 
 
-			
 			//get level
 			level = new Level();
 			level.loadFromCSV(new ShitTest());
@@ -117,6 +116,7 @@ package
 			{
 				trace("TIME TRAVEL!!!");
 				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
+				
 			}
 			else
 			{
@@ -321,6 +321,7 @@ package
 					break;
 				case END:
 					FlxSpecialFX.remove(starfield);
+					remove(starfield.sprite);
 					FlxG.fade(0xffffff, 0.7, restartLevel);
 					break;
 				default:
@@ -351,7 +352,7 @@ package
 		private function restartLevel():void 
 		{
 			FlxSpecialFX.remove(starfield);
-			
+			remove(starfield.sprite);
 			//find out which checkpoint the player gets sent to
 			var i:int;
 			var bestIndex:int = 0; //hopefully checkPoints is never empty
