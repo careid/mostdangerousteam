@@ -16,7 +16,6 @@ package
 		
 		override public function update():void
 		{
-			
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
 			jump = FlxG.keys.justPressed("X");
