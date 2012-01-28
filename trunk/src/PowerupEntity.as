@@ -1,6 +1,10 @@
 package
 {
 	import org.flixel.FlxSprite;
+	import org.flixel.FlxEmitter;
+	import org.flixel.FlxParticle;
+	import org.flixel.FlxG;
+	
 	//////
 	/// Class PowerupEntity is an entity in the world that, when touched, is collected by the player.
 	/// The player then has a copy of this powerup.
@@ -8,7 +12,8 @@ package
 	public class PowerupEntity extends FlxSprite
 	{
 		[Embed(source = "./graphics/powerups.png")] public var Image:Class;
-		
+		[Embed(source = "./graphics/littlelight.png")] public var Particle1:Class;
+		[Embed(source = "./graphics/tinyblue.png")] public var Particle2:Class;
 		public var powerup : Powerup;
 		
 		public function PowerupEntity(X : Number=0, Y : Number=0,  powerup : Powerup=null)
@@ -31,6 +36,16 @@ package
 			powerup.character = character;
 			character.addPowerup(powerup);
 			powerup.onAdd();
+			var emitter:FlxEmitter = new FlxEmitter(x, y);
+			emitter.particleClass = AdditiveFadingParticle;
+			emitter.makeParticles(Particle2);
+			emitter.particleDrag.x = 30;
+			emitter.particleDrag.y = 30;
+			emitter.maxParticleSpeed.x = 100;
+			emitter.maxParticleSpeed.y = 100;
+			emitter.start(true, 1.5);
+			FlxG.state.add(emitter);
+			
 			this.kill();
 			return powerup;
 		}

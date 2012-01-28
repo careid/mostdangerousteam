@@ -47,6 +47,7 @@ package
 		protected var cameraScrollVelocity:FlxPoint;
 		protected var cameraPreviousScroll:FlxPoint;
 		
+		
         public function PlayState(startIndex:int = 0,oldPlayers:Array=null)
 		{
 			this.startIndex = startIndex;
@@ -142,6 +143,7 @@ package
 			staminaBar = new FlxBar(15, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 10, player, "stamina", 0, 100, true);
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
+		
 			add(staminaBar);
 			add(staminaText);
 			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
@@ -262,6 +264,7 @@ package
 		
 		public function debugShit():void
 		{
+			
 			if (FlxG.keys.justPressed("D"))
 			{
 				if (debugDoor.state == Door.DOWN)
@@ -292,6 +295,7 @@ package
 				case MID:
 					break;
 				case END:
+					FlxSpecialFX.remove(starfield);
 					FlxG.fade(0xffffff, 0.7, restartLevel);
 					break;
 				default:

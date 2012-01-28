@@ -4,6 +4,8 @@ package
 
 	public class Character extends FlxSprite
 	{
+		[Embed(source = "./graphics/Cloud003.png")] public var Cloud:Class;
+				
 		public const OVER_SQRT2:Number = 0.707107;
 		
 		protected var m_dashing:Boolean;
@@ -24,6 +26,8 @@ package
 		
 		protected var m_powerupList : Array;
 		protected var m_currentPowerup : Powerup;
+		protected var m_dustEmitter : FlxEmitter;
+		protected var m_sliding : Boolean;
 		
 		public var goLeft:Boolean;
 		public var goRight:Boolean;
@@ -35,6 +39,16 @@ package
 		{
 			m_powerupList = new Array();
 			m_currentPowerup = null;
+			m_dustEmitter = new FlxEmitter();
+			m_dustEmitter.particleClass = AdditiveFadingParticle;
+			m_dustEmitter.makeParticles(Cloud, 1000);
+			m_dustEmitter.particleDrag.x = 300;
+			m_dustEmitter.particleDrag.y = 300;
+			m_dustEmitter.maxParticleSpeed.x = 100;
+			m_dustEmitter.maxParticleSpeed.y = 100;
+			m_sliding = false;
+			FlxG.state.add(m_dustEmitter);
+			
 			super(X,Y);
 		}
 		
@@ -90,9 +104,11 @@ package
 			if (m_dashing)
 			{
 				stamina--;
+
 				if (stamina <= 0 || dash == false)
 				{
 					m_dashing = false;
+					m_dustEmitter.on = false;
 				}
 			}
 			else if (isTouchingFloor)
@@ -103,12 +119,15 @@ package
 					m_dashing = true;
 					m_speed = m_dash_speed;
 					maxVelocity.x = m_dash_speed;
+					m_dustEmitter.start(false, 1.5, 0.1);
+					m_dustEmitter.on = true;
 				}
 				else
 				{
 					m_dashing = false;
 					m_speed = m_run_speed;
 					maxVelocity.x = m_run_speed;
+					m_dustEmitter.on = false;
 				}
 			}
 			
@@ -124,24 +143,28 @@ package
 					m_remaining_jumps--;
 					m_dashing = false;
 					velocity.y = -m_jump_power;
+					m_dustEmitter.on = false;
 				}
 				else if (isTouchingLeft)
 				{
 					m_dashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * m_jump_power;
+					m_dustEmitter.on = false;
 				}
 				else if (isTouchingRight)
 				{
 					m_dashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * -m_jump_power;
+					m_dustEmitter.on = false;
 				}
 				else if (m_remaining_jumps > 0)
 				{
 					m_remaining_jumps--;
 					m_dashing = false;
 					velocity.y = -m_jump_power;
+					m_dustEmitter.on = false;
 				}
 			}
 			
@@ -149,10 +172,18 @@ package
 			if (velocity.y > 0 && (isTouchingLeft || isTouchingRight))
 			{
 				acceleration.y = m_gravity - velocity.y * m_wall_friction;
+				m_dustEmitter.on = true;
+				
+				if (!m_sliding)
+				{
+					m_dustEmitter.start(false, 1.5, 0.1);
+					m_sliding = true;
+				}
 			}
 			else
 			{
 				acceleration.y = m_gravity;
+				m_sliding = false;
 			}
 			
 			// ACCELEARTION
@@ -206,7 +237,10 @@ package
 			{
 				m_currentPowerup.update();
 			}
-			
+			m_dustEmitter.x = x + 5;
+			m_dustEmitter.y = y + 20;
+			m_dustEmitter.setXSpeed(velocity.x - 50, -velocity.x + 50);
+			m_dustEmitter.setYSpeed(velocity.y - 50, -velocity.y + 50);
 			super.update();
 		}
 		
