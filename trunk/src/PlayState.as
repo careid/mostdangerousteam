@@ -68,7 +68,7 @@ package
 			
 			boomerangs = new FlxGroup();
 			spikes = new FlxGroup();
-			countDowns.add(new CountDown(0,0));
+			countDowns.add(new CountDown(0,0,100));
 			add(countDowns);
 			add(boomerangs);
 			add(spikes);
