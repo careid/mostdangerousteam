@@ -15,6 +15,8 @@ package
 			loadGraphic(ImgPlayer, true, true,26,26);
 			super.setup();
 			offset.y -= 1;
+			offset.x = 6;
+			width = 15;
 		}
 		
 		override public function update():void
