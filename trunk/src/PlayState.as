@@ -7,6 +7,7 @@ package
 	    [Embed(source = "../maps/map.csv", mimeType = "application/octet-stream")] public var Level1:Class;
 		public var level:Level;
 		public var player:Player;
+		public var startPosition:FlxPoint;
 		public var state:uint;
 		
 		protected var END:uint = 0;
@@ -17,52 +18,77 @@ package
 		protected var TIMEMACHINEX:Number = 200;
 		protected var TIMEMACHINEY:Number = 100;
 		
+		protected var checkPoints:Array;
+		
 		protected var timeLeft:Number = 0;
 		
-		public function PlayState(timeLeft:Number,player:Player=null)
+		protected var debugTimer:FlxText;
+		
+		public function PlayState(timeLeft:Number,startPosition:FlxPoint = null)
 		{
-			this.player = player;
+			this.startPosition = startPosition;
 			this.timeLeft = timeLeft;
 			super();
 		}
 		
 		override public function create():void
 		{
-			//Set the background color to light gray (0xAARRGGBB)
 			FlxG.bgColor = 0xffaaaaaa;
 			
-			//Create a new tilemap using our level data
+			//get level
 			level = new Level();
 			level.loadFromCSV(new Level1(), this);
 			
-			if (!player)
+			//add player
+			if (!startPosition)
 			{
 				player = new Player(FlxG.width/2 - 5, 50);
-				add(player);
 			}
+			else 
+			{
+				player = new Player(startPosition.x, startPosition.y);
+			}
+			add(player);
 			
+			//add time machine
 			timeMachine = new TimeMachine(TIMEMACHINEX,TIMEMACHINEY);
 			add(timeMachine);
 			
+			//set camera
 			FlxG.camera.setBounds(-1000,0,2000,240,true);
 			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
 			
+			//add checkpoints
+			checkPoints = new Array();
+			//NOTE: the threshold should be in increasing order
+			checkPoints = [new CheckPoint(new FlxPoint(200, 100), 0.0, 10.0),
+							new CheckPoint(new FlxPoint(50, 100), 5.0, 15.0)]
+			
+			//set starting variables
 			state = MID;
+			
+			//debug shit
+			debugTimer = new FlxText(0, 0, 200);
+			add(debugTimer);
+			
 		}
 		
 		override public function update():void
-		{	
-			//Updates all the objects appropriately
+		{
+			timeLeft -= FlxG.elapsed;
+			
 			super.update();
 			
-			//Finally, bump the player up against the level
 			FlxG.collide(level.tileMap, player);
 			
 			updateStateEvents();
-			if (FlxG.keys.justPressed("A"))
-			{
-				transitionState(END);
-			}
+			
+			debugShit();
+		}
+		
+		public function debugShit():void
+		{
+			debugTimer.text = String(Math.floor(timeLeft));
 		}
 		
 		public function transitionState(newState:uint):void 
@@ -100,8 +126,19 @@ package
 		
 		private function restartLevel():void 
 		{
-			//restart the game
-			FlxG.switchState(new PlayState(10));
+			//find out which checkpoint the player gets sent to
+			var i:int;
+			var bestCheckPoint:CheckPoint = checkPoints[0]; //hopefully checkPoints is never empty
+			for (i = 0; i < checkPoints.length; i++)
+			{
+				var c:CheckPoint = checkPoints[i];
+				if (timeLeft > c.threshold && c.threshold > bestCheckPoint.threshold)
+				{
+					bestCheckPoint = c;
+				}
+			}
+			
+			FlxG.switchState(new PlayState(bestCheckPoint.time,bestCheckPoint.position));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
