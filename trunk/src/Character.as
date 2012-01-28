@@ -4,12 +4,22 @@ package
 
 	public class Character extends FlxSprite
 	{
-		protected var _jumpPower:int;
+		public const OVER_SQRT2:Number = 0.707107;
+		
 		protected var _runAcceleration:int;
-		protected var _canjump:Boolean;
+		
+		protected var _jumpPower:int;
+		protected var _gravity:Number;
+		protected var _wallfriction:Number;
+		
+		protected var _stamina:int;
+		protected var _maxstamina:int;
+		protected var _staminaregen:int;
+		
 		public var goLeft:Boolean;
 		public var goRight:Boolean;
 		public var jump:Boolean;
+		public var dashing:Boolean;
 		
 		public function Character(X:int,Y:int)
 		{
@@ -20,12 +30,19 @@ package
 		{
 			var runSpeed:uint = 80;
 			drag.x = runSpeed * 8;
-			_runAcceleration = runSpeed * 8;
-			acceleration.y = 420;
-			_jumpPower = 200;
+			_runAcceleration = runSpeed * 4;
 			maxVelocity.x = runSpeed;
+			
+			_gravity = 400;
+			acceleration.y = _gravity;
+			_wallfriction = 3;
+			
+			_jumpPower = 200;
 			maxVelocity.y = _jumpPower;
-			_canjump = true;
+			
+			_staminaregen = 1;
+			_maxstamina = 100;
+			_stamina = _maxstamina;
 			
 			//animations
 			addAnimation("idle", [0]);
@@ -35,13 +52,9 @@ package
 		}
 		
 		override public function update():void
-		{
-			// Make sure character can only jump first time in continuous contact with a wall
-			// i.e. player standing next to wall can only jump once
-			if (justTouched(FLOOR) || justTouched(LEFT) || justTouched(RIGHT))
-			{
-				_canjump = true;
-			}
+		{			
+			var touchLeft:Boolean = isTouching(LEFT);
+			var touchRight:Boolean = isTouching(RIGHT);
 			
 			//MOVEMENT
 			if(goLeft)
@@ -58,12 +71,33 @@ package
 			{
 				acceleration.x = 0;
 			}
-			// Must be touching a wall or floor to jump
-			if(jump && _canjump && (isTouching(FLOOR) || isTouching(LEFT) || isTouching(RIGHT)))
+			
+			if (touchLeft || touchRight)
 			{
-				_canjump = false;
-				velocity.y = -_jumpPower;
-				//play jump sound
+				acceleration.y = _gravity - velocity.y * _wallfriction;
+			}
+			else
+			{
+				acceleration.y = _gravity;
+			}
+			
+			// Must be touching a wall or floor to jump
+			if(jump)
+			{
+				if (isTouching(FLOOR))
+				{
+					velocity.y = -_jumpPower;
+				}
+				else if (touchLeft)
+				{
+					velocity.y = OVER_SQRT2 * -_jumpPower;
+					velocity.x = OVER_SQRT2 * _jumpPower;
+				}
+				else if (touchRight)
+				{
+					velocity.y = OVER_SQRT2 * -_jumpPower;
+					velocity.x = OVER_SQRT2 * -_jumpPower;
+				}
 			}
 			
 			//ANIMATION

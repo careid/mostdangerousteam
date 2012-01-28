@@ -37,7 +37,7 @@ package
 			
 			if (!player)
 			{
-				player = new Player(FlxG.width/2 - 5,0);
+				player = new Player(FlxG.width/2 - 5, 50);
 				add(player);
 			}
 			
