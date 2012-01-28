@@ -22,10 +22,40 @@ package
 		
 		/////
 		/// Override this to activate the effect of the powerup.
+		/// \return true if the powerup could be activated, false otherwise.
 		/////
-		public function activate() : void 
+		public function activate() : Boolean 
 		{
-			
+			if (isCharged())
+			{
+				charge = 0;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		////
+		/// Returns whether or not the powerup is charged.
+		/// \return true if the powerup is fully charged, false otherwise.
+		////
+		public function isCharged() : Boolean
+		{
+			return charge >= maxCharge;
+		}
+		
+		/////
+		/// Updates the powerup. Recharges if necessary.
+		/////
+		public function update() : void
+		{
+			charge += chargeRate;
+			if (charge > maxCharge)
+			{
+				charge = maxCharge;
+			}
 		}
 	}
 	
