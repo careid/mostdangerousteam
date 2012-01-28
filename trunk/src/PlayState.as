@@ -1,7 +1,10 @@
 package
 {
+	import flash.geom.Point;
 	import flash.text.engine.BreakOpportunity;
 	import org.flixel.*;
+	import org.flixel.plugin.photonstorm.*;
+	import org.flixel.plugin.photonstorm.FX.StarfieldFX;
 
 	public class PlayState extends FlxState
 	{
@@ -38,10 +41,15 @@ package
 		
 		protected var oldPlayers:Array;
 		
-		public function PlayState(startIndex:int = 0,oldPlayers:Array=null)
+		protected var starfield:StarfieldFX;
+		protected var cameraScrollVelocity:FlxPoint;
+		protected var cameraPreviousScroll:FlxPoint;
+        public function PlayState(startIndex:int = 0,oldPlayers:Array=null)
 		{
 			this.startIndex = startIndex;
 			this.oldPlayers = oldPlayers;
+			this.cameraPreviousScroll = new FlxPoint();
+			this.cameraScrollVelocity = new FlxPoint();
 			super();
 		}
 		
@@ -50,6 +58,18 @@ package
 			FlxG.bgColor = 0xff000000;
 			
 			var i:int;
+			
+			// First, background stars.
+			FlxG.addPlugin(new FlxSpecialFX());
+			starfield = FlxSpecialFX.starfield();
+			starfield.active = true;
+			starfield.create(0,0, FlxG.width, FlxG.height, 100);
+			starfield.setStarSpeed(0, 0);
+			starfield.sprite.scrollFactor.x = 0;
+			starfield.sprite.scrollFactor.y = 0;
+			starfield.sprite.blend = "normal";
+			starfield.sprite.antialiasing = true;
+			add(starfield.sprite);
 			
 			//get level
 			level = new Level();
@@ -134,6 +154,13 @@ package
 			}
 			
 			super.update();
+			
+			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
+			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
+			cameraPreviousScroll.x = FlxG.camera.scroll.x;
+			cameraPreviousScroll.y = FlxG.camera.scroll.y;
+			
+			starfield.setStarSpeed( cameraScrollVelocity.x*0.1, cameraScrollVelocity.y*0.1);
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
