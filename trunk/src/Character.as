@@ -17,7 +17,7 @@ package
 		protected var m_wall_friction:Number;
 		
 		public var stamina:Number;
-		protected var m_maxstamina:Number;
+		public var maxstamina:Number;
 		protected var staminaregen:Number;
 		
 		protected var m_powerupList : Array;
@@ -53,8 +53,8 @@ package
 			maxVelocity.y = m_jump_power;
 			
 			staminaregen = 1;
-			m_maxstamina = 100;
-			stamina = m_maxstamina;
+			maxstamina = 100;
+			stamina = maxstamina;
 			
 			//animations
 			addAnimation("idle", [0]);
@@ -81,8 +81,8 @@ package
 			}
 			else
 			{
-				stamina = Math.min(m_maxstamina, stamina + staminaregen);
-				if (dash && stamina == m_maxstamina)
+				stamina = Math.min(maxstamina, stamina + staminaregen);
+				if (dash && stamina == maxstamina)
 				{
 					m_dashing = true;
 					m_speed = m_dash_speed;

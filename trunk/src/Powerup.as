@@ -30,6 +30,14 @@ package
 		public function update() : void
 		{
 		}
+		
+		/////
+		/// Called when a powerup is added to a character.
+		/////
+		public function onAdd() : void
+		{
+			
+		}
 	}
 	
 

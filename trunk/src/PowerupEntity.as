@@ -22,6 +22,7 @@ package
 		{
 			powerup.character = character;
 			character.addPowerup(powerup);
+			powerup.onAdd();
 			return powerup;
 		}
 		
