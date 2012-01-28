@@ -1,6 +1,6 @@
 package
 {
-	import org.flixel.FlxSprite;
+	import org.flixel.*;
 	import org.flixel.FlxEmitter;
 	import org.flixel.FlxParticle;
 	import org.flixel.FlxG;
@@ -58,6 +58,7 @@ package
 		public static function overlapCharacter(powerupEntity : PowerupEntity, theCharacter: Character ) : void
 		{
 			powerupEntity.collect(theCharacter);
+			FlxG.flash(0xffffffff, 0.3);
 		}
 		
 	}

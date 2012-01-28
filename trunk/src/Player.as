@@ -24,9 +24,9 @@ package
 			m_waypoint_timer.start();
 		}
 		
-		public function timeTravel(X:int,Y:int):Player
+		public function timeTravel(X:int,Y:int,runLevel:int,staminaLevel:int,healthLevel:int):Player
 		{
-			var noob:Player = new Player(X, Y);
+			var noob:Player = new Player(X, Y,runLevel,staminaLevel,healthLevel);
 			noob.copyPowerups(this);
 			return noob;
 		}
