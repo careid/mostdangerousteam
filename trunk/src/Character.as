@@ -189,7 +189,6 @@ package
 			if (y > (FlxG.state as PlayState).LEVELBOTTOM)
 			{
 				kill();
-				return;
 			}
 			var isTouchingFloor:Boolean = isTouching(FLOOR);
 			var isTouchingLeft:Boolean = isTouching(LEFT);
@@ -389,7 +388,7 @@ package
 				if (finished)
 				{
 					this.kill();
-				}			
+				}
 			}
 			super.update();
 		}

@@ -53,14 +53,14 @@ package
 			runLevel = player.m_run_level;
 			staminaLevel = player.m_stamina_level;
 			healthLevel = player.m_health_level;
-			eyeSprite = new FlxSprite(FlxG.width - 50, 10);
+			eyeSprite = new FlxSprite(20, 10);
 			eyeSprite.loadGraphic(EyesImage, true);
 			eyeSprite.addAnimation("Nothing", [0]);
 			eyeSprite.addAnimation("Eat", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 10, false);
 			numEyes = player.numEyes;
 			eyeSprite.play("Nothing");
 			this.exp = numEyes;
-			eyesString = new FlxText(FlxG.width - 60, 50, 60);
+			eyesString = new FlxText(20, 50, 60);
 			eyesString.text = "Num Eyes Eaten: " + numEyes;
 			super();
 			add(eyeSprite);
