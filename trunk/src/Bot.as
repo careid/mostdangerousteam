@@ -43,7 +43,7 @@ package
 				//trace("Waypoint: ", wp.x, wp.y, wp.timeLeft);
 				//trace("My point: ", x, y, m_timeLeft);
 				// when you hit a waypoint, move onto the next one
-				if (!canFuckUp && wp.timeLeft >= m_timeLeft)
+				if (!canFuckUp && wp.timeLeft >= m_timeLeft && !onScreen() && !wp.onScreen())
 				{
 					trace("TELEPORT!");
 					x = wp.x;

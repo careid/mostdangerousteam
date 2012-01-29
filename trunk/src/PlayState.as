@@ -240,7 +240,7 @@ package
 			fallAccel += fallJerk * FlxG.elapsed;
 			if (fallAccum >= 1)
 			{
-				var xmax:int = int((1.0 - timeLeft / timeStart) * level.tileMap.widthInTiles);
+				var xmax:int = int((0.5 - timeLeft / timeStart + 0.5) * level.tileMap.widthInTiles);
 				var imax:int = xmax * tiles.length / level.tileMap.widthInTiles;
 				while (tiles[imax] % level.tileMap.widthInTiles > xmax)
 					imax--;
@@ -259,6 +259,7 @@ package
 					tile.play("idle");
 					tile.mass = 5.0;
 					tile.acceleration.y = GRAVITY;
+					tile.maxVelocity.y = GRAVITY;
 					tile.velocity.x = 25.0 * (FlxG.random()-0.5);
 					tile.velocity.y = -25.0 * FlxG.random();
 					tile.angularVelocity = 180.0 * (FlxG.random() - 0.5);

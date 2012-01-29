@@ -35,7 +35,7 @@ package
 		public function loadFromCSV(mapString:String) : void
 		{
 			mapString = mapString.replace("[\w\r]", "");
-			var mapArray:Array = mapString.substr(0,mapString.lastIndexOf("\n")).split("\n");
+			/*var mapArray:Array = mapString.substr(0,mapString.lastIndexOf("\n")).split("\n");
 			
 			for (var i:int = 0; i < mapArray.length; i++)
 			{
@@ -44,7 +44,7 @@ package
 				
 				for (var j:int = 0; j < row.length; j++)
 				{
-					/*switch (row[j])
+					switch (row[j])
 					{
 						case 7:
 							var obj:CheckPoint = new CheckPoint(j, i);
@@ -76,10 +76,10 @@ package
 							checkPoints.push(obj);
 							row[j] = 0;
 							break;
-					}*/
+					}
 				}
 				mapArray[i] = row;
-			}
+			}*/
 			
 			tileMap = new FlxTilemap();
 			tileMap.loadMap(mapString, Image, 32,32);
