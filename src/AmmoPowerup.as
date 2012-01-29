@@ -27,7 +27,8 @@ package
 			}
 			else
 			{
-				ammo --;
+				ammo--;
+				shouldBeDiscarded = ammo == 0;
 				return true;
 			}
 		}
