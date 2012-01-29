@@ -14,7 +14,7 @@ package
 		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var TestThingCSV:Class;		
 		[Embed(source = "../maps/testThing.xml", mimeType = "application/octet-stream")] public var TestThingXML:Class;		
 		[Embed(source = "./graphics/Ring002.png")] public var CircleParticle:Class;
-		[Embed(source = "./graphics/hud.png")] public var HUD:Class;
+		[Embed(source = "./graphics/hud2.png")] public var HUD:Class;
 		[Embed(source = "./graphics/powerups.png")] public var PowerupImage:Class;
 		
 		public static var GRAVITY:int = 400;
@@ -68,6 +68,7 @@ package
 		protected var isFirstIteration:Boolean = false;
 		
 		protected var eyeCounter:Counter;
+		protected var ammoCounter:Counter;
 		protected var itemDisplays:Array;
 		
 		protected var teleportEmitter:FlxEmitter;
@@ -262,11 +263,13 @@ package
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
 			eyeCounter = new Counter(78, 16);
+			ammoCounter = new Counter(3, 29);
 			
 			add(hud);
 			add(healthBar);
 			add(staminaBar);
 			add(eyeCounter);
+			add(ammoCounter);
 			itemDisplays = new Array()
 			for (i = 0; i < 5; i++)
 			{
@@ -468,6 +471,11 @@ package
 				}
 			}
 			eyeCounter.value = player.numEyes;
+			var p:AmmoPowerup = (player.getCurrentPowerup() as AmmoPowerup);
+			if (p != null)
+				ammoCounter.value = p.ammo;
+			else
+				ammoCounter.value = 0;
 		}
 		
 		public function debugShit():void
