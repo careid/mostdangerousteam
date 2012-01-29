@@ -37,53 +37,42 @@ package
 		/////
 		public function loadFromCSV(mapString:String) : void
 		{
+			countDowns = new FlxGroup();
 			mapString = mapString.replace("[\w\r]", "");
-			/*var mapArray:Array = mapString.substr(0,mapString.lastIndexOf("\n")).split("\n");
+			var mapArray:Array = mapString.substr(0,mapString.lastIndexOf("\n")).split("\n");
 			
-			for (var i:int = 0; i < mapArray.length; i++)
+			for (var y:int = 0; y < mapArray.length; y++)
 			{
-				var str:String = mapArray[i];
+				var str:String = mapArray[y];
 				var row:Array = str.substr(0, str.lastIndexOf(",")).split(",");
 				
-				for (var j:int = 0; j < row.length; j++)
+				for (var x:int = 0; x < row.length; x++)
 				{
-					switch (row[j])
+					var countdown:CountDown;
+					switch (int(row[x]))
 					{
-						case 7:
-							var obj:CheckPoint = new CheckPoint(j, i);
-							checkPoints.push(obj);
-							row[j] = 0;
+						case 1: // 1 - Background Clock
+							countdown = new CountDown();
+							countdown.x = x * 32 + 2;
+							countdown.y = y * 32;
+							countDowns.add(countdown);
 							break;
-						case 8:
-							var obj:TimeMachine = new TimeMachine(j, i);
-							checkPoints.push(obj);
-							row[j] = 0;
+						case 29: // 29 - Top Clock
+							countdown = new CountDown();
+							countdown.x = x * 32 + 2;
+							countdown.y = y * 32 - 11;
+							countDowns.add(countdown);
 							break;
-						case 9:
-							var obj:Door = new Door(j, i);
-							checkPoints.push(obj);
-							row[j] = 0;
-							break;
-						case 10:
-							var obj:StaminaRechargePowerup = new StaminaRechargePowerup(j, i);
-							checkPoints.push(obj);
-							row[j] = 0;
-							break;
-						case 11:
-							var obj:BoomerangPowerup = new BoomerangPowerup(j, i);
-							checkPoints.push(obj);
-							row[j] = 0;
-							break;
-						case 12:
-							var obj:SpikePowerup = new SpikePowerup(j, i);
-							checkPoints.push(obj);
-							row[j] = 0;
+						case 32: // 32 - Bottom Clock
+							countdown = new CountDown();
+							countdown.x = x * 32 + 2;
+							countdown.y = y * 32 + 12;
+							countDowns.add(countdown);
 							break;
 					}
 				}
-				mapArray[i] = row;
-			}*/
-			
+			}
+		
 			tileMap = new FlxTilemap();
 			tileMap.loadMap(mapString, Image, 32,32,FlxTilemap.OFF,0,1,25);
 			
@@ -125,7 +114,6 @@ package
 			conveyors = new FlxGroup();
 			spikepits = new FlxGroup();
 			powerups = new FlxGroup();
-			countDowns = new FlxGroup();
 			doorSwitches = new FlxGroup();
 			storyBoxes = new FlxGroup();
 			
@@ -145,11 +133,6 @@ package
 				{
 					timeMachine = new TimeMachine();
 					obj = timeMachine;
-				}
-				else if (child.name() == "CountDown")
-				{
-					obj = new CountDown();
-					countDowns.add(obj as CountDown);
 				}
 				else if (child.name() == "Door")
 				{

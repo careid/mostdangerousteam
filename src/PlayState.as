@@ -169,21 +169,28 @@ package
 			add(level.powerups);
 			add(level.eyes);
 			add(level.misc);
+			add(level.countDowns);
+			add(level.storyBoxes);
 			add(teleportEmitter);
 			timeEnd = level.checkPoints[startIndex].time;
 			timeLeft = timeEnd; //level.checkPoints[startIndex].time;
+			
 			Hydraman.m_initialTimeLeft = timeLeft;
+			// clock for the timemachine
+			var timemachine_clock:CountDown = new CountDown();
+			timemachine_clock.x = level.timeMachine.x + 18;
+			timemachine_clock.y = level.timeMachine.y;
+			level.countDowns.add(timemachine_clock);
 			for (i = 0; i < level.countDowns.length; i++)
 			{
 				var countdown:CountDown = level.countDowns.members[i] as CountDown;
 				countdown.setup(countdown.x, countdown.y, timeLeft);
 			}
-			add(level.countDowns);
+			
 			for (i = 0; i < level.storyBoxes.length; i++)
 			{
 				StoryBox(level.storyBoxes.members[i]).setup();
 			}
-			add(level.storyBoxes);
 			for (i = 0; i < level.doors.length; i++)
 			{
 				Door(level.doors.members[i]).setup();
@@ -293,6 +300,7 @@ package
 				countdown.members[i].scrollFactor.x = 0;
 				countdown.members[i].scrollFactor.y = 0;
 			}
+			
 			healthBar = new FlxBar(11, 3, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "health", 0, player.max_health);
 			healthBar.createFilledBar(0xff000000, 0xffff0000);
 			healthBar.scrollFactor.x = 0;
@@ -338,9 +346,10 @@ package
 			// Update falling blocks
 			// Remove blocks out of view
 			var i:int;
+			var block:FlxSprite;
 			for (i = fallBlocks.length - 1; i >= 0; i--)
 			{
-				var block:FlxSprite = fallBlocks.members[i];
+				block = fallBlocks.members[i];
 				if (block == null || block.y > LEVELBOTTOM)
 				{
 					fallBlocks.remove(block);
@@ -348,7 +357,7 @@ package
 			}
 			for (i = fallBGBlocks.length - 1; i >= 0; i--)
 			{
-				var block:FlxSprite = fallBGBlocks.members[i];
+				block = fallBGBlocks.members[i];
 				if (block == null || block.y > LEVELBOTTOM)
 				{
 					fallBGBlocks.remove(block);
@@ -463,7 +472,7 @@ package
 			
 			var i:int;
 			var s:FlxSprite;
-			while (level.misc.remove(null));
+			while (level.misc.remove(null)) {}
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
