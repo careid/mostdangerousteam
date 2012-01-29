@@ -163,7 +163,7 @@ package
 				b.flash();
 				runLevel += 1;
 				exp -= 1;
-				buttons[RUN].setValue(runLevel);
+				buttons[RUN].setCounter(runLevel);
 				buttons[RUN].flicker(0.5);
 			}
 			else if (FlxG.keys.justPressed("X"))
@@ -172,7 +172,7 @@ package
 				b.flash();
 				staminaLevel += 1;
 				exp -= 1;
-				buttons[STAMINA].setValue(staminaLevel);
+				buttons[STAMINA].setCounter(staminaLevel);
 				buttons[STAMINA].flicker(0.5);
 			}
 			else if (FlxG.keys.justPressed("C"))
@@ -181,7 +181,7 @@ package
 				b.flash();
 				healthLevel += 1;
 				exp -= 1;
-				buttons[HEALTH].setValue(healthLevel);
+				buttons[HEALTH].setCounter(healthLevel);
 				buttons[HEALTH].flicker(0.5);
 			}
 		}
