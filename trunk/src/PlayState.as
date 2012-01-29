@@ -156,7 +156,7 @@ package
 			}
 			
 			tiles = new Array();
-			FlxG.globalSeed = 12345;
+			FlxG.globalSeed = 519074;
 			var data:Array = level.tileMap.getData();
 			for (x = 0; x < level.tileMap.widthInTiles; x++)
 			{
@@ -175,7 +175,7 @@ package
 			fallAccum = 0;
 			fallRate = 0;
 			fallAccel = 0;
-			fallJerk = 0.8 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
+			fallJerk = 0.2 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
 			
 			fallBlocks = new FlxGroup();
 			add(fallBlocks);
