@@ -19,10 +19,10 @@
 	<Door x="2180" y="192" id="1" />
 	<DoorSwitch x="1088" y="288" id="2" />
 	<Door x="1184" y="288" id="2" />
-	<CheckPoint x="2300" y="278" threshold="0" time="30"/>
+	<CheckPoint x="2272" y="278" threshold="0" time="30"/>
 	<CheckPoint x="2040" y="140" threshold="10" time="40"/>
 	<CheckPoint x="1760" y="150" threshold="25" time="50"/>
-	<CheckPoint x="1280" y="290" threshold="35" time="60"/>
+	<CheckPoint x="1280" y="290" threshold="40" time="60"/>
 	<StaminaRechargePowerup x="2646" y="342"/>
 	<StaminaRechargePowerup x="2646" y="256"/>
 	<StaminaRechargePowerup x="2646" y="64"/>
