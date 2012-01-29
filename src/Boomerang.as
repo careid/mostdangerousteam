@@ -39,7 +39,24 @@ package
 		////
 		public static function overlapCharacter(boomerang : Boomerang, theCharacter: Character ) : void
 		{
-			if (theCharacter == boomerang.m_thrower)
+			var powerup : BoomerangPowerup = (boomerang.m_thrower.getPowerupOfType(BoomerangPowerup) as BoomerangPowerup);
+			if (powerup != null)
+			{
+				powerup.charge = powerup.maxCharge;
+			}
+			
+			var playState : PlayState = (PlayState)(FlxG.state);
+			playState.boomerangs.remove(boomerang);
+			boomerang.kill();
+			
+			if (theCharacter != boomerang.m_thrower && !theCharacter.flickering)
+			{
+				if (powerup != null)
+					powerup.ammo -= 1;
+				boomerang.m_thrower.m_recharge = 0.5;
+				theCharacter.hit(4);
+			}
+			/*if (theCharacter == boomerang.m_thrower)
 			{
 				var powerup : BoomerangPowerup = (BoomerangPowerup)(theCharacter.getPowerupOfType(BoomerangPowerup));
 				if (powerup != null)
@@ -57,7 +74,7 @@ package
 				{
 					theCharacter.hit(4);
 				}
-			}
+			}*/
 		}
 		
 		override public function update():void 

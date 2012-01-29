@@ -42,7 +42,7 @@ package
 		public var maxstamina:Number;
 		protected var staminaregen:Number;
 		
-		protected var m_recharge : Number;
+		public var m_recharge : Number;
 		protected var m_powerupList : Array;
 		protected var m_currentPowerup : Powerup;
 		protected var m_dustEmitter : FlxEmitter;
@@ -89,6 +89,7 @@ package
 				else if (old_character.getCurrentPowerup() is BoomerangPowerup)
 				{
 					m_currentPowerup = new BoomerangPowerup();
+					(m_currentPowerup as BoomerangPowerup).ammo = (old_character.getCurrentPowerup() as BoomerangPowerup).ammo;
 				}
 				else if (old_character.getCurrentPowerup() is ChargingPowerup)
 				{

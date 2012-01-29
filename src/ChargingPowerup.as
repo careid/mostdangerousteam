@@ -4,7 +4,7 @@ package
 	/////
 	/// A powerup which has no ammo, but rather a charging rate.
 	/////
-	public class ChargingPowerup extends Powerup
+	public class ChargingPowerup extends AmmoPowerup
 	{
 		public var charge : Number;
 		public var maxCharge : Number;
@@ -12,6 +12,7 @@ package
 		
 		public function ChargingPowerup(maxCharge : Number=0, chargeRate : Number=0) 
 		{
+			super(1);
 			this.maxCharge = maxCharge;
 			this.charge = maxCharge;
 			this.chargeRate = chargeRate;
