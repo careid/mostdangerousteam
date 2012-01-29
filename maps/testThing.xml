@@ -21,10 +21,11 @@
 	<Door x="1184" y="288" id="1" />
 	<CheckPoint x="2315" y="278" threshold="0" time="30"/>
 	<CheckPoint x="2240" y="278" threshold="10" time="35"/>
-	<CheckPoint x="2040" y="140" threshold="15" time="40"/>
-	<CheckPoint x="2080" y="64" threshold="20" time="45"/>
-	<CheckPoint x="1760" y="150" threshold="20" time="55"/>
-	<CheckPoint x="2350" y="544" threshold="35" time="100"/>
+	<CheckPoint x="2040" y="140" threshold="15" time="37"/>
+	<CheckPoint x="2080" y="64" threshold="20" time="40"/>
+	<CheckPoint x="1760" y="150" threshold="30" time="55"/>
+	<CheckPoint x="1664" y="192" threshold="35" time="55"/>
+	<CheckPoint x="2350" y="544" threshold="40" time="100"/>
 	<CheckPoint x="1408" y="544" threshold="55" time="120"/>
 	<Spikepit x="2304" y="470"/>
 	<StaminaRechargePowerup x="2646" y="342"/>
