@@ -59,6 +59,8 @@ package
 		protected var cameraScrollVelocity:FlxPoint;
 		protected var cameraPreviousScroll:FlxPoint;
 		
+		protected var feedback:Feedback;
+		
 		protected var runLevel:int;
 		protected var staminaLevel:int;
 		protected var healthLevel:int;
@@ -99,7 +101,8 @@ package
 			starfield.sprite.scrollFactor.x = 0.0;
 			starfield.sprite.scrollFactor.y = 0.0;
 			starfield.setStarSpeed( -0.25, 0);
-			
+			//video feedback generator
+			feedback = new Feedback(15, 12, FlxG.camera.buffer);
 			teleportEmitter = new FlxEmitter(0, 0, 20);
 			teleportEmitter.particleClass = AdditiveFadingParticle;
 			teleportEmitter.makeParticles(CircleParticle, 20);
@@ -109,8 +112,8 @@ package
 			teleportEmitter.minParticleSpeed.y = -1;
 			teleportEmitter.minRotation = 30;
 			teleportEmitter.maxRotation = 60;
-			
 			add(starfield.sprite);
+			add(feedback);
 			add(level.tileMap);
 			add(level.timeMachine);
 			add(level.doors);
@@ -350,13 +353,23 @@ package
 				oldPlayersIndex--;
 			}
 			
-			super.update();
+			if (feedback.visible)
+			{
+				if (timeLeft == 0)
+					transitionState(END);
+			}
+			else
+			{
+				super.update();
+			}
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
 			
 			cameraPreviousScroll.x = FlxG.camera.scroll.x;
 			cameraPreviousScroll.y = FlxG.camera.scroll.y;
+			
+			feedback.update();
 			
 			var i:int;
 			var s:FlxSprite;
@@ -445,7 +458,7 @@ package
 				case END:
 					FlxSpecialFX.remove(starfield);
 					remove(starfield.sprite);
-					FlxG.fade(0xffffff, 0.7, restartLevel);
+					FlxG.fade(0xffffff, 1.5, restartLevel);
 					break;
 				default:
 					break;
@@ -525,7 +538,11 @@ package
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
 		{
-			transitionState(END);
+			if (!feedback.visible)
+			{
+				feedback.visible = true;
+				timeLeft = 1.0;
+			}
 		}
 		
 		private function endGame():void
