@@ -16,7 +16,7 @@ package
 			FlxG.play(menuBgm);
 			background = new FlxSprite(385*2+40,51*2);
 			background.loadGraphic(ImgBack, true, false, 385, 51);
-			background.addAnimation("go", [0, 1], 1);
+			background.addAnimation("go", [0, 1], 2.6666);
 			background.play("go");
 			background.scale.x = background.scale.y = 5;
 			add(background);
