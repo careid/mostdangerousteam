@@ -9,9 +9,11 @@ package
 		
 		[Embed(source = "graphics/introforeground.png")] protected var ImgFore:Class;
 		[Embed(source = "graphics/introbackground2.png")] protected var ImgBack:Class;
+		[Embed(source = "./sounds/music/menuBgm.mp3")] protected var menuBgm:Class;
 		
 		override public function create():void
 		{
+			FlxG.play(menuBgm);
 			background = new FlxSprite(385*2+40,51*2);
 			background.loadGraphic(ImgBack, true, false, 385, 51);
 			background.addAnimation("go", [0, 1], 1);
@@ -23,7 +25,7 @@ package
 			foreground = new FlxSprite(552*2,51*2);
 			foreground.loadGraphic(ImgFore, true, false, 552, 51);
 			foreground.scale.x = foreground.scale.y = 5;
-			foreground.addAnimation("go", [0, 1], 1);
+			foreground.addAnimation("go", [0, 1], 2.6666);
 			foreground.play("go");
 			add(foreground);
 			foreground.velocity.x = -40;
@@ -49,6 +51,7 @@ package
 			}
 			if (FlxG.keys.justPressed("SPACE"))
 			{
+				FlxG.pauseSounds();
 				FlxG.switchState(new DummyLauncher());
 			}
 			super.update();
