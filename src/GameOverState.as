@@ -16,7 +16,7 @@ package
 		protected var displayImage:FlxSprite;
 		
 		[Embed(source = "graphics/gameover.png")] protected var Image:Class;
-		[Embed(source = "./sounds/gameStartFanfare.mp3")] protected var Music:Class;
+		[Embed(source = "./sounds/music/taps.mp3")] protected var Music:Class;
 		
 		public function GameOverState(index:int,timeLeft:Number,players:Array,exp:int=0)
 		{
@@ -43,7 +43,7 @@ package
 			displayText.alignment = "center";
 			add(displayText);
 			
-			FlxG.play(Music,1.5,false);
+			FlxG.play(Music,1.5,true);
 			
 			super.create();
 		}
