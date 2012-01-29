@@ -346,7 +346,7 @@ package
 			{
 				if (m_currentPowerup.shouldBeDiscarded)
 				{
-					m_powerupList = m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
+					delete m_powerupList[(m_powerupList.indexOf(m_currentPowerup))];
 					m_currentPowerup = null;
 				}
 				else
@@ -370,6 +370,28 @@ package
 				}			
 			}
 			super.update();
+		}
+		
+		/////
+		/// Goes to the next available powerup 
+		/////
+		public function cyclePowerups() : void
+		{
+			if (m_currentPowerup == null)
+			{
+				if (m_powerupList.length > 0)
+				{
+					m_currentPowerup = m_powerupList[0];
+				}
+			}
+			else
+			{
+				var desiredIndex = m_powerupList.indexOf(m_currentPowerup) + 1
+				if (desiredIndex < m_powerupList.length)
+				{
+					m_currentPowerup = m_powerupList[m_powerupList.indexOf(m_currentPowerup) + 1];
+				}
+			}
 		}
 		
 		/////
@@ -430,7 +452,7 @@ package
 			}
 			else if (m_currentPowerup != null && m_currentPowerup.shouldBeDiscarded)
 			{
-				m_powerupList = m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
+				delete m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
 				m_currentPowerup = null;
 			}
 		}

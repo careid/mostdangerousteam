@@ -20,6 +20,8 @@ package
 			m_waypoint_timer = new Timer(1000);
 			m_waypoint_timer.addEventListener(TimerEvent.TIMER, scheduled_waypoint_push);
 			m_waypoint_timer.start();
+			
+			
 			numEyes = 0;
 			super(X, Y, true);
 			push_waypoint();
@@ -45,6 +47,10 @@ package
 			jump = FlxG.keys.justPressed("X");
 			dash = FlxG.keys.pressed("C");
 			usePowerup = FlxG.keys.justPressed("Z");
+			if (FlxG.keys.justPressed("DOWN"))
+			{
+				cyclePowerups();
+			}
 			
 			var state:int = getState(goLeft, goRight, jump, usePowerup, dash);
 			if (m_stateHistory.length < 2 || m_stateHistory[m_stateHistory.length - 1] != state)
@@ -52,6 +58,7 @@ package
 				m_stateHistory.push(state);
 				m_stateHistory.push(m_timeLeft);
 			}
+
 
 			super.update();
 		}

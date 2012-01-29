@@ -65,6 +65,8 @@ package
 		protected var healthLevel:int;
 		protected var isFirstIteration:Boolean = false;
 		
+		protected var inventoryText:FlxText;
+		
         public function PlayState(startIndex:int = 0,oldPlayers:Array=null,runLevel:int=0,staminaLevel:int=0,healthLevel:int=0)
 		{
 			this.startIndex = startIndex;
@@ -74,6 +76,11 @@ package
 			this.runLevel = runLevel;
 			this.staminaLevel = staminaLevel;
 			this.healthLevel = healthLevel;
+			inventoryText = new FlxText(FlxG.width - 100, 10, 100);
+			inventoryText.text = "Current Item: Nothing.";
+			inventoryText.scrollFactor.x = 0;
+			inventoryText.scrollFactor.y = 0;
+			inventoryText.shadow = 0xFF111111;
 			super();
 		}
 		
@@ -200,6 +207,7 @@ package
 			healthText.scrollFactor.y = 0;
 			staminaText = new FlxText(0, 15, 200);
 			staminaText.text = "Stamina: ";
+			staminaText.shadow = 0xFF111111;
 			staminaText.scrollFactor.x = 0;
 			staminaText.scrollFactor.y = 0;
 			staminaBar = new FlxBar(45, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 10, player, "stamina", 0, 100, true);
@@ -209,6 +217,7 @@ package
 			add(healthText);
 			add(staminaBar);
 			add(staminaText);
+			add(inventoryText);
 			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
 			
 			//add doors
@@ -344,6 +353,15 @@ package
 			
 			debugShit();
 			isFirstIteration = false;
+	
+			if (player.getCurrentPowerup() != null)
+			{
+				inventoryText.text = "Current Item: " + player.getCurrentPowerup().animationName;
+			}
+			else
+			{
+				inventoryText.text = "Current Item: Nothing.";
+			}
 		}
 		
 		public function debugShit():void

@@ -71,7 +71,11 @@ package
 		override public function kill() : void
 		{
 			// Spawn an eye.
-			var eye : Eye = new Eye(x, y);
+			var eye : Eye = new Eye(x + 5, y + 12);
+			if (facing != FlxObject.RIGHT)
+			{
+				eye.x = x + 2;
+			}
 			eye.acceleration.y = 400;
 			(FlxG.state as PlayState).level.eyes.add(eye);
 			super.kill();
