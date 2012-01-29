@@ -62,6 +62,8 @@ package
 			emitter.start(true, 1.5);
 			FlxG.state.add(emitter);
 			
+			var playState : PlayState = (PlayState)(FlxG.state);
+			playState.level.powerups.remove(this);
 			this.kill();
 			(FlxG.state as PlayState).level.powerups.add(new FakePowerupEntity(x, y, character));
 			return powerup;

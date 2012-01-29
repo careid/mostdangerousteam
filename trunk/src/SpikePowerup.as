@@ -64,6 +64,7 @@ package
 				vY = -100;
 			}
 			
+			shouldBeDiscarded = true;
 			var  spikeTrap : SpikeTrap = new SpikeTrap(offsetX + character.x, offsetY + character.y, character.velocity.x + vX, character.velocity.y + vY);
 			var playState : PlayState = (PlayState)(FlxG.state);
 			playState.spikes.add(spikeTrap);

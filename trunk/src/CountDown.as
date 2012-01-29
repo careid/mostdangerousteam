@@ -27,16 +27,10 @@ package
 		
 		[Embed(source = "graphics/clockBase.png")] protected var ImgBase:Class;
 		
-		public function CountDown(num_digits:int = 3, background:Boolean=true)
+		public function CountDown(num_digits:int = 3)
 		{
 			super();
 			this.num_digits = num_digits;
-			if (background)
-			{
-				base = new FlxSprite(x, y, ImgBase);
-				base.immovable = true;
-				add(base);
-			}
 		}
 		
 		public function setup(x:int, y:int, timeLeft:Number=0):void
@@ -53,7 +47,7 @@ package
 				digits.push(new Array());
 				for (j = 0; j < 2; j++)
 				{
-					var d:Digit = new Digit(x, y+13);
+					var d:Digit = new Digit(x, y + 13);
 					x += d.width - 1;
 					digits[i].push(d);
 					add(d);

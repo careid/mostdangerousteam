@@ -1,7 +1,6 @@
 package  
 {
-	import org.flixel.FlxPoint;
-	import org.flixel.FlxSprite;
+	import org.flixel.*;
 
 	public class SpikeTrap extends FlxSprite
 	{
@@ -70,6 +69,8 @@ package
 			else if (activation == CLOSING && finished)
 			{
 				trace("Finished closing");
+				var playState : PlayState = (PlayState)(FlxG.state);
+				playState.spikes.remove(this);
 				kill();
 			}
 			super.update();

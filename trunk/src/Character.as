@@ -359,8 +359,17 @@ package
 			{
 				if (m_currentPowerup.shouldBeDiscarded)
 				{
-					delete m_powerupList[(m_powerupList.indexOf(m_currentPowerup))];
-					m_currentPowerup = null;
+					trace("should remove " + m_currentPowerup);
+					var index:int = m_powerupList.indexOf(m_currentPowerup);
+					m_powerupList.splice(index, 1);
+					if (m_powerupList.length == 0)
+					{
+						m_currentPowerup = null;
+					}
+					else
+					{
+						m_currentPowerup = m_powerupList[index % m_powerupList.length];
+					}
 				}
 				else
 				{
@@ -469,7 +478,7 @@ package
 			}
 			else if (m_currentPowerup != null && m_currentPowerup.shouldBeDiscarded)
 			{
-				delete m_powerupList[m_powerupList.indexOf(m_currentPowerup)];
+				m_powerupList.splice(m_powerupList.indexOf(m_currentPowerup),1);
 				m_currentPowerup = null;
 			}
 		}

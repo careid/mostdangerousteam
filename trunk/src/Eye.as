@@ -1,6 +1,6 @@
 package  
 {
-	import org.flixel.FlxSprite;
+	import org.flixel.*;
 
 	public class Eye extends FlxSprite
 	{
@@ -16,6 +16,8 @@ package
 		
 		public static function overlapPlayer(eye : Eye, player : Player) : void
 		{
+			var playState : PlayState = (PlayState)(FlxG.state);
+			playState.level.eyes.remove(eye);
 			eye.kill();
 			player.numEyes++;
 		}

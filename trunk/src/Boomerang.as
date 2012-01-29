@@ -1,6 +1,6 @@
 package  
 {
-	import org.flixel.FlxSprite;
+	import org.flixel.*;
 
 	public class Boomerang extends FlxSprite
 	{
@@ -47,6 +47,8 @@ package
 					powerup.charge = powerup.maxCharge;
 				}
 				
+				var playState : PlayState = (PlayState)(FlxG.state);
+				playState.boomerangs.remove(boomerang);
 				boomerang.kill();
 			}
 			else

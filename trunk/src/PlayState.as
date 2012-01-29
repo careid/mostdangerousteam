@@ -66,7 +66,6 @@ package
 		protected var healthLevel:int;
 		protected var isFirstIteration:Boolean = false;
 		
-		protected var inventoryText:FlxText;
 		protected var eyeCounter:Counter;
 		protected var itemDisplays:Array;
 		
@@ -79,11 +78,6 @@ package
 			this.runLevel = runLevel;
 			this.staminaLevel = staminaLevel;
 			this.healthLevel = healthLevel;
-			inventoryText = new FlxText(3, 30, 100);
-			inventoryText.text = "Current Item: Nothing.";
-			inventoryText.scrollFactor.x = 0;
-			inventoryText.scrollFactor.y = 0;
-			inventoryText.shadow = 0xFF111111;
 			super();
 		}
 		
@@ -117,7 +111,7 @@ package
 			add(level.misc);
 			timeLeft = level.checkPoints[startIndex].time;
 			Hydraman.m_initialTimeLeft = timeLeft;
-			for (i = 0; i < level.countDowns.members.length; i++)
+			for (i = 0; i < level.countDowns.length; i++)
 			{
 				var countdown:CountDown = level.countDowns.members[i] as CountDown;
 				countdown.setup(countdown.x, countdown.y, timeLeft);
@@ -209,7 +203,7 @@ package
 			//hud
 			var hud:FlxSprite = new FlxSprite(0, 0, HUD);
 			hud.scrollFactor.x = hud.scrollFactor.y = 0;
-			countdown = new CountDown(2, false);
+			countdown = new CountDown(2);
 			countdown.setup(68, -9, timeLeft);
 			for (i = 0; i < countdown.length; i++)
 			{
@@ -242,9 +236,6 @@ package
 				itemDisplays[i].addAnimation("spikes", [3]);
 				add(itemDisplays[i]);
 			}
-			
-			
-			//add(inventoryText);
 			add(new FlxText(0, 40, FlxG.width, "press B to bot"));
 			add(countdown);
 			
@@ -347,10 +338,6 @@ package
 			
 			var i:int;
 			var s:FlxSprite;
-			while (boomerangs.remove(null));
-			while (spikes.remove(null));
-			while (level.powerups.remove(null));
-			while (level.eyes.remove(null));
 			while (level.misc.remove(null));
 			
 			FlxG.collide(level.tileMap, characters);
@@ -382,16 +369,6 @@ package
 			
 			debugShit();
 			isFirstIteration = false;
-			/*
-			if (player.getCurrentPowerup() != null)
-			{
-				inventoryText.text = "Current Item: " + player.getCurrentPowerup().animationName;
-			}
-			else
-			{
-				inventoryText.text = "Current Item: Nothing.";
-			}
-			*/
 			var powerupList:Array = player.getPowerupList();
 			if (powerupList != null)
 			{
@@ -503,7 +480,7 @@ package
 				{
 					idx2++;
 				}
-				oldPlayers.splice(idx2, player);
+				oldPlayers.splice(idx2, startIndex - bestIndex, player);
 			}
 			else if (bestIndex > startIndex)
 			{
