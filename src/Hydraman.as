@@ -38,7 +38,7 @@ package
 			startX = X;
 			startY = Y;
 			loadGraphic(ImgHydraman, true, true, 26, 26);
-			super.setup(100+m_run_level*5, 200+m_run_level*10, 0.5+m_stamina_level*0.05, 100+m_stamina_level*10, 150+m_health_level*5);
+			super.setup(100+m_run_level*5, 200+m_run_level*10, 0.5+m_stamina_level*0.05, 100+m_stamina_level*10, 15+m_health_level*5);
 			offset.y -= 1;
 			offset.x = 6;
 			width = 15;
