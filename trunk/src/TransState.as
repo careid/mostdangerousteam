@@ -22,6 +22,7 @@ package
 		protected var displayTimer:Number = MAXDISPLAYTIME;
 		
 		protected var planet:FlxSprite;
+		protected const RINGRADIUS:Number = 155;
 		
 		protected const SPIN:uint = 0;
 		protected const STOP:uint = 1;
@@ -37,8 +38,12 @@ package
 		protected var numEyes:Number;
 		protected var eyesString:FlxText;
 		
+		protected var timeMachine:FlxSprite;
+		
 		[Embed(source = "graphics/spacestation.png")] protected var SpaceStationImage:Class;
 		[Embed(source = "graphics/eyescollected.png")] protected var EyesImage:Class;
+		[Embed(source = "graphics/main-icon.png")] protected var ManImage:Class;
+		[Embed(source = "graphics/machine-icon.png")] protected var MachineImage:Class;
 		
 		public function TransState(index:int,timeLeft:Number,players:Array,player:Player=null,exp:int=0)
 		{
@@ -89,6 +94,11 @@ package
 			buttons[2].setText("Press C for HEALTH " + String(healthLevel+1));
 			
 			FlxG.flash(0xffffffff, 0.5);
+			
+			timeMachine = new FlxSprite(0, 0,MachineImage);
+			add(timeMachine);
+			
+			add(new FlxSprite(planet.x + planet.width / 2, planet.y,ManImage));
 		}
 		
 		override public function update():void 
@@ -129,7 +139,15 @@ package
 			
 			eyesString.text = "Num Eyes Eaten: " + exp;
 			
+			updateTimeMachine();
+			
 			super.update();
+		}
+		
+		protected function updateTimeMachine():void 
+		{
+			timeMachine.y = Math.sin(3.14 * (planet.angle-90) / 180)*RINGRADIUS + planet.y + planet.height / 2;
+			timeMachine.x = Math.cos(3.14 * (planet.angle-90) / 180)*RINGRADIUS + planet.x + planet.width / 2;
 		}
 		
 		protected function updateButtons():void
