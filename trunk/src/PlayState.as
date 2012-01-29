@@ -30,11 +30,11 @@ package
 		
 		public var level:Level;
 		public var player:Player;
+		public var characters:FlxGroup;
 		protected var healthBar:FlxBar;
 		protected var staminaBar:FlxBar;
 		protected var startIndex:int;
 		protected var state:uint;
-		protected var characters:FlxGroup;
 		protected var countdown:CountDown;
 		
 		protected var END:uint = 0;
@@ -292,7 +292,7 @@ package
 			for (i = fallBlocks.length - 1; i >= 0; i--)
 			{
 				var block:FlxSprite = fallBlocks.members[i];
-				if (block == null || block.y > FlxG.camera.scroll.y + FlxG.camera.height + 32)
+				if (block == null || block.y > LEVELBOTTOM)
 				{
 					fallBlocks.remove(block);
 				}

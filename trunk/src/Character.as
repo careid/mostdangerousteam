@@ -156,7 +156,7 @@ package
 		public function setup(run_speed:int=100,dash_speed:int=200,staminaregen:Number=1.0,maxstamina:Number=50,health:Number=10):void
 		{
 			m_isDashing = false;
-			m_walk_stamina = 5;
+			m_walk_stamina = 15;
 			m_walk_speed = 0.35 * run_speed;
 			m_run_speed = run_speed;
 			m_dash_speed = dash_speed;
@@ -196,10 +196,13 @@ package
 		
 		override public function update():void
 		{
-			if (y > (FlxG.state as PlayState).LEVELBOTTOM)
+			var playState:PlayState = FlxG.state as PlayState;
+			if (y > playState.LEVELBOTTOM)
 			{
+				playState.characters.remove(this);
 				kill();
 			}
+			
 			var isTouchingFloor:Boolean = isTouching(FLOOR);
 			var isTouchingLeft:Boolean = isTouching(LEFT);
 			var isTouchingRight:Boolean = isTouching(RIGHT);
@@ -209,33 +212,14 @@ package
 			{
 				stamina = Math.max(0, stamina - 1);
 				
-				if (doDash == false)
+				if (doDash == false || stamina <= 0)
 				{
 					m_isDashing = false;
-				}
-				if (maxVelocity.x == m_dash_speed)
-				{
-					if (stamina < m_walk_stamina)
-					{
-						m_dustEmitter.on = false;
-						m_speed = m_walk_speed;
-						maxVelocity.x = m_walk_speed;
-					}
-				}
-				else if (stamina >= m_walk_stamina)
-				{
-					m_dustEmitter.start(false, 1.5, 0.1);
-					m_dustEmitter.on = true;
-					m_speed = m_dash_speed;
-					maxVelocity.x = m_dash_speed;
+					m_dustEmitter.on = false;
 				}
 			}
 			else
 			{
-				if (doDash)
-				{
-					m_isDashing = true;
-				}
 				if (isTouchingFloor)
 				{
 					stamina = Math.min(maxstamina, stamina + staminaregen);
@@ -249,6 +233,14 @@ package
 						m_speed = m_walk_speed;
 						maxVelocity.x = m_walk_speed;
 					}
+				}
+				else if (doDash)
+				{
+					m_isDashing = true;
+					m_dustEmitter.on = true;
+					m_dustEmitter.start(false, 1.5, 0.1);
+					m_speed = m_dash_speed;
+					maxVelocity.x = m_dash_speed;
 				}
 				else if (maxVelocity.x != m_run_speed)
 				{
