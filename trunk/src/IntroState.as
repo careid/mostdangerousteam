@@ -29,11 +29,29 @@ package
 			foreground.velocity.x = -40;
 			
 			var text:FlxText = new FlxText(100, 200, 8000,
-			"Robert works in space. He fixes important machinary.                     It is difficult work, but Robert loves a challenge.            He was working on a particulary tricky machine when something went wrong.....         To save the station, he must reach the locked control room.          Obviously, he could travel back into the past, maintaining his position as the station rotates and, through several compounded traversals, arrive at the control room.   'It's dangerous, but it's the only way' he says, 'after all...");
+			"Robert works in space. He fixes important machinery.                     It is difficult work, but Robert loves a challenge.            He was working on a particularly tricky machine when something went wrong.....         To save the station, he must reach the locked control room.     'It's dangerous, but it's the only way' he says, 'after all...");
 			text.size = 20;
 			text.shadow = 0xff000000;
 			text.velocity.x = -90;
 			add(text);
+			
+			text = new FlxText(0, 0, FlxG.width, "press [space] to skip");
+			text.scrollFactor.x = text.scrollFactor.y = 0;
+			text.color = 0xff000000;
+			add(text);
+		}
+		
+		override public function update():void 
+		{
+			if (foreground.x < -foreground.width +FlxG.width)
+			{
+				foreground.velocity.x = 0;
+			}
+			if (FlxG.keys.justPressed("SPACE"))
+			{
+				FlxG.switchState(new DummyLauncher());
+			}
+			super.update();
 		}
 	}
 }
