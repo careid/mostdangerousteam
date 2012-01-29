@@ -69,7 +69,7 @@ package
 			
 			var playState:PlayState = (FlxG.state as PlayState);
 			var player:Character = playState.player;
-			if (playState.level.tileMap.ray(player.origin,this.origin))
+			if (Math.random() < 0.01 && playState.level.tileMap.ray(player.origin,this.origin))
 			{
 				var dx:Number = player.x - x;
 				var dy:Number = player.y - y;

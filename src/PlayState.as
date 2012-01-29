@@ -24,6 +24,8 @@ package
 		[Embed(source = "sounds/explosion.mp3")] public var ExplosionSnd:Class;
 		
 		public static var GRAVITY:int = 400;
+
+		protected var winner:Boolean;
 		
 		protected var tiles:Array;
 		protected var fallAccum:Number;
@@ -146,7 +148,7 @@ package
 			}
 			
 			// warp effect
-			teleportEmitter = new FlxEmitter(0, 0, 20);
+			teleportEmitter = new FlxEmitter(0, 0, 20000);
 			teleportEmitter.particleClass = AdditiveFadingParticle;
 			teleportEmitter.makeParticles(CircleParticle, 20);
 			teleportEmitter.maxParticleSpeed.x = 1;
@@ -440,7 +442,7 @@ package
 			{
 				if (feedback.visible)
 				{
-					FlxG.flash(0x0, 0.7);//0xffffffff, 0.7);
+					FlxG.flash(0x0, 0.7);
 					feedback.visible = false;
 				}
 				super.update();
@@ -532,12 +534,15 @@ package
 		
 		public function debugShit():void
 		{			
-			if (FlxG.keys.justPressed("B"))
+			/*if (FlxG.keys.justPressed("B"))
 			{
 				//BRUCE
-				bots.add(new Bot(player));
+				var bt:Bot = new Bot(player);
+				bots.add(bt);
+				FlxG.flash(0x0, 0.5);
+				FlxG.camera.follow(bt);
 				trace(player.x, player.y);
-			}
+			}*/
 		}
 		
 		public function transitionState(newState:uint):void 
@@ -553,7 +558,10 @@ package
 					FlxSpecialFX.remove(starfield);
 					remove(starfield.sprite);
 					FlxG.play(ExplosionSnd);
-					FlxG.fade(0xffffff, 1.5, restartLevel);
+					if (winner)
+						FlxG.fade(0xffffff, 1.5, restartLevel);
+					else
+						FlxG.fade(0xffffff, 1.5, gameOver);
 					break;
 				default:
 					break;
@@ -647,11 +655,23 @@ package
 		
 		private function loseToBot(a:FlxObject,b:FlxObject):void
 		{
-			gameOver();
+			winner = false;
+			FlxG.camera.follow(a);
+			FlxG.flash(0x0, 0.5);
+			if (!feedback.visible)
+			{
+				a.update();
+				feedback.visible = true;
+				timeTravelCountdown = 1.5;
+			}
+			transitionState(END);
+			
+			//gameOver();
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
 		{
+			winner = true;
 			if (!feedback.visible)
 			{
 				a.update();
