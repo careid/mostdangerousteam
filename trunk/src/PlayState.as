@@ -342,7 +342,7 @@ package
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
-			FlxG.collide(level.doors, characters);
+			FlxG.collide(level.doors, characters,Door.crush);
 			FlxG.collide(level.countDowns, characters);
 			FlxG.collide(level.conveyors, characters, Conveyor.overlap);
 			FlxG.collide(level.spikepits, characters, SpikePit.overlap);

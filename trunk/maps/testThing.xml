@@ -1,6 +1,7 @@
 <Level1>
 	<TimeMachine x="3104" y="256"/>
 	<CountDown x="3008" y="200"/>
+	<CrazyDoor x="2978" y="224"/>
 	<DoorSwitch x="2100" y="192" id="1" />
 	<Door x="2180" y="192" id="1" />
 	<DoorSwitch x="1088" y="288" id="2" />

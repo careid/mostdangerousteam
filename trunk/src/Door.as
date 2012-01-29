@@ -95,6 +95,19 @@ package
 			state = newState;
 		}
 		
+		public static function crush(a:FlxObject,b:FlxObject):void 
+		{
+			var d:Door = Door(a);
+			var c:Character = Character(b);
+			if (d.state == CLOSING)
+			{
+				if (c.x + c.offset.x + c.width > d.x + d.offset.x && c.x + c.offset.x < d.x + d.offset.x + d.width && c.y > d.y)
+				{
+					c.die();
+				}
+			}
+		}
+		
 	}
 
 }
