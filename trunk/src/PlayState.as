@@ -47,6 +47,7 @@ package
 		
 		protected var timeStart:Number = 0;
 		protected var timeLeft:Number = 0;
+		protected var timeTravelCountdown:Number = 0;
 		
 		protected var doors:FlxGroup;
 		
@@ -101,8 +102,13 @@ package
 			starfield.sprite.scrollFactor.x = 0.0;
 			starfield.sprite.scrollFactor.y = 0.0;
 			starfield.setStarSpeed( -0.25, 0);
+			
 			//video feedback generator
 			feedback = new Feedback(15, 12, FlxG.camera.buffer);
+			timeTravelCountdown = 1.0;
+			feedback.visible = true;
+			
+			// warp effect
 			teleportEmitter = new FlxEmitter(0, 0, 20);
 			teleportEmitter.particleClass = AdditiveFadingParticle;
 			teleportEmitter.makeParticles(CircleParticle, 20);
@@ -112,6 +118,7 @@ package
 			teleportEmitter.minParticleSpeed.y = -1;
 			teleportEmitter.minRotation = 30;
 			teleportEmitter.maxRotation = 60;
+			
 			add(starfield.sprite);
 			add(feedback);
 			add(level.tileMap);
@@ -336,6 +343,7 @@ package
 		override public function update():void
 		{
 			timeLeft -= FlxG.elapsed;
+			timeTravelCountdown = Math.max(0, timeTravelCountdown - FlxG.elapsed);
 			if (timeLeft < 0)
 			{
 				timeLeft = 0;
@@ -352,7 +360,22 @@ package
 				teleportEmitter.on = true;
 				oldPlayersIndex--;
 			}
-			super.update();
+			
+			if (timeTravelCountdown == 0)
+			{
+				if (feedback.visible)
+				{
+					FlxG.flash(0x0, 0.7);//0xffffffff, 0.7);
+					feedback.visible = false;
+				}
+					
+				super.update();
+			}
+			else
+			{
+				if (teleportEmitter.on)
+					teleportEmitter.update();
+			}
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
@@ -529,7 +552,11 @@ package
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
 		{
-			feedback.visible = true;
+			if (!feedback.visible)
+			{
+				feedback.visible = true;
+				timeTravelCountdown = 1.5;
+			}			
 			transitionState(END);
 		}
 		

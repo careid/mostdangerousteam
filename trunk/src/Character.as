@@ -296,7 +296,6 @@ package
 						FlxG.play(JumpSnd);
 					}
 					m_remaining_jumps--;
-					m_isDashing = false;
 					velocity.y = -m_jump_power;
 					m_dustEmitter.on = false;
 				}
@@ -306,7 +305,6 @@ package
 					{
 						FlxG.play(JumpSnd);
 					}
-					m_isDashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * m_jump_power;
 					m_dustEmitter.on = false;
@@ -317,7 +315,6 @@ package
 					{
 						FlxG.play(JumpSnd);
 					}
-					m_isDashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * -m_jump_power;
 					m_dustEmitter.on = false;
@@ -329,7 +326,6 @@ package
 						FlxG.play(JumpSnd);
 					}
 					m_remaining_jumps--;
-					m_isDashing = false;
 					velocity.y = -m_jump_power;
 					m_dustEmitter.on = false;
 				}
@@ -584,7 +580,7 @@ package
 			pop.facing = facing;
 			pop.offset.x = 1;
 			pop.loadGraphic(ImgZap, true, true);
-			pop.addAnimation("zap", [0, 1], 18, false);
+			pop.addAnimation("zap", [0, 1], 18, true);
 			pop.play("zap");
 			(FlxG.state as PlayState).level.misc.add(pop);
 			visible = false;
