@@ -9,6 +9,7 @@ package
 		public static const CLOSED:uint = 0;
 		public static const OPENING:uint = 1;
 		public static const OPEN:uint = 2;
+		public static const CLOSING:uint = 3;
 		private var activation : uint = CLOSED;
 		private var landing_zone : FlxPoint = null;
 		
@@ -25,12 +26,13 @@ package
 			velocity.y = vY;
 			acceleration.y = 400;
 			
-			loadGraphic(Image, true, false, 36, 36);
+			loadGraphic(Image, true, false, 39, 39);
 			addAnimation("inactive", [0], 0, false);
 			addAnimation("activating", [0, 1, 2, 3, 4], 15, false);
+			addAnimation("closing", [5, 6, 7, 8],15,false);
 			play("inactive");
-			offset.x = (36 - 7) / 2;
-			offset.y = (36 - 7);
+			offset.x = (39 - 7) / 2;
+			offset.y = (39 - 7);
 			width  = 7;
 			height = 7;
 
@@ -49,11 +51,10 @@ package
 				width = 34;
 				height = 24;
 				offset.x = 0;
-				offset.y = 36 - height;
+				offset.y = 39 - height;
 				y -= 18;
 				x -= 14;
 				landing_zone = new FlxPoint(x, y);
-				//isActive = true;
 				activation = OPENING;
 			}
 			else if (activation == OPENING)
@@ -65,6 +66,11 @@ package
 					landing_zone = null;
 				}
 				if (finished) activation = OPEN;
+			}
+			else if (activation == CLOSING && finished)
+			{
+				trace("Finished closing");
+				kill();
 			}
 			super.update();
 		}
@@ -82,8 +88,10 @@ package
 				if (!theCharacter.flickering)
 				{
 					theCharacter.hit();
+					spikes.activation = CLOSING;
+					spikes.play("closing");
+					trace("CLAP!");
 				}
-				spikes.kill();
 			}
 		}
 	}

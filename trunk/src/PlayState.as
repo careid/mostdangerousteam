@@ -171,7 +171,7 @@ package
 				// This should only run if there are no checkpoints in the level's XML file
 				player = new Player(3008,  228);
 			}
-			else if (oldPlayers != null) // asshole
+			else if (oldPlayers != null && oldPlayers.length > 0) // asshole
 			{
 				trace("TIME TRAVEL!!!");
 				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
