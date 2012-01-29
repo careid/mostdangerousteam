@@ -91,11 +91,11 @@ package
 			}
 			
 			buttons[RUN].play("Run");
-			buttons[RUN].setCounter(runLevel + 1);
+			buttons[RUN].setCounter(runLevel);
 			buttons[STAMINA].play("Fuel");
-			buttons[STAMINA].setCounter(staminaLevel + 1);
+			buttons[STAMINA].setCounter(staminaLevel);
 			buttons[HEALTH].play("Health");
-			buttons[HEALTH].setCounter(healthLevel + 1);
+			buttons[HEALTH].setCounter(healthLevel);
 			
 			FlxG.flash(0xffffffff, 0.5);
 			
@@ -163,7 +163,7 @@ package
 				b.flash();
 				runLevel += 1;
 				exp -= 1;
-				buttons[RUN].setValue(runLevel + 1);
+				buttons[RUN].setValue(runLevel);
 				buttons[RUN].flicker(0.5);
 			}
 			else if (FlxG.keys.justPressed("X"))
@@ -172,7 +172,7 @@ package
 				b.flash();
 				staminaLevel += 1;
 				exp -= 1;
-				buttons[STAMINA].setValue(staminaLevel + 1);
+				buttons[STAMINA].setValue(staminaLevel);
 				buttons[STAMINA].flicker(0.5);
 			}
 			else if (FlxG.keys.justPressed("C"))
@@ -181,7 +181,7 @@ package
 				b.flash();
 				healthLevel += 1;
 				exp -= 1;
-				buttons[HEALTH].setValue(healthLevel + 1);
+				buttons[HEALTH].setValue(healthLevel);
 				buttons[HEALTH].flicker(0.5);
 			}
 		}

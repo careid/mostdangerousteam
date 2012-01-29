@@ -18,7 +18,7 @@ package
 			addAnimation("Fuel", [1]);
 			addAnimation("Health", [2]);
 			
-			counter = new Counter(X+38, Y+52);
+			counter = new Counter(X+37, Y+52);
 		}
 		
 		override public function update():void
