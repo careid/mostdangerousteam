@@ -26,7 +26,7 @@ package
 		
 		override public function update():void
 		{
-			if (m_stateHistory.length > 1)
+			if (m_stateHistory.length >= 2)
 			{
 				var state:int = m_stateHistory[0];
 				var time:Number = m_stateHistory[1];
@@ -36,6 +36,10 @@ package
 					m_stateHistory.shift();
 					setState(state);
 				}
+			}
+			else
+			{
+				setState(0);
 			}
 			
 			if (m_waypoints.length > 0)

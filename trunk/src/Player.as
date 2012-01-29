@@ -56,7 +56,7 @@ package
 		
 			
 			var state:int = getState(goLeft, goRight, doJump, usePowerup, doDash);
-			if (m_stateHistory.length < 2 || m_stateHistory[m_stateHistory.length - 1] != state)
+			if (m_stateHistory.length < 2 || m_stateHistory[m_stateHistory.length - 2] != state)
 			{
 				m_stateHistory.push(state);
 				m_stateHistory.push(m_timeLeft);
