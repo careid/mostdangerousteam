@@ -240,7 +240,7 @@ package
 			fallAccel += fallJerk * FlxG.elapsed;
 			if (fallAccum >= 1)
 			{
-				var xmax:int = int((0.5 - timeLeft / timeStart + 0.5) * level.tileMap.widthInTiles);
+				var xmax:int = int((0.75 - timeLeft / timeStart + 0.25) * level.tileMap.widthInTiles);
 				var imax:int = xmax * tiles.length / level.tileMap.widthInTiles;
 				while (tiles[imax] % level.tileMap.widthInTiles > xmax)
 					imax--;
