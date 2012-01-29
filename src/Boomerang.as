@@ -54,7 +54,7 @@ package
 				if (powerup != null)
 					powerup.ammo -= 1;
 				boomerang.m_thrower.m_recharge = 0.5;
-				theCharacter.hit(4, theCharacter.die);
+				theCharacter.hit(8, theCharacter.die);
 			}
 			/*if (theCharacter == boomerang.m_thrower)
 			{

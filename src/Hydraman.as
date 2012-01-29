@@ -51,7 +51,7 @@ package
 				glitch.start();
 				color = 0x334455;
 				FlxG.state.add(glitch.sprite);*/
-				color = 0x334455;
+				color = 0xDDCC99;
 			}
 		}
 		

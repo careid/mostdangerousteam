@@ -52,7 +52,7 @@ package
 			if (FlxG.keys.justPressed("S"))
 				selectBoomerang();
 			if (FlxG.keys.justPressed("D"))
-				selectBoomerang();
+				selectSpikes();
 		
 			
 			var state:int = getState(goLeft, goRight, doJump, usePowerup, doDash);
