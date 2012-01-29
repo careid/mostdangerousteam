@@ -25,7 +25,7 @@ package
 		public var m_health_level:int = 0;
 		public var m_timeLeft:Number;
 		public static var m_initialTimeLeft:Number;
-		private var glitch:GlitchFX;
+		//private var glitch:GlitchFX;
 		
 		public var m_stateHistory:Array;
 		public var m_waypoints:Array;
@@ -46,11 +46,12 @@ package
 			m_stateHistory = new Array();
 			if (isEnemy)
 			{
-				glitch = FlxSpecialFX.glitch();
+				/*glitch = FlxSpecialFX.glitch();
 				glitch.createFromFlxSprite(this, 10,1, true);
 				glitch.start();
 				color = 0x334455;
-				FlxG.state.add(glitch.sprite);
+				FlxG.state.add(glitch.sprite);*/
+				color = 0x334455;
 			}
 		}
 		
@@ -78,26 +79,26 @@ package
 			super.update();
 			m_timeLeft -= FlxG.elapsed;
 			
-			if (glitch != null)
+			/*if (glitch != null)
 			{
 				glitch.sprite.color = FlxColor.getRandomColor(255, 50);
 				glitch.sprite.x = x - 8;
 				glitch.sprite.alpha = Math.max(0.0, Math.min(1.0, FlxG.random() + 0.5));
 				glitch.sprite.y = y ;
 				glitch.sprite.blend = "add";
-			}
+			}*/
 		}
 		
 		override public function destroy() : void
 		{
-			if (glitch != null)
+			/*if (glitch != null)
 			{
 				glitch.stop();
 				glitch.sprite.kill();
 				FlxSpecialFX.remove(glitch);
 				(FlxG.state as PlayState).remove(glitch.sprite);
 				glitch = null;
-			}
+			}*/
 			
 			super.destroy();
 		}
@@ -132,13 +133,13 @@ package
 			eye.velocity.y = -3*maxVelocity.y;
 			(FlxG.state as PlayState).level.eyes.add(eye);
 			
-			if (glitch != null)
+			/*if (glitch != null)
 			{
 				glitch.stop();
 				glitch.sprite.kill();
 				FlxSpecialFX.remove(glitch);
 				(FlxG.state as PlayState).remove(glitch.sprite);
-			}
+			}*/
 			super.electrocute();
 		}
 		
@@ -158,13 +159,13 @@ package
 			eye.acceleration.y = 400;
 			(FlxG.state as PlayState).level.eyes.add(eye);
 			
-			if (glitch != null)
+			/*if (glitch != null)
 			{
 				glitch.stop();
 				glitch.sprite.kill();
 				FlxSpecialFX.remove(glitch);
 				(FlxG.state as PlayState).remove(glitch.sprite);
-			}
+			}*/
 			super.kill();
 		}
 	}
