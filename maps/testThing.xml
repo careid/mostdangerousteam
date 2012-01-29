@@ -21,10 +21,10 @@
 	<Door x="1184" y="288" id="1" />
 	<CheckPoint x="2315" y="278" threshold="0" time="30"/>
 	<CheckPoint x="2040" y="140" threshold="10" time="40"/>
-	<CheckPoint x="1760" y="150" threshold="25" time="55"/>
+	<CheckPoint x="1760" y="150" threshold="20" time="55"/>
 	<CheckPoint x="2350" y="544" threshold="35" time="90"/>
-	<CheckPoint x="2350" y="544" threshold="45" time="110"/>
-	<CheckPoint x="1408" y="544" threshold="55" time="140"/>
+	<CheckPoint x="2350" y="544" threshold="45" time="100"/>
+	<CheckPoint x="1408" y="544" threshold="55" time="120"/>
 	<Spikepit x="2304" y="470"/>
 	<StaminaRechargePowerup x="2646" y="342"/>
 	<StaminaRechargePowerup x="2646" y="256"/>
@@ -104,7 +104,7 @@
 	<StaminaRechargePowerup x="1856" y="544"/>
 	<StaminaRechargePowerup x="1632" y="544"/>
 	<StaminaRechargePowerup x="1440" y="544"/>
-	<CrazyDoor x="1696" y="544"/>
-	<CrazyDoor x="1920" y="544"/>
+	<CrazyDoor x="1696" y="512"/>
+	<CrazyDoor x="1920" y="512"/>
 
 </Level1>
