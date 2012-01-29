@@ -1,5 +1,12 @@
 <Level1>
 	<TimeMachine x="3104" y="256"/>
+	
+	<StoryBox x="2274" y="246" width="64" height="64" level="0" text="You'll need to fix the thing at the end of the corridor before the ship is completely destroyed. Use Left and Right to move, X to jump." />
+	<StoryBox x="2664" y="262" width="64" height="64" level="0" text="For a burst of speed, press C." />
+	<StoryBox x="2109" y="34" width="64" height="64" level="2" text="To activate a powerup, press Z. Switch powerups with Down" />
+	<StoryBox x="2040" y="144" width="64" height="64" level="2" text="Unfortunately, it seems that the teleporter sent you to the left, instead of right. You'd better try again." />
+	
+
 	<CountDown x="3008" y="200"/>
 	<CrazyDoor x="1760" y="416"/>
 	<CrazyDoor x="1792" y="416"/>

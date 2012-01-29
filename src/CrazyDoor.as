@@ -6,7 +6,7 @@ package
 		protected var INTERVAL:Number = 2.0;
 		protected var timer:Number = 0.0;
 		
-		override protected function setup():void
+		override public function setup():void
 		{
 			super.setup();
 			state = UP;

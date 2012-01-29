@@ -149,6 +149,10 @@ package
 				StoryBox(level.storyBoxes.members[i]).setup();
 			}
 			add(level.storyBoxes);
+			for (i = 0; i < level.doors.length; i++)
+			{
+				Door(level.doors.members[i]).setup();
+			}
 			
 			tiles = new Array();
 			FlxG.globalSeed = 12345;
@@ -382,14 +386,16 @@ package
 					FlxG.flash(0x0, 0.7);//0xffffffff, 0.7);
 					feedback.visible = false;
 				}
-					
-				super.update();
+				
+				//super.update();
 			}
 			else
 			{
 				if (teleportEmitter.on)
 					teleportEmitter.update();
 			}
+			
+			super.update();
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
@@ -406,7 +412,7 @@ package
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
 			FlxG.collide(level.tileMap, level.eyes);
-			FlxG.collide(level.doors, characters,Door.crush);
+			FlxG.collide(level.doors, characters, Door.crush);
 			FlxG.collide(level.conveyors, characters, Conveyor.overlap);
 			FlxG.collide(level.spikepits, characters, SpikePit.overlap);
 			FlxG.overlap(level.powerups, characters, PowerupEntity.overlapCharacter);

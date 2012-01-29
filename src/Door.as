@@ -25,11 +25,9 @@ package
 		{
 			super(X, Y);
 			loadGraphic(ImgDoor, false);
-			
-			setup();
 		}
 		
-		protected function setup():void
+		public function setup():void
 		{
 			immovable = true;
 			
