@@ -270,7 +270,8 @@ package
 				{
 					FlxG.play(JumpSnd);
 				}
-				stamina -= m_jump_cost;
+				if (!isTouchingFloor)
+					stamina -= m_jump_cost;
 				m_dustEmitter.on = false;
 				if (isTouchingFloor)
 				{
@@ -524,6 +525,7 @@ package
 			{
 				flicker(0.5);
 			}
+			trace(health);
 			return true;
 		}
 		
