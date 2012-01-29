@@ -120,19 +120,19 @@ package
 			
 			//play the appropriate music depending on the checkpoint the player just came out of
 			var bgm:FlxSound = FlxG.play(bgm1);
-			if (startIndex == 0 || startIndex == 1) {
+			if (startIndex == 0 || startIndex == 1 || startIndex == 2) {
+				bgm.stop();
 				bgm = FlxG.play(bgm1);
-				bgm.play();
 			}
-			else if (startIndex == 2) {
+			else if (startIndex == 3 || startIndex == 4 || startIndex == 5) {
 				bgm.stop();
 				bgm = FlxG.play(bgm2);
 			}
-			else if (startIndex == 3) {
+			else if (startIndex == 6 || startIndex == 7 || startIndex == 8) {
 				bgm.stop();
 				bgm = FlxG.play(bgm3);
 			}
-			else if (startIndex == 4) {
+			else if (startIndex == 9 || startIndex == 10 || startIndex == 11) {
 				bgm.stop();
 				bgm = FlxG.play(bgm4);
 			}
