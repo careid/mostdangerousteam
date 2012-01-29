@@ -52,6 +52,7 @@ package
 		public var spikes:FlxGroup;
 		
 		protected var timeStart:Number = 0;
+		protected var timeEnd:Number = 0;
 		protected var timeLeft:Number = 0;
 		protected var timeTravelCountdown:Number = 0;
 		
@@ -166,7 +167,8 @@ package
 			add(level.eyes);
 			add(level.misc);
 			add(teleportEmitter);
-			timeLeft = level.checkPoints[startIndex].time;
+			timeEnd = level.checkPoints[startIndex].time;
+			timeLeft = timeEnd; //level.checkPoints[startIndex].time;
 			Hydraman.m_initialTimeLeft = timeLeft;
 			for (i = 0; i < level.countDowns.length; i++)
 			{
@@ -199,7 +201,7 @@ package
 				}
 			}
 			timeStart = level.checkPoints[level.checkPoints.length - 1].time;
-			var timeEnd:Number = level.checkPoints[startIndex].time;
+			timeEnd = level.checkPoints[startIndex].time;
 			// formula for increasing falling blocks from start of level
 			// # fallen blocks = accel * time^2/2     accel = blocks * 2 / time ^ 2
 			// Calc intermediate 
@@ -250,7 +252,7 @@ package
 			{
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
 				oldPlayers = [player];
-				oldPlayers[0].startTime = timeLeft;
+				oldPlayers[0].startTime = timeEnd;
 				oldPlayersIndex = -1;
 			}
 			teleportEmitter.x = player.x;
@@ -262,7 +264,7 @@ package
 			cameraPreviousScroll = new FlxPoint(player.x, player.y);
 			characters.add(player);
 			
-			player.startTime = timeLeft;
+			player.startTime = timeEnd;
 			
 			// bots
 			bots = new FlxGroup();
@@ -404,6 +406,7 @@ package
 			}
 			if (oldPlayersIndex >= 0 && oldPlayers[oldPlayersIndex] && oldPlayers[oldPlayersIndex].startTime > timeLeft)
 			{
+				trace("OLD BOT NUMBER ", oldPlayersIndex);
 				var past_self:Player = oldPlayers[oldPlayersIndex];
 				//trace("add bots " + timeLeft + " " + past_self.startTime + " " + past_self.startX + " " + past_self.startY + " " + past_self.m_waypoints.length);
 				var toAdd:Bot = new Bot(past_self);
@@ -551,7 +554,7 @@ package
 						endGame();
 					}
 					FlxG.overlap(player, level.timeMachine, reachGoal);
-					FlxG.overlap(bots, level.timeMachine, restartLevel);
+					FlxG.overlap(bots, level.timeMachine, loseToBot);
 					break;
 				case END:
 					break;
@@ -589,7 +592,7 @@ package
 				{
 					oldPlayers.pop();
 				}
-				player.startTime = time;
+				player.startTime = timeEnd;
 				oldPlayers.push(player);
 			}
 			else if (bestIndex > startIndex)
@@ -624,13 +627,19 @@ package
 			}
 		}
 		
+		private function loseToBot(a:FlxObject,b:FlxObject):void
+		{
+			gameOver();
+		}
+		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
 		{
 			if (!feedback.visible)
 			{
+				a.update();
 				feedback.visible = true;
 				timeTravelCountdown = 1.5;
-			}			
+			}
 			transitionState(END);
 		}
 		

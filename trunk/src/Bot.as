@@ -40,10 +40,10 @@ package
 					setState(state);
 				}
 			}
-			else
+			/*else
 			{
 				setState(0);
-			}
+			}*/
 			
 			if (m_waypoints.length > 0)
 			{
