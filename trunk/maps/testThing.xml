@@ -9,7 +9,6 @@
 	<StoryBox x="2150" y="40" width="64" height="64" level="2" text="You get stronger when you collect parts of your past self. Don't worry about paradoxes, if you don't fix the thing, the whole ship will fall apart!" />
 	<StoryBox x="2654" y="262" width="64" height="64" level="2" text="The sooner you get to the machine, the more power it will have to send you further left and further back in time." />
 	
-	<CountDown x="3008" y="200"/>
 	<CrazyDoor x="1760" y="416"/>
 	<CrazyDoor x="1792" y="416"/>
 	<Spikepit x="1824"y="224"/>
