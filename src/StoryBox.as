@@ -14,7 +14,7 @@ package
 		public function setup():void
 		{
 			makeGraphic(width, height);
-			alpha = 0.5;
+			alpha = 0.0;
 		}
 		
 	}
