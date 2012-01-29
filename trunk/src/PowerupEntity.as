@@ -43,7 +43,14 @@ package
 			FlxG.play(PowerSnd);
 			FlxG.flash(0xffffffff, 0.3);
 			powerup.character = character;
-			character.addPowerup(powerup);
+			if (powerup is AutoUsePowerup)
+			{
+				powerup.activate();
+			}
+			else
+			{
+				character.addPowerup(powerup);
+			}
 			powerup.onAdd();
 			var emitter:FlxEmitter = new FlxEmitter(x, y);
 			emitter.particleClass = AdditiveFadingParticle;

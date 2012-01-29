@@ -389,7 +389,11 @@ package
 				var desiredIndex = m_powerupList.indexOf(m_currentPowerup) + 1
 				if (desiredIndex < m_powerupList.length)
 				{
-					m_currentPowerup = m_powerupList[m_powerupList.indexOf(m_currentPowerup) + 1];
+					m_currentPowerup = m_powerupList[desiredIndex];
+				}
+				else
+				{
+					m_currentPowerup = m_powerupList[0];
 				}
 			}
 		}
@@ -478,6 +482,9 @@ package
 			}
 			play("pop");
 			playingDeathAnimation = true;
+			this.solid = false;
+			this.acceleration.x = 0;
+			this.acceleration.y = 0;
 		
 		}
 	}
