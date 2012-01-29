@@ -429,13 +429,20 @@ package
 			
 			if (oldPlayers)
 			{
-				oldPlayers.unshift(player);
+				if (bestIndex == startIndex)
+				{
+					oldPlayers[bestIndex] = player;
+				}
+				else
+				{
+					oldPlayers.unshift(player);
+				}
 			}
 			else
 			{
 				oldPlayers = [player];
 			}
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers,player));
+			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
