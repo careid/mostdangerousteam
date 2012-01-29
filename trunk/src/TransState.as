@@ -40,12 +40,11 @@ package
 		[Embed(source = "graphics/spacestation.png")] protected var SpaceStationImage:Class;
 		[Embed(source = "graphics/eyescollected.png")] protected var EyesImage:Class;
 		
-		public function TransState(index:int,timeLeft:Number,players:Array,exp:int=0)
+		public function TransState(index:int,timeLeft:Number,players:Array,player:Player=null,exp:int=0)
 		{
 			this.index = index;
 			this.timeLeft = timeLeft;
 			this.players = players;
-			var player:Player = players[players.length-1];
 			runLevel = player.m_run_level;
 			staminaLevel = player.m_stamina_level;
 			healthLevel = player.m_health_level;

@@ -460,7 +460,7 @@ package
 			{
 				oldPlayers = [player];
 			}
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers));
+			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers,player));
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
