@@ -17,6 +17,7 @@ package
 		
 		[Embed(source = "graphics/gameover.png")] protected var Image:Class;
 		[Embed(source = "./sounds/music/taps.mp3")] protected var Music:Class;
+		[Embed(source = "sounds/explosion.mp3")] public var ExplosionSnd:Class;
 		
 		public function GameOverState(index:int,timeLeft:Number,players:Array,exp:int=0)
 		{
@@ -43,7 +44,8 @@ package
 			displayText.alignment = "center";
 			add(displayText);
 			
-			FlxG.play(Music,1.5,true);
+			FlxG.play(Music, 1.5, true);
+			FlxG.play(ExplosionSnd);
 			
 			super.create();
 		}
