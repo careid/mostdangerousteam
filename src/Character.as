@@ -209,7 +209,7 @@ package
 			var isTouchingLeft:Boolean = isTouching(LEFT);
 			var isTouchingRight:Boolean = isTouching(RIGHT);
 			
-			if (stamina <= 0)
+			if (stamina <= 0 && playSounds)
 			{
 				FlxG.play(StaminaSnd);
 			}
