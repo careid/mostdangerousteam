@@ -257,29 +257,6 @@ package
 						m_dustEmitter.on = false;
 					}
 				}
-				/*if (!doDash)
-				{
-					stamina = Math.min(maxstamina, stamina + staminaregen);
-				}
-				if (doDash && stamina > 0.25 * maxstamina)
-				{
-					if (playSounds)
-					{
-						//play dash sound
-					}
-					m_isDashing = true;
-					m_speed = m_dash_speed;
-					maxVelocity.x = m_dash_speed;
-					m_dustEmitter.start(false, 1.5, 0.1);
-					m_dustEmitter.on = true;
-				}
-				else
-				{
-					m_isDashing = false;
-					m_speed = m_run_speed;
-					maxVelocity.x = m_run_speed;
-					m_dustEmitter.on = false;
-				}*/
 			}
 			
 			// JUMPING

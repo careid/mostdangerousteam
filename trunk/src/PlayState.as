@@ -196,6 +196,7 @@ package
 			{
 				// This should only run if there are no checkpoints in the level's XML file
 				player = new Player(3008,  228);
+				trace("No checkpoints");
 				oldPlayersIndex = -1;
 			}
 			else if (oldPlayers != null && oldPlayers.length > 0) // asshole
@@ -207,7 +208,7 @@ package
 			else
 			{
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
-				oldPlayers = [new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel)];
+				oldPlayers = [player];
 				oldPlayers[0].startTime = timeLeft;
 				oldPlayersIndex = -1;
 			}
@@ -425,7 +426,7 @@ package
 				gameOver();
 			}
 			
-			debugShit();
+			//debugShit();
 			isFirstIteration = false;
 			var powerupList:Array = player.getPowerupList();
 			if (powerupList != null)

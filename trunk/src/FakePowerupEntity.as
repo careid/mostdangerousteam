@@ -15,7 +15,6 @@ package
 		override public function collect(character : Character) : Powerup
 		{
 			if (character != owner) {
-				trace("Somebody can fuck up");
 				character.canFuckUp = true;
 			}
 			return null;
