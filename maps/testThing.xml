@@ -26,13 +26,12 @@
 	<CheckPoint x="1760" y="150" threshold="25" time="50"/>
 	<CheckPoint x="1888" y="128" threshold="30" time="55"/>
 	<CheckPoint x="1664" y="192" threshold="35" time="60"/>
-	<CheckPoint x="1664" y="288" threshold="40" time="65"/>
-	<CheckPoint x="1760" y="128" threshold="45" time="75"/>
-	<CheckPoint x="2350" y="544" threshold="50" time="100"/>
-	<CheckPoint x="1408" y="544" threshold="60" time="120"/>
-	<CheckPoint x="1376" y="544" threshold="65" time="133"/>
-	<CheckPoint x="1380" y="544" threshold="67" time="135"/>
-	<CheckPoint x="1384" y="544" threshold="69" time="138"/>
+	<CheckPoint x="1760" y="128" threshold="45" time="70"/>
+	<CheckPoint x="2350" y="544" threshold="50" time="80"/>
+	<CheckPoint x="1408" y="544" threshold="60" time="90"/>
+	<CheckPoint x="1376" y="544" threshold="70" time="100"/>
+	<CheckPoint x="1380" y="544" threshold="80" time="110"/>
+	<CheckPoint x="1384" y="544" threshold="90" time="115"/>
 	<Spikepit x="2304" y="470"/>
 	<StaminaRechargePowerup x="2646" y="342"/>
 
