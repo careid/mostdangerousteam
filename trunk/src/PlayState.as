@@ -16,6 +16,8 @@ package
 		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var TestThingCSV:Class;		
 		[Embed(source = "../maps/testThing.xml", mimeType = "application/octet-stream")] public var TestThingXML:Class;		
 		
+		[Embed(source = "./graphics/hud.png")] public var HUD:Class;
+		
 		public static var GRAVITY:int = 400;
 		
 		protected var tiles:Array;
@@ -29,6 +31,7 @@ package
 		
 		public var level:Level;
 		public var player:Player;
+		protected var healthBar:FlxBar;
 		protected var staminaBar:FlxBar;
 		protected var startIndex:int;
 		protected var state:uint;
@@ -76,7 +79,7 @@ package
 			this.runLevel = runLevel;
 			this.staminaLevel = staminaLevel;
 			this.healthLevel = healthLevel;
-			inventoryText = new FlxText(FlxG.width - 100, 10, 100);
+			inventoryText = new FlxText(3, 30, 100);
 			inventoryText.text = "Current Item: Nothing.";
 			inventoryText.scrollFactor.x = 0;
 			inventoryText.scrollFactor.y = 0;
@@ -210,13 +213,25 @@ package
 			staminaText.shadow = 0xFF111111;
 			staminaText.scrollFactor.x = 0;
 			staminaText.scrollFactor.y = 0;
-			staminaBar = new FlxBar(45, 15, FlxBar.FILL_LEFT_TO_RIGHT, 100, 10, player, "stamina", 0, 100, true);
+			
+			add(staminaText);
+			add(healthText);
+			
+			//hud
+			var hud:FlxSprite = new FlxSprite(0, 0, HUD);
+			hud.scrollFactor.x = hud.scrollFactor.y = 0;
+			healthBar = new FlxBar(11, 3, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "health",0,player.m_max_health);
+			healthBar.createFilledBar(0xff000000, 0xffff0000);
+			healthBar.scrollFactor.x = 0;
+			healthBar.scrollFactor.y = 0;
+			staminaBar = new FlxBar(11, 14, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "stamina", 0, 100, true);
+			staminaBar.createFilledBar(0xff000000, 0xff0000ff);
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
 			
-			add(healthText);
+			add(hud);
+			add(healthBar);
 			add(staminaBar);
-			add(staminaText);
 			add(inventoryText);
 			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
 			

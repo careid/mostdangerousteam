@@ -22,6 +22,8 @@ package
 		protected var m_dash_speed:Number;
 		protected var m_accel_constant:Number;
 		
+		public var m_max_health:Number;
+		
 		public var jumps:int;
 		protected var m_remaining_jumps:int;
 		protected var m_jump_power:Number;
@@ -167,6 +169,7 @@ package
 			this.maxstamina = maxstamina;
 			stamina = maxstamina;
 			
+			m_max_health = health;
 			this.health = health;
 			
 			//animations
