@@ -63,11 +63,14 @@ package
 			var diffX : Number = 0;
 			var diffY : Number = 0;
 			
-			diffX = m_thrower.x - x;
-			diffY = m_thrower.y - y;
-			
-			acceleration.x = m_trackSpeed * diffX - velocity.x;
-			acceleration.y = m_trackSpeed * diffY - velocity.y;
+			if (m_thrower.alive)
+			{
+				diffX = m_thrower.x - x;
+				diffY = m_thrower.y - y;
+				
+				acceleration.x = m_trackSpeed * diffX - velocity.x;
+				acceleration.y = m_trackSpeed * diffY - velocity.y;
+			}
 			
 			super.update();
 		}

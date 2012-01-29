@@ -456,7 +456,7 @@ package
 			}
 			else if (m_currentPowerup != null && m_currentPowerup.shouldBeDiscarded)
 			{
-				delete m_powerupList.slice(m_powerupList.indexOf(m_currentPowerup));
+				delete m_powerupList[m_powerupList.indexOf(m_currentPowerup)];
 				m_currentPowerup = null;
 			}
 		}
