@@ -286,6 +286,7 @@ package
 			add(textBox);
 			
 			FlxG.flash(0xffffffff, 0.7);
+			super.update();
 		}
 		
 		protected function updateFallingBlocks() : void
@@ -360,6 +361,7 @@ package
 		
 		override public function update():void
 		{
+				
 			timeLeft -= FlxG.elapsed;
 			timeTravelCountdown = Math.max(0, timeTravelCountdown - FlxG.elapsed);
 			if (timeLeft < 0)
@@ -386,16 +388,13 @@ package
 					FlxG.flash(0x0, 0.7);//0xffffffff, 0.7);
 					feedback.visible = false;
 				}
-				
-				//super.update();
+				super.update();
 			}
 			else
 			{
 				if (teleportEmitter.on)
 					teleportEmitter.update();
 			}
-			
-			super.update();
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;

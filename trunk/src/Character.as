@@ -465,10 +465,14 @@ package
 			// Only add powerups of unique types.
 			for each(var p : Powerup in m_powerupList)
 			{
-					if (p.animationName == powerup.animationName)
+				if (p.animationName == powerup.animationName)
+				{
+					if (p is AmmoPowerup)
 					{
-						return;
+						(p as AmmoPowerup).ammo += (powerup as AmmoPowerup).ammo;
 					}
+					return;
+				}
 			}
 			
 			if (!powerup.shouldBeDiscarded)
