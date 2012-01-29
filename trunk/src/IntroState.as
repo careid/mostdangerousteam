@@ -12,8 +12,8 @@ package
 		
 		override public function create():void
 		{
-			background = new FlxSprite(468*2+40,51*2);
-			background.loadGraphic(ImgBack, true, false, 468, 51);
+			background = new FlxSprite(385*2+40,51*2);
+			background.loadGraphic(ImgBack, true, false, 385, 51);
 			background.addAnimation("go", [0, 1], 1);
 			background.play("go");
 			background.scale.x = background.scale.y = 5;
