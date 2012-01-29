@@ -31,6 +31,7 @@ package
 		protected var fallAccel:Number;
 		protected var fallJerk:Number;
 		protected var fallBlocks:FlxGroup;
+		protected var fallBGBlocks:FlxGroup;
 		
 		public const LEVELBOTTOM:int = 600;
 		
@@ -211,7 +212,9 @@ package
 			fallJerk = 0.8 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
 			
 			fallBlocks = new FlxGroup();
+			fallBGBlocks = new FlxGroup();
 			add(fallBlocks);
+			add(fallBGBlocks);
 			
 			// Simulate the falling from the start time until the current time
 			for (timeLeft = timeStart; timeLeft > timeEnd; timeLeft -= FlxG.elapsed)
@@ -251,7 +254,8 @@ package
 			else
 			{
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
-				oldPlayers = [player];
+				// This is to make sure different poinwer for old player. Do not remoe
+				oldPlayers = [new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel)];
 				oldPlayers[0].startTime = timeEnd;
 				oldPlayersIndex = -1;
 			}
@@ -340,6 +344,14 @@ package
 					fallBlocks.remove(block);
 				}
 			}
+			for (i = fallBGBlocks.length - 1; i >= 0; i--)
+			{
+				var block:FlxSprite = fallBGBlocks.members[i];
+				if (block == null || block.y > LEVELBOTTOM)
+				{
+					fallBGBlocks.remove(block);
+				}
+			}
 			// Add more falling blocks as needed
 			fallAccum += fallRate * FlxG.elapsed + 0.5 * fallAccel * FlxG.elapsed * FlxG.elapsed + 1.0 / 6.0 * fallJerk * FlxG.elapsed * FlxG.elapsed * FlxG.elapsed;
 			fallRate += fallAccel * FlxG.elapsed + 0.5 * fallJerk * FlxG.elapsed * FlxG.elapsed;
@@ -367,7 +379,14 @@ package
 					tile.velocity.x = 25.0 * (Math.abs(FlxG.random())-0.5);
 					tile.velocity.y = -25.0 * Math.abs(FlxG.random());
 					tile.angularVelocity = 180.0 * (Math.abs(FlxG.random()) - 0.5);
-					fallBlocks.add(tile);
+					if (tile_idx >= 25)
+					{
+						fallBGBlocks.add(tile);
+					}
+					else
+					{
+						fallBlocks.add(tile);
+					}
 				}
 			}
 		}
@@ -390,14 +409,13 @@ package
 			//var nvx:Number = char.velocity.x - block.velocity.x;
 			var nvy:Number = char.velocity.y - block.velocity.y;
 			block.solid = false;
-			if (nvy > 0)
+			if (nvy > 0 || block.y > char.y)
 				return;
 			char.hit(14, char.squash);
 		}
 		
 		override public function update():void
 		{
-				
 			timeLeft -= FlxG.elapsed;
 			timeTravelCountdown = Math.max(0, timeTravelCountdown - FlxG.elapsed);
 			if (timeLeft < 0)
@@ -609,7 +627,7 @@ package
 			}
 			else
 			{
-				oldPlayers[bestIndex] = player;
+				oldPlayers[oldPlayers.length-1] = player;
 			}
 			FlxG.switchState(new TransState(bestIndex,level.checkPoints[bestIndex].time,oldPlayers,player,(bestIndex!=startIndex)));
 		}
