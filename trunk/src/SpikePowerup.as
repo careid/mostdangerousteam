@@ -43,7 +43,7 @@ package
 			}
 			else // aim at someone
 			{
-				throwLeft = (target.x < character.x && character.velocity >= 0);
+				throwLeft = (target.x < character.x && character.velocity.x >= 0);
 			}
 			
 			
