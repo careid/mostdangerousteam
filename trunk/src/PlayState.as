@@ -16,6 +16,10 @@ package
 		[Embed(source = "./graphics/Ring002.png")] public var CircleParticle:Class;
 		[Embed(source = "./graphics/hud2.png")] public var HUD:Class;
 		[Embed(source = "./graphics/powerups.png")] public var PowerupImage:Class;
+		[Embed(source = "./sounds/music/bgm1.mp3")] public var bgm1:Class;
+	    [Embed(source = "./sounds/music/bgm2.mp3")] public var bgm2:Class;
+		[Embed(source = "./sounds/music/bgm3.mp3")] public var bgm3:Class;
+		[Embed(source = "./sounds/music/bgm4.mp3")] public var bgm4:Class;
 		
 		public static var GRAVITY:int = 400;
 		
@@ -113,6 +117,25 @@ package
 			feedback = new Feedback(15, 12, FlxG.camera.buffer);
 			timeTravelCountdown = 1.0;
 			feedback.visible = true;
+			
+			//play the appropriate music depending on the checkpoint the player just came out of
+			var bgm:FlxSound = FlxG.play(bgm1);
+			if (startIndex == 0 || startIndex == 1) {
+				bgm = FlxG.play(bgm1);
+				bgm.play();
+			}
+			else if (startIndex == 2) {
+				bgm.stop();
+				bgm = FlxG.play(bgm2);
+			}
+			else if (startIndex == 3) {
+				bgm.stop();
+				bgm = FlxG.play(bgm3);
+			}
+			else if (startIndex == 4) {
+				bgm.stop();
+				bgm = FlxG.play(bgm4);
+			}
 			
 			// warp effect
 			teleportEmitter = new FlxEmitter(0, 0, 20);
