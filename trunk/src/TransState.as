@@ -61,7 +61,7 @@ package
 			eyeSprite.play("Nothing");
 			this.exp = numEyes;
 			eyesString = new FlxText(20, 50, 60);
-			eyesString.text = "Num Eyes Eaten: " + numEyes;
+			eyesString.text = "Eyes Collected: " + numEyes;
 			super();
 			add(eyeSprite);
 			add(eyesString);
@@ -141,7 +141,7 @@ package
 				}
 			}
 			
-			eyesString.text = "Num Eyes Eaten: " + exp;
+			eyesString.text = "Eyes Collected: " + exp;
 			
 			updateTimeMachine();
 			
