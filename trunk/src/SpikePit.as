@@ -10,9 +10,18 @@ package
 			super(X, Y);
 			loadGraphic(ImgConveyor, true, false, 32, 32);
 			
-			addAnimation("go", [3,2,1,0], 12);
+			addAnimation("go", [1, 2, 3, 0], 12, false);
+			addAnimation("stop", [0], 12, false);
 			play("go");
 			
+		}
+		
+		override public function update():void
+		{
+			if (finished && Math.random() < 0.1)
+			{
+				play("go");
+			}
 		}
 		
 		public function getShift(s:FlxSprite):void

@@ -7,7 +7,6 @@ package
 	public class Hydraman extends Character
 	{
 		[Embed(source = "graphics/main.png")] protected var ImgHydraman:Class;
-		[Embed(source = "./graphics/blood.png")] public var bloodDrop:Class;
 		
 		protected static const LEFT_SHIFT:int    = 0;
 		protected static const RIGHT_SHIFT:int   = 1;
@@ -122,6 +121,7 @@ package
 		override public function kill() : void
 		{
 			spurt();
+			pop.kill();
 			
 			// Spawn an eye.
 			var eye : Eye = new Eye(x + 5, y + 12);

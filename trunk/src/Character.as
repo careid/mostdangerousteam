@@ -513,7 +513,7 @@ package
 			pop.facing = facing;
 			pop.offset.x = 24;
 			pop.loadGraphic(ImgPop, true, true);
-			pop.addAnimation("pop", [0, 1, 2, 3, 4, 5, 6, 7], 12, false);
+			pop.addAnimation("pop", [0, 1, 2, 3, 4, 5, 6, 7], 10, false);
 			pop.play("pop");
 			(FlxG.state as PlayState).level.misc.add(pop);
 			visible = false;
