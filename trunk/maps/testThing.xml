@@ -23,7 +23,24 @@
         <Conveyor x="1152" y="129" />
 	<Conveyor x="1184" y="129" />
 	<Conveyor x="1216" y="129" />
+
+	<Conveyor x="2208" y="96" />
+	<Conveyor x="2240" y="96" />
+	<Conveyor x="2272" y="96" />
+	<Conveyor x="2304" y="96" />
+	<Conveyor x="2336" y="96" />
+	<Conveyor x="2368" y="96" />
+	<Conveyor x="2400" y="96" />
+
+	<Conveyor x="2208" y="0" />
+	<Conveyor x="2240" y="0" />
+	<Conveyor x="2272" y="0" />
+	<Conveyor x="2304" y="0" />
+	<Conveyor x="2336" y="0" />
+	<Conveyor x="2368" y="0" />
+	<Conveyor x="2400" y="0" />
 	
+
 	<StaminaRechargePowerup x="2336" y="298"/>
 	<SpikePowerup x="2368" y="298"/>
 	<BoomerangPowerup x="2400" y="298"/>
