@@ -211,10 +211,10 @@ package
 			}
 			
 			//post processing
-			for (i = 0; i < doorSwitches.members.length; i++)
+			for (i = 0; i < doorSwitches.length; i++)
 			{
 				var ds:DoorSwitch = DoorSwitch(doorSwitches.members[i])
-				ds.connectDoor(doors.members);
+				ds.connectDoor(doors);
 			}
 			
 			eyes = new FlxGroup();

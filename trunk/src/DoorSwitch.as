@@ -22,13 +22,13 @@ package
 			addAnimation("down", [1]);
 		}
 		
-		public function connectDoor(doors:Array):void
+		public function connectDoor(doors:FlxGroup):void
 		{
 			var d:Door;
 			var i:int;
 			for (i = 0; i < doors.length; i++)
 			{
-				d = doors[i];
+				d = doors.members[i];
 				if (d.id == id)
 				{
 					door = d;
