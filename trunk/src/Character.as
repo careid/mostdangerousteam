@@ -292,7 +292,7 @@ package
 			}
 			
 			// FRICTION
-			if (velocity.y > 0 && (isTouchingLeft || isTouchingRight))
+			if (velocity.y > 0 && ((isTouchingLeft && goLeft) || (isTouchingRight && goRight)))
 			{
 				acceleration.y = PlayState.GRAVITY - velocity.y * m_wall_friction;
 				m_dustEmitter.on = true;
