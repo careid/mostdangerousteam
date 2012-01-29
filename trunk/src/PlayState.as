@@ -25,7 +25,7 @@ package
 		protected var fallJerk:Number;
 		protected var fallBlocks:FlxGroup;
 		
-		protected const LEVELBOTTOM:int = 600;
+		public const LEVELBOTTOM:int = 600;
 		
 		public var level:Level;
 		public var player:Player;
@@ -332,6 +332,7 @@ package
 			FlxG.overlap(level.powerups, characters, PowerupEntity.overlapCharacter);
 			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
 			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
+			FlxG.overlap(boomerangs, spikes, SpikeTrap.overlapBoomerang);
 			FlxG.overlap(spikes, characters, SpikeTrap.overlapCharacter);
 			FlxG.overlap(level.eyes, player, Eye.overlapPlayer);
 			FlxG.collide(fallBlocks, characters, fallingBlockCollide);

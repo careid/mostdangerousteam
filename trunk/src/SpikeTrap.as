@@ -94,6 +94,16 @@ package
 				}
 			}
 		}
+		
+		public static function overlapBoomerang(boomerang:Boomerang, spikes : SpikeTrap) : void
+		{
+			if (spikes.activation == OPEN)
+			{
+				spikes.activation = CLOSING;
+				spikes.play("closing");
+				trace("CLAP!");
+			}
+		}
 	}
 
 }

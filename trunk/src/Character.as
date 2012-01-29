@@ -181,6 +181,11 @@ package
 		
 		override public function update():void
 		{
+			if (y > (FlxG.state as PlayState).LEVELBOTTOM)
+			{
+				kill();
+				return;
+			}
 			var isTouchingFloor:Boolean = isTouching(FLOOR);
 			var isTouchingLeft:Boolean = isTouching(LEFT);
 			var isTouchingRight:Boolean = isTouching(RIGHT);
