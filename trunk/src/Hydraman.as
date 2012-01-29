@@ -1,7 +1,9 @@
 package
 {
 	import org.flixel.*;
-	
+	import org.flixel.plugin.photonstorm.FlxSpecialFX;
+	import org.flixel.plugin.photonstorm.FX.GlitchFX;
+	import org.flixel.plugin.photonstorm.FlxColor;
 	public class Hydraman extends Character
 	{
 		[Embed(source = "graphics/main.png")] protected var ImgHydraman:Class;
@@ -23,13 +25,14 @@ package
 		public var m_health_level:int = 0;
 		public var m_timeLeft:Number;
 		public static var m_initialTimeLeft:Number;
+		private var glitch:GlitchFX;
 		
 		public var m_stateHistory:Array;
 		public var m_waypoints:Array;
 		public var startX:Number;
 		public var startY:Number;
 		
-		public function Hydraman(X:int,Y:int,soundOn:Boolean = false)
+		public function Hydraman(X:int,Y:int,soundOn:Boolean = false, isEnemy:Boolean = true)
 		{
 			super(X, Y, soundOn);
 			startX = X;
@@ -41,6 +44,14 @@ package
 			width = 15;
 			m_timeLeft = m_initialTimeLeft;
 			m_stateHistory = new Array();
+			if (isEnemy)
+			{
+				glitch = FlxSpecialFX.glitch();
+				glitch.createFromFlxSprite(this, 5, 10, true);
+				glitch.start();
+				color = 0x334455;
+				FlxG.state.add(glitch.sprite);
+			}
 		}
 		
 		protected function setState(state:int):void {
@@ -66,6 +77,29 @@ package
 		{
 			super.update();
 			m_timeLeft -= FlxG.elapsed;
+			
+			if (glitch != null)
+			{
+				glitch.sprite.color = 0xFFFFFF - FlxColor.getRandomColor(50, 50);
+				glitch.sprite.x = x - 8;
+				glitch.sprite.alpha = FlxG.random() + 0.5;
+				glitch.sprite.y = y ;
+				glitch.sprite.blend = "add";
+			}
+		}
+		
+		override public function destroy() : void
+		{
+			if (glitch != null)
+			{
+				glitch.stop();
+				glitch.sprite.kill();
+				FlxSpecialFX.remove(glitch);
+				(FlxG.state as PlayState).remove(glitch.sprite);
+				glitch = null;
+			}
+			
+			super.destroy();
 		}
 		
 		override public function kill() : void
@@ -78,6 +112,14 @@ package
 			}
 			eye.acceleration.y = 400;
 			(FlxG.state as PlayState).level.eyes.add(eye);
+			
+			if (glitch != null)
+			{
+				glitch.stop();
+				glitch.sprite.kill();
+				FlxSpecialFX.remove(glitch);
+				(FlxG.state as PlayState).remove(glitch.sprite);
+			}
 			super.kill();
 		}
 	}

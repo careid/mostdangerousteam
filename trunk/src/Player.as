@@ -23,7 +23,7 @@ package
 			
 			
 			numEyes = 0;
-			super(X, Y, true);
+			super(X, Y, true,false);
 			push_waypoint();
 		}
 		
