@@ -1,0 +1,64 @@
+<Level1>
+	<TimeMachine x="3000" y="224"/>
+	<CountDown x="3008" y="200"/>
+	<DoorSwitch x="2528" y="576" id="1" />
+	<Door x="2560" y="576" id="1" />
+	<DoorSwitch x="2592" y="416" id="2" />
+	<Door x="2560" y="416" id="2" />
+	<DoorSwitch x="2528" y="128" id="3" />
+	<Door x="2560" y="128" id="3" />
+	<DoorSwitch x="2272" y="480" id="4" />
+	<Door x="2304" y="480" id="4" />
+	<DoorSwitch x="2272" y="480" id="5" />
+	<Door x="1344" y="96" id="5" />
+	<DoorSwitch x="2272" y="480" id="6" />
+	<Door x="160" y="544" id="6" />
+	<DoorSwitch x="2336" y="224" id="7" />
+	<Door x="2368" y="224" id="7" />
+	<DoorSwitch x="2112" y="192" id="8" />
+	<Door x="2144" y="192" id="8" />
+	<CheckPoint x="2624" y="512" threshold="0" time="20"/>
+	<CheckPoint x="2432" y="192" threshold="5" time="30"/>
+	<CheckPoint x="1664" y="96" threshold="10" time="40"/>
+	<CheckPoint x="1088" y="96" threshold="14" time="55"/>
+	<CheckPoint x="224" y="64" threshold="18" time="120"/>
+	<CheckPoint x="128" y="64" threshold="25" time="140"/>
+
+	<Conveyor x="2240" y="606" />
+	<Conveyor x="2272" y="606" />
+	<Conveyor x="2304" y="606" />
+	<Conveyor x="2336" y="606" />
+	<Conveyor x="2368" y="606" />
+
+	<Conveyor x="2272" y="158" />
+	<Conveyor x="2304" y="158" />
+	<Conveyor x="2336" y="158" />
+	<Conveyor x="2368" y="158" />
+	<Conveyor x="2400" y="158" />
+	<Conveyor x="2432" y="158" />
+	<Conveyor x="2464" y="158" />
+	<Conveyor x="2496" y="158" />
+	<Conveyor x="2528" y="158" />
+	<Conveyor x="2560" y="158" />
+
+	<Conveyor x="2560" y="285" />
+	<Conveyor x="2592" y="285" />
+	<Conveyor x="2624" y="285" />
+	<Conveyor x="2656" y="285" />
+	<Conveyor x="2688" y="285" />
+
+	<Conveyor x="2496" y="381" />
+	<Conveyor x="2528" y="381" />
+	<Conveyor x="2560" y="381" />
+	<Conveyor x="2592" y="381" />
+
+	<StaminaRechargePowerup x="2528" y="352"/>
+	<StaminaRechargePowerup x="2646" y="224"/>
+	<StaminaRechargePowerup x="2368" y="576"/>
+	<StaminaRechargePowerup x="2336" y="298"/>
+	<StaminaRechargePowerup x="2464" y="96"/>
+	<StaminaRechargePowerup x="2336" y="128"/>
+	<BoomerangPowerup x="2728" y="520"/>
+	<SpikePowerup x="2176" y="64"/>
+	<SpikePowerup x="2368" y="298"/>
+</Level1>
