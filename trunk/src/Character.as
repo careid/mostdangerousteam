@@ -12,8 +12,10 @@ package
 		[Embed(source = "./graphics/spark.png")] public var spark:Class;
 		
 		[Embed(source = "./sounds/playerJump.mp3")] public var JumpSnd:Class;
-		[Embed(source = "sounds/playerJump.mp3")] public var DeathSnd:Class;
-		[Embed(source = "sounds/dashOn.mp3")] public var DashSnd:Class;
+		[Embed(source = "sounds/playerDeath.mp3")] public var DeathSnd:Class;
+		[Embed(source = "sounds/footstep.mp3")] public var DashSnd:Class;
+		[Embed(source = "./sounds/hydramanSad.mp3")] public var StaminaSnd:Class;
+		[Embed(source = "./sounds/jetPackOn.mp3")] public var RocketSnd:Class;
 		
 		protected var pop: FlxSprite;
 		
@@ -207,9 +209,18 @@ package
 			var isTouchingLeft:Boolean = isTouching(LEFT);
 			var isTouchingRight:Boolean = isTouching(RIGHT);
 			
+			if (stamina <= 0)
+			{
+				FlxG.play(StaminaSnd);
+			}
+			
 			// VELOCITY
 			if (m_isDashing)
 			{
+				if (isTouchingFloor)
+				{
+					FlxG.play(DashSnd);
+				}
 				stamina = Math.max(0, stamina - 1);
 				
 				if (doDash == false || stamina <= 0)
@@ -270,8 +281,14 @@ package
 				{
 					FlxG.play(JumpSnd);
 				}
+				else
+				{
+					FlxG.play(RocketSnd);
+				}
 				if (!isTouchingFloor)
+				{
 					stamina -= m_jump_cost;
+				}
 				m_dustEmitter.on = false;
 				if (isTouchingFloor)
 				{
@@ -559,10 +576,7 @@ package
 		
 		public function squash():void
 		{
-			if (playSounds)
-			{
-				FlxG.play(DeathSnd);
-			}
+			FlxG.play(DeathSnd);
 			play("squash");
 			playingDeathAnimation = true;
 			
@@ -573,10 +587,7 @@ package
 		
 		public function electrocute():void
 		{
-			if (playSounds)
-			{
-				FlxG.play(DeathSnd);
-			}
+			FlxG.play(DeathSnd);
 			pop = new FlxSprite(x, y, ImgZap);
 			pop.facing = facing;
 			pop.offset.x = 1;
@@ -607,10 +618,7 @@ package
 		
 		public function die():void
 		{
-			if (playSounds)
-			{
-				FlxG.play(DeathSnd);
-			}
+			FlxG.play(DeathSnd);
 			play("pop");
 			playingDeathAnimation = true;
 			pop = new FlxSprite(x, y, ImgPop);

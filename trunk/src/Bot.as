@@ -4,6 +4,7 @@ package
 
 	public class Bot extends Hydraman
 	{
+		[Embed(source = "sounds/explosion.mp3")] public var ExplosionSnd:Class;
 		
 		public function Bot(old_player:Player)
 		{
@@ -22,6 +23,8 @@ package
 			m_run_level = old_player.m_run_level;
 			m_stamina_level = old_player.m_stamina_level;
 			m_timeLeft = old_player.startTime;
+			
+			FlxG.play(ExplosionSnd);
 		}
 		
 		override public function update():void

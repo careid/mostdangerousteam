@@ -47,6 +47,9 @@ package
 		[Embed(source = "graphics/main-icon.png")] protected var ManImage:Class;
 		[Embed(source = "graphics/machine-icon.png")] protected var MachineImage:Class;
 		
+		[Embed(source = "./sounds/music/stationViewBgm.mp3")] public var MusicSnd:Class;
+		[Embed(source = "./sounds/menuHighlight.mp3")] public var ButtonSnd:Class;
+		
 		public function TransState(index:int,timeLeft:Number,players:Array,player:Player=null,newLevel:Boolean=false)
 		{
 			this.index = index;
@@ -69,6 +72,7 @@ package
 			add(eyesString);
 			numEats = 0;
 			this.newLevel = newLevel;
+			
 		}
 		
 		override public function create():void
@@ -110,6 +114,8 @@ package
 			add(timeMachine);
 			
 			add(new FlxSprite(planet.x + planet.width / 2, planet.y, ManImage));
+			
+			FlxG.play(MusicSnd);
 		}
 		
 		override public function update():void 
@@ -172,6 +178,7 @@ package
 				exp -= 1;
 				buttons[RUN].setCounter(runLevel);
 				buttons[RUN].flicker(0.5);
+				FlxG.play(ButtonSnd);
 			}
 			else if (FlxG.keys.justPressed("X"))
 			{
@@ -181,6 +188,7 @@ package
 				exp -= 1;
 				buttons[STAMINA].setCounter(staminaLevel);
 				buttons[STAMINA].flicker(0.5);
+				FlxG.play(ButtonSnd);
 			}
 			else if (FlxG.keys.justPressed("C"))
 			{
@@ -190,6 +198,7 @@ package
 				exp -= 1;
 				buttons[HEALTH].setCounter(healthLevel);
 				buttons[HEALTH].flicker(0.5);
+				FlxG.play(ButtonSnd);
 			}
 		}
 		

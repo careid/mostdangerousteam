@@ -20,6 +20,7 @@ package
 	    [Embed(source = "./sounds/music/bgm2.mp3")] public var bgm2:Class;
 		[Embed(source = "./sounds/music/bgm3.mp3")] public var bgm3:Class;
 		[Embed(source = "./sounds/music/bgm4.mp3")] public var bgm4:Class;
+		[Embed(source = "sounds/explosion.mp3")] public var ExplosionSnd:Class;
 		
 		public static var GRAVITY:int = 400;
 		
@@ -314,6 +315,8 @@ package
 			add(textBox);
 			
 			FlxG.flash(0xffffffff, 0.7);
+			FlxG.play(ExplosionSnd);
+			
 			super.update();
 		}
 		
@@ -523,6 +526,7 @@ package
 				case END:
 					FlxSpecialFX.remove(starfield);
 					remove(starfield.sprite);
+					FlxG.play(ExplosionSnd);
 					FlxG.fade(0xffffff, 1.5, restartLevel);
 					break;
 				default:
