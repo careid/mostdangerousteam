@@ -3,12 +3,12 @@ package
 	import org.flixel.*;
 	public class SpikePit extends FlxSprite
 	{	
-		[Embed(source = "graphics/conveyor.png")] protected var ImgConveyor:Class;
+		[Embed(source = "graphics/spikepit.png")] protected var ImgSpikepit:Class;
 		
 		public function SpikePit(X:Number=0,Y:Number=0) 
 		{
 			super(X, Y);
-			loadGraphic(ImgConveyor, true, false, 32, 32);
+			loadGraphic(ImgSpikepit, true, false, 32, 32);
 			
 			addAnimation("go", [1, 2, 3, 0], 12, false);
 			addAnimation("stop", [0], 12, false);
