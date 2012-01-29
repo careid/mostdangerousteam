@@ -1,5 +1,6 @@
 package  
 {
+	import flash.utils.Timer;
 	import org.flixel.*;
 	public class Door extends FlxSprite
 	{
@@ -16,6 +17,7 @@ package
 		public var closing:Boolean = false;
 		protected var hingeHeight:Number;
 		protected var groundHeight:Number;
+		protected var disableTime:Number;
 		
 		public var id:int;
 		
@@ -25,6 +27,7 @@ package
 		{
 			super(X, Y);
 			loadGraphic(ImgDoor, false);
+			disableTime = 0;
 		}
 		
 		public function setup():void
@@ -56,6 +59,14 @@ package
 				default:
 					break;
 			}
+			if (disableTime > 0)
+			{
+				disableTime -= FlxG.elapsed;
+				if (disableTime <= 0)
+				{
+					allowCollisions = ANY;
+				}
+			}
 			super.update();
 		}
 		
@@ -70,7 +81,7 @@ package
 				case CLOSING:
 					if (state == UP)
 					{
-						groundHeight = y + height-HINGEMARGIN;
+						groundHeight = y + height - HINGEMARGIN;
 						velocity.y = DOORSPEED;
 					}
 					break;
@@ -93,15 +104,29 @@ package
 			state = newState;
 		}
 		
-		public static function crush(a:FlxObject,b:FlxObject):void 
+		public static function crush(a:FlxObject, b:FlxObject):void 
 		{
-			var d:Door = Door(a);
-			var c:Character = Character(b);
+			var d:Door;
+			var c:Character;
+			if (a is Door)
+			{
+				d = a as Door;
+				c = b as Character;
+			}
+			else
+			{
+				d = b as Door;
+				c = a as Character;
+			}
 			if (d.state == CLOSING)
 			{
-				if (c.x + c.offset.x + c.width > d.x + d.offset.x && c.x + c.offset.x < d.x + d.offset.x + d.width && c.y > d.y)
+				if (c.y > d.y)
 				{
-					c.squash();
+					d.allowCollisions = UP;
+					d.disableTime = 0.5;
+					c.hit(19, c.squash);
+					c.velocity.x = 0;
+					c.velocity.y = 0;
 				}
 			}
 		}

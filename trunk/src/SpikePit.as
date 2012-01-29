@@ -37,9 +37,13 @@ package
 			}
 		}
 		
-		public static function overlap(a:FlxObject, b:Hydraman):void
+		public static function overlap(a:FlxObject, theCharacter:Hydraman):void
 		{
-			b.electrocute();
+			if (theCharacter.hit(15, theCharacter.electrocute))
+			{
+				theCharacter.velocity.y = -150;
+				theCharacter.velocity.x *= -2.0;
+			}
 		}
 	}
 

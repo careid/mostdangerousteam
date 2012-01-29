@@ -359,7 +359,7 @@ package
 			block.solid = false;
 			if (nvy > 0)
 				return;
-			char.hit(17);
+			char.hit(14, char.squash);
 		}
 		
 		override public function update():void
