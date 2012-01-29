@@ -13,7 +13,7 @@ package
 		protected var index:int;
 		protected var players:Array;
 		
-		public function GameOverState(index:int,timeLeft:Number,players:Array,exp:int=0)
+		public function GameOverState(index:int,timeLeft:Number,players:Array)
 		{
 			this.index = index;
 			this.players = players;
@@ -41,7 +41,7 @@ package
 		
 		protected function startLevel():void
 		{
-			FlxG.switchState(new PlayState(index,players,runLevel,staminaLevel,healthLevel));
+			FlxG.switchState(new PlayState(index,players,runLevel,staminaLevel,healthLevel,false));
 		}
 	}
 }
