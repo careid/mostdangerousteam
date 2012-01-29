@@ -126,6 +126,9 @@ package
 					numEats ++;
 				}
 			}
+			
+			eyesString.text = "Num Eyes Eaten: " + exp;
+			
 			super.update();
 		}
 		
