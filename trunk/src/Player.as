@@ -51,6 +51,7 @@ package
 			{
 				cyclePowerups();
 			}
+		
 			
 			var state:int = getState(goLeft, goRight, jump, usePowerup, dash);
 			if (m_stateHistory.length < 2 || m_stateHistory[m_stateHistory.length - 1] != state)

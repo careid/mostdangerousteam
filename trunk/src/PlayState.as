@@ -212,9 +212,9 @@ package
 			characters.add(bots);
 			
 			//set camera
-			FlxG.camera.setBounds(-10000,0,20000,24000,true);
-			FlxG.camera.follow(player,FlxCamera.STYLE_PLATFORMER);
-			
+			FlxG.camera.setBounds( -10000, 0, 20000, 24000, true);
+			FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER);
+
 			//set starting variables
 			state = MID;
 			
