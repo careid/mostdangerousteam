@@ -6,10 +6,14 @@ package
 	public class Character extends FlxSprite
 	{
 		[Embed(source = "./graphics/Cloud003.png")] public var Cloud:Class;
+		[Embed(source = "./graphics/pop.png")] public var ImgPop:Class;
+		[Embed(source = "./graphics/blood.png")] public var bloodDrop:Class;
 		
 		[Embed(source = "./sounds/playerJump.mp3")] public var JumpSnd:Class;
 		[Embed(source = "sounds/playerJump.mp3")] public var DeathSnd:Class;
 		[Embed(source = "sounds/dashOn.mp3")] public var DashSnd:Class;
+		
+		protected var pop: FlxSprite;
 		
 		// for bots
 		public var canFuckUp:Boolean;
@@ -490,6 +494,30 @@ package
 			}
 			play("pop");
 			playingDeathAnimation = true;
+			pop = new FlxSprite(x, y, ImgPop);
+			pop.facing = facing;
+			pop.offset.x = 24;
+			pop.loadGraphic(ImgPop, true, true);
+			pop.addAnimation("pop", [0, 1, 2, 3, 4, 5, 6, 7], 15, false);
+			pop.play("pop");
+			//(FlxG.state as PlayState).level.eyes.add(pop);
+			(FlxG.state as PlayState).level.misc.add(pop);
+			visible = false;
+			
+			// particles
+			var bloodEmitter:FlxEmitter = new FlxEmitter(x+width/2,y+height/2);
+			bloodEmitter.makeParticles(bloodDrop, 80);
+			bloodEmitter.gravity = 400;
+			bloodEmitter.particleDrag.x = 0;
+			bloodEmitter.particleDrag.y = 0;
+			bloodEmitter.minParticleSpeed.x = -100;
+			bloodEmitter.maxParticleSpeed.x = 100;
+			bloodEmitter.minParticleSpeed.y = -200;
+			bloodEmitter.maxParticleSpeed.y = 10;
+			bloodEmitter.start(true, 0.5, 0.1, 80);
+			FlxG.state.add(bloodEmitter);
+			
+			
 			this.solid = false;
 			this.acceleration.x = 0;
 			this.acceleration.y = 0;

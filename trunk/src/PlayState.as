@@ -113,6 +113,7 @@ package
 			add(level.conveyors);
 			add(level.powerups);
 			add(level.eyes);
+			add(level.misc);
 			timeLeft = level.checkPoints[startIndex].time;
 			Hydraman.m_initialTimeLeft = timeLeft;
 			for (i = 0; i < level.countDowns.members.length; i++)
@@ -344,6 +345,7 @@ package
 			while (spikes.remove(null));
 			while (level.powerups.remove(null));
 			while (level.eyes.remove(null));
+			while (level.misc.remove(null));
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);

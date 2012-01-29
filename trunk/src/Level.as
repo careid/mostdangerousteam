@@ -17,6 +17,7 @@ package
 		public var conveyors:FlxGroup = null;
 		public var powerups:FlxGroup = null;
 		public var eyes:FlxGroup = null;
+		public var misc:FlxGroup = null;
 		public var timeMachine:TimeMachine = null;
 		public var doorSwitches:FlxGroup = null;
 		public var countDowns:FlxGroup = null;
@@ -218,6 +219,7 @@ package
 			}
 			
 			eyes = new FlxGroup();
+			misc = new FlxGroup();
 		}
 	}
 
