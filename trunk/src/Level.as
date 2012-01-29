@@ -22,6 +22,7 @@ package
 		public var timeMachine:TimeMachine = null;
 		public var doorSwitches:FlxGroup = null;
 		public var countDowns:FlxGroup = null;
+		public var storyBoxes:FlxGroup = null;
 		
 		public function Level() 
 		{
@@ -126,6 +127,7 @@ package
 			powerups = new FlxGroup();
 			countDowns = new FlxGroup();
 			doorSwitches = new FlxGroup();
+			storyBoxes = new FlxGroup();
 			
 			var xml_str:String = xmlData.readUTFBytes(xmlData.length);
 			var xml:XML = XML(xml_str);
@@ -174,6 +176,11 @@ package
 					obj = new SpikePit();
 					spikepits.add(obj as SpikePit);
 				}
+				else if (child.name() == "StoryBox")
+				{
+					obj = new StoryBox();
+					storyBoxes.add(obj as StoryBox);
+				}
 				else if (child.name() == "StaminaRechargePowerup")
 				{
 					obj = new PowerupEntity(0,0,new StaminaRechargePowerup());
@@ -206,6 +213,14 @@ package
 					{
 						obj.y = Number(attr);
 					}
+					else if (attr.name() == "width")
+					{
+						obj.width = Number(attr);
+					}
+					else if (attr.name() == "height")
+					{
+						obj.height = Number(attr);
+					}
 					else if (attr.name() == "threshold")
 					{
 						obj.threshold = Number(attr);
@@ -217,6 +232,14 @@ package
 					else if (attr.name() == "id")
 					{
 						obj.id = Number(attr);
+					}
+					else if (attr.name() == "text")
+					{
+						obj.text = String(attr);
+					}
+					else if (attr.name() == "level")
+					{
+						obj.level = Number(attr);
 					}
 					else
 						trace("Attribute " + child.name() + "." + attr.name() + " unknown.");

@@ -38,6 +38,8 @@ package
 		protected var numEyes:Number;
 		protected var eyesString:FlxText;
 		
+		protected var newLevel:Boolean;
+		
 		protected var timeMachine:FlxSprite;
 		
 		[Embed(source = "graphics/spacestation.png")] protected var SpaceStationImage:Class;
@@ -45,7 +47,7 @@ package
 		[Embed(source = "graphics/main-icon.png")] protected var ManImage:Class;
 		[Embed(source = "graphics/machine-icon.png")] protected var MachineImage:Class;
 		
-		public function TransState(index:int,timeLeft:Number,players:Array,player:Player=null,exp:int=0)
+		public function TransState(index:int,timeLeft:Number,players:Array,player:Player=null,newLevel:Boolean=false)
 		{
 			this.index = index;
 			this.timeLeft = timeLeft;
@@ -66,6 +68,7 @@ package
 			add(eyeSprite);
 			add(eyesString);
 			numEats = 0;
+			this.newLevel = newLevel;
 		}
 		
 		override public function create():void
@@ -188,7 +191,7 @@ package
 		
 		protected function startLevel():void
 		{
-			FlxG.switchState(new PlayState(index,players,runLevel,staminaLevel,healthLevel));
+			FlxG.switchState(new PlayState(index,players,runLevel,staminaLevel,healthLevel,newLevel));
 		}
 	}
 }
