@@ -35,7 +35,7 @@
 	<Conveyor x="2464" y="116" />
 
 	<DoorSwitch x="2464" y="96" id="3" />
-	<Door x="2496" y="128" id="3" />
+	<Door x="2496" y="64" id="3" />
 
 	<StaminaRechargePowerup x="2304" y="64" />
 	<StaminaRechargePowerup x="2400" y="64" />
