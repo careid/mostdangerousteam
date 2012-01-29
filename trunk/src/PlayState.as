@@ -484,7 +484,7 @@ package
 			}
 			else if (bestIndex > startIndex)
 			{
-				oldPlayers.unshift(player);
+				oldPlayers.push(player);
 			}
 			else
 			{

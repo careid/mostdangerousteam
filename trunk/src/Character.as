@@ -104,8 +104,7 @@ package
 				{
 					m_currentPowerup = new Powerup();
 				}
-				
-				m_currentPowerup.character = this;
+				addPowerup(m_currentPowerup);
 			}
 			
 			for each (var powerup:Powerup in old_character.getPowerupList())
@@ -144,7 +143,6 @@ package
 						newPowerup = new Powerup();
 					}
 					
-					newPowerup.character = this;
 					addPowerup(newPowerup);
 				}
 			}
