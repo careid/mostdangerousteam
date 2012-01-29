@@ -123,7 +123,7 @@ package
 			
 			//play the appropriate music depending on the checkpoint the player just came out of
 			var bgm:FlxSound = FlxG.play(bgm1);
-			if (startIndex == 0) {
+			if (startIndex == 0 && oldPlayers==null) {
 				FlxG.play(fanfare);
 				bgm.fadeIn(50);
 			}
