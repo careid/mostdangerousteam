@@ -1,5 +1,5 @@
 <Level1>
-	<TimeMachine x="3008" y="256"/>
+	<TimeMachine x="3104" y="256"/>
 	<CountDown x="3008" y="200"/>
 	<DoorSwitch x="2100" y="192" id="1" />
 	<Door x="2180" y="192" id="1" />
@@ -24,21 +24,21 @@
 	<Conveyor x="1184" y="129" />
 	<Conveyor x="1216" y="129" />
 
-	<Conveyor x="2208" y="96" />
-	<Conveyor x="2240" y="96" />
-	<Conveyor x="2272" y="96" />
-	<Conveyor x="2304" y="96" />
-	<Conveyor x="2336" y="96" />
-	<Conveyor x="2368" y="96" />
-	<Conveyor x="2400" y="96" />
+	<Conveyor x="2208" y="116" />
+	<Conveyor x="2240" y="116" />
+	<Conveyor x="2272" y="116" />
+	<Conveyor x="2304" y="116" />
+	<Conveyor x="2336" y="116" />
+	<Conveyor x="2368" y="116" />
+	<Conveyor x="2400" y="116" />
+	<Conveyor x="2432" y="116" />
+	<Conveyor x="2464" y="116" />
 
-	<Conveyor x="2208" y="0" />
-	<Conveyor x="2240" y="0" />
-	<Conveyor x="2272" y="0" />
-	<Conveyor x="2304" y="0" />
-	<Conveyor x="2336" y="0" />
-	<Conveyor x="2368" y="0" />
-	<Conveyor x="2400" y="0" />
+	<DoorSwitch x="2464" y="96" id="3" />
+	<Door x="2496" y="128" id="3" />
+
+	<StaminaRechargePowerup x="2304" y="64" />
+	<StaminaRechargePowerup x="2400" y="64" />
 	
 
 	<StaminaRechargePowerup x="2336" y="298"/>
