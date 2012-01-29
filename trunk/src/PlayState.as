@@ -263,7 +263,7 @@ package
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
 			eyeCounter = new Counter(78, 16);
-			ammoCounter = new Counter(3, 29);
+			ammoCounter = new Counter(2, 29);
 			
 			add(hud);
 			add(healthBar);
@@ -273,7 +273,7 @@ package
 			itemDisplays = new Array()
 			for (i = 0; i < 5; i++)
 			{
-				itemDisplays.push(new FlxSprite(i * 12, 35));
+				itemDisplays.push(new FlxSprite(16 + i * 14, 28));
 				itemDisplays[i].loadGraphic(PowerupImage,true,false,16,16);
 				itemDisplays[i].scrollFactor.x = itemDisplays[i].scrollFactor.y = 0;
 				itemDisplays[i].addAnimation("boomerang", [0]);
