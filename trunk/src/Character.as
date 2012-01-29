@@ -54,7 +54,6 @@ package
 		
 		public function Character(X:int=0,Y:int=0,playSounds:Boolean=false)
 		{
-			trace("New character created!");
 			m_powerupList = new Array();
 			m_currentPowerup = null;
 			m_dustEmitter = new FlxEmitter();
@@ -438,6 +437,15 @@ package
 		/////
 		public function addPowerup(powerup : Powerup) : void
 		{
+			// Only add powerups of unique types.
+			for each(var p : Powerup in m_powerupList)
+			{
+					if (p.animationName == powerup.animationName)
+					{
+						return;
+					}
+			}
+			
 			if (!powerup.shouldBeDiscarded)
 			{
 				m_powerupList.push(powerup);

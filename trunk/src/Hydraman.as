@@ -48,7 +48,7 @@ package
 			if (isEnemy)
 			{
 				glitch = FlxSpecialFX.glitch();
-				glitch.createFromFlxSprite(this, 5, 10, true);
+				glitch.createFromFlxSprite(this, 10,1, true);
 				glitch.start();
 				color = 0x334455;
 				FlxG.state.add(glitch.sprite);
