@@ -175,7 +175,7 @@ package
 			fallAccum = 0;
 			fallRate = 0;
 			fallAccel = 0;
-			fallJerk = 0.2 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
+			fallJerk = 0.1 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
 			
 			fallBlocks = new FlxGroup();
 			add(fallBlocks);
