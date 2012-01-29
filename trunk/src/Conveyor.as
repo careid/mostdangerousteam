@@ -3,13 +3,15 @@ package
 	import org.flixel.*;
 	public class Conveyor extends FlxSprite
 	{	
-		[Embed(source = "graphics/main.png")] protected var ImgConveyor:Class;
+		[Embed(source = "graphics/conveyor.png")] protected var ImgConveyor:Class;
 		
 		public function Conveyor(X:Number=0,Y:Number=0) 
 		{
 			super(X, Y);
-			//loadGraphic(ImgConveyor, false);
-			makeGraphic(32, 32);
+			loadGraphic(ImgConveyor, true, false, 32, 32);
+			
+			addAnimation("go", [3,2,1,0], 12);
+			play("go");
 			
 			facing = RIGHT;
 			immovable = true;
