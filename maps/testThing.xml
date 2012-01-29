@@ -1,5 +1,8 @@
 <Level1>
 	<TimeMachine x="3104" y="256"/>
+	
+	<StoryBox x="3008" y="200" width="64" height="64" level="0" text="hello there" />
+	
 	<CountDown x="3008" y="200"/>
 	<CrazyDoor x="1760" y="416"/>
 	<CrazyDoor x="1792" y="416"/>

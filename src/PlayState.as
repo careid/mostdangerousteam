@@ -71,8 +71,12 @@ package
 		protected var itemDisplays:Array;
 		
 		protected var teleportEmitter:FlxEmitter;
+			
+		protected var textBox:TextBox;
 		
-        public function PlayState(startIndex:int = 0,oldPlayers:Array=null,runLevel:int=0,staminaLevel:int=0,healthLevel:int=0)
+		protected var newLevel:Boolean;
+		
+        public function PlayState(startIndex:int = 0, oldPlayers:Array = null, runLevel:int = 0, staminaLevel:int = 0, healthLevel:int = 0, newLevel:Boolean = true)
 		{
 			this.startIndex = startIndex;
 			this.oldPlayers = oldPlayers;
@@ -81,6 +85,7 @@ package
 			this.runLevel = runLevel;
 			this.staminaLevel = staminaLevel;
 			this.healthLevel = healthLevel;
+			this.newLevel = newLevel;
 			super();
 		}
 		
@@ -139,6 +144,11 @@ package
 				countdown.setup(countdown.x, countdown.y, timeLeft);
 			}
 			add(level.countDowns);
+			for (i = 0; i < level.storyBoxes.length; i++)
+			{
+				StoryBox(level.storyBoxes.members[i]).setup();
+			}
+			add(level.storyBoxes);
 			
 			tiles = new Array();
 			FlxG.globalSeed = 12345;
@@ -268,6 +278,9 @@ package
 			add(new FlxText(0, 40, FlxG.width, "press B to bot"));
 			add(countdown);
 			
+			textBox = new TextBox(0, 150);
+			add(textBox);
+			
 			FlxG.flash(0xffffffff, 0.7);
 		}
 		
@@ -394,7 +407,6 @@ package
 			FlxG.collide(level.tileMap, spikes);
 			FlxG.collide(level.tileMap, level.eyes);
 			FlxG.collide(level.doors, characters,Door.crush);
-			FlxG.collide(level.countDowns, characters);
 			FlxG.collide(level.conveyors, characters, Conveyor.overlap);
 			FlxG.collide(level.spikepits, characters, SpikePit.overlap);
 			FlxG.overlap(level.powerups, characters, PowerupEntity.overlapCharacter);
@@ -403,6 +415,7 @@ package
 			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, spikes, SpikeTrap.overlapBoomerang);
 			FlxG.overlap(spikes, characters, SpikeTrap.overlapCharacter);
+			FlxG.overlap(level.storyBoxes, player, overlapStoryBox);
 			FlxG.collide(fallBlocks, characters, fallingBlockCollide);
 			updateFallingBlocks();
 			
@@ -548,7 +561,20 @@ package
 			{
 				oldPlayers[bestIndex] = player;
 			}
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers,player));
+			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers,player,(bestIndex!=startIndex)));
+		}
+		
+		private function overlapStoryBox(a:FlxObject, b:FlxObject):void
+		{
+			var sb:StoryBox = StoryBox(a);
+			if (newLevel)
+			{
+				if (sb.level == startIndex)
+				{
+					sb.exists = false;
+					textBox.refresh(sb.text);
+				}
+			}
 		}
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void

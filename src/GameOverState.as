@@ -41,7 +41,7 @@ package
 		
 		protected function startLevel():void
 		{
-			FlxG.switchState(new PlayState(index,players,runLevel,staminaLevel,healthLevel));
+			FlxG.switchState(new PlayState(index,players,runLevel,staminaLevel,healthLevel,false));
 		}
 	}
 }
