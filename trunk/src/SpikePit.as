@@ -14,6 +14,7 @@ package
 			addAnimation("stop", [0], 12, false);
 			play("go");
 			
+			immovable = true;
 		}
 		
 		override public function update():void
