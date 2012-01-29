@@ -3,19 +3,22 @@ package
 	import org.flixel.*;
 	public class Button extends FlxSprite
 	{
-		//[Embed(source = "graphics/main.png")] protected var ImgDoor:Class;
-		public var text:MyText;
+		[Embed(source = "graphics/storebuttons.png")] protected var ImgButton:Class;
+		public var counter:Counter;
 		protected var flashTimer:Number;
 		protected var maxFlashTimer:Number;
 		protected var flashing:Boolean;
 		
-		public function Button(X:Number=0,Y:Number=0) 
+		public function Button(X:Number=0,Y:Number=0,mode:String="Run") 
 		{
 			super(X, Y);
-			//loadGraphic(ImgDoor, false);
-			makeGraphic(36, 36,0xffff0000);
+			loadGraphic(ImgButton, true, false,59,70);
 			
-			text = new MyText(X, Y, width);
+			addAnimation("Run", [0]);
+			addAnimation("Fuel", [1]);
+			addAnimation("Health", [2]);
+			
+			counter = new Counter(X+38, Y+52);
 		}
 		
 		override public function update():void
@@ -36,19 +39,19 @@ package
 			{
 				_alpha = 1.0;
 			}
-			text.update();
+			counter.update();
 			super.update();
 		}
 		
 		override public function draw():void
 		{
 			super.draw();
-			text.draw();
+			counter.draw();
 		}
 		
-		public function setText(words:String):void
+		public function setCounter(value:int):void
 		{
-			text.text = words;
+			counter.value = value;
 		}
 		
 		public function flash(duration:Number=0.5):void

@@ -85,20 +85,24 @@ package
 			buttons = new Array();
 			for (i = 0; i < 3; i++)
 			{
-				buttons.push(new Button(i * 50 + 30, 150));
-				add(buttons[i]);
+				var b:Button = new Button(i * 59 + 30, 150);
+				buttons.push(b);
+				add(b);
 			}
 			
-			buttons[0].setText("Press Z for RUN " + String(runLevel+1));
-			buttons[1].setText("Press X for STAMINA " + String(staminaLevel+1));
-			buttons[2].setText("Press C for HEALTH " + String(healthLevel+1));
+			buttons[RUN].play("Run");
+			buttons[RUN].setCounter(runLevel + 1);
+			buttons[STAMINA].play("Fuel");
+			buttons[STAMINA].setCounter(staminaLevel + 1);
+			buttons[HEALTH].play("Health");
+			buttons[HEALTH].setCounter(healthLevel + 1);
 			
 			FlxG.flash(0xffffffff, 0.5);
 			
 			timeMachine = new FlxSprite(0, 0,MachineImage);
 			add(timeMachine);
 			
-			add(new FlxSprite(planet.x + planet.width / 2, planet.y,ManImage));
+			add(new FlxSprite(planet.x + planet.width / 2, planet.y, ManImage));
 		}
 		
 		override public function update():void 
@@ -159,7 +163,7 @@ package
 				b.flash();
 				runLevel += 1;
 				exp -= 1;
-				buttons[RUN].setText("Press Z for RUN " + String(runLevel + 1));
+				buttons[RUN].setValue(runLevel + 1);
 				buttons[RUN].flicker(0.5);
 			}
 			else if (FlxG.keys.justPressed("X"))
@@ -168,7 +172,7 @@ package
 				b.flash();
 				staminaLevel += 1;
 				exp -= 1;
-				buttons[STAMINA].setText("Press X for STAMINA " + String(staminaLevel + 1));
+				buttons[STAMINA].setValue(staminaLevel + 1);
 				buttons[STAMINA].flicker(0.5);
 			}
 			else if (FlxG.keys.justPressed("C"))
@@ -177,7 +181,7 @@ package
 				b.flash();
 				healthLevel += 1;
 				exp -= 1;
-				buttons[HEALTH].setText("Press C for HEALTH " + String(healthLevel + 1));
+				buttons[HEALTH].setValue(healthLevel + 1);
 				buttons[HEALTH].flicker(0.5);
 			}
 		}

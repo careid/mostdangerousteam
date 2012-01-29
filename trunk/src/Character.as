@@ -198,7 +198,7 @@ package
 			if (m_dashing)
 			{
 				stamina--;
-
+				
 				if (stamina <= 0 || dash == false)
 				{
 					m_dashing = false;
