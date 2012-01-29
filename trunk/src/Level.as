@@ -85,7 +85,7 @@ package
 			}*/
 			
 			tileMap = new FlxTilemap();
-			tileMap.loadMap(mapString, Image, 32,32);
+			tileMap.loadMap(mapString, Image, 32,32,FlxTilemap.OFF,0,1,25);
 			
 			/*
 			var platforms:Array = new Array();
