@@ -19,7 +19,7 @@ public class TextBox extends FlxSprite
 		scrollFactor.x = scrollFactor.y = 0;
 		text = "";
 		drawnText = new FlxText(x + 20, y, width - 40, text);
-		drawnText.color = 0xffffffff;
+		drawnText.color = 0xff2222ff;
 		drawnText.shadow = 0xff000000
 		drawnText.size = 10;
 		drawnText.scrollFactor.x = drawnText.scrollFactor.y = 0;
