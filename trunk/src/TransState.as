@@ -74,7 +74,7 @@ package
 			
 			planet = new FlxSprite(25, 25);
 			planet.loadGraphic(SpaceStationImage);
-			planet.angularVelocity = 0.2 * timeLeft;
+			planet.angularVelocity = 0.4 * timeLeft;
 			planet.blend = "normal";
 			planet.antialiasing = true;
 			add(planet);
