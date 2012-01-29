@@ -120,7 +120,8 @@ package
 		override public function kill() : void
 		{
 			spurt();
-			pop.kill();
+			if (pop)
+				pop.kill();
 			
 			// Spawn an eye.
 			var eye : Eye = new Eye(x + 5, y + 12);

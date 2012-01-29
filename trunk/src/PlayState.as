@@ -300,7 +300,7 @@ package
 					tile.addAnimation("idle", [tile_idx]);
 					tile.play("idle");
 					tile.mass = 5.0;
-					tile.acceleration.y = GRAVITY;
+					tile.acceleration.y = 0.5 * GRAVITY;
 					tile.maxVelocity.y = GRAVITY;
 					tile.velocity.x = 25.0 * (FlxG.random()-0.5);
 					tile.velocity.y = -25.0 * FlxG.random();
@@ -368,18 +368,18 @@ package
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
+			FlxG.collide(level.tileMap, level.eyes);
 			FlxG.collide(level.doors, characters,Door.crush);
 			FlxG.collide(level.countDowns, characters);
 			FlxG.collide(level.conveyors, characters, Conveyor.overlap);
 			FlxG.collide(level.spikepits, characters, SpikePit.overlap);
 			FlxG.overlap(level.powerups, characters, PowerupEntity.overlapCharacter);
 			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
+			FlxG.overlap(level.eyes, player, Eye.overlapPlayer);
 			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, spikes, SpikeTrap.overlapBoomerang);
 			FlxG.overlap(spikes, characters, SpikeTrap.overlapCharacter);
-			FlxG.overlap(level.eyes, player, Eye.overlapPlayer);
 			FlxG.collide(fallBlocks, characters, fallingBlockCollide);
-			FlxG.collide(level.tileMap, level.eyes);
 			updateFallingBlocks();
 			
 			updateStateEvents();
