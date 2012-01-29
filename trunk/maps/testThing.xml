@@ -59,7 +59,6 @@
 	
 
 	<StaminaRechargePowerup x="2336" y="298"/>
-	<SpikePowerup x="2368" y="298"/>
 	<BoomerangPowerup x="2400" y="298"/>
 	
 	<CrazyDoor x="1856" y="458"/>
@@ -93,6 +92,9 @@
 
 	<DoorSwitch x="1440" y="544" id="6" />
 	<Door x="1472" y="544" id="6" />
+
+	<DoorSwitch x="2176" y="192" id="7" />
+	<Door x="1472" y="544" id="7" />
 
 	<StaminaRechargePowerup x="2176" y="128"/>
 	<StaminaRechargePowerup x="1888" y="160"/>
