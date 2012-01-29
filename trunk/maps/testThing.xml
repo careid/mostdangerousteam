@@ -53,5 +53,13 @@
 	<SpikePowerup x="2368" y="298"/>
 	<BoomerangPowerup x="2400" y="298"/>
 	
+	<CrazyDoor x="1856" y="458"/>
+	<CrazyDoor x="1888" y="458"/>
+	<CrazyDoor x="1920" y="458"/>
+	<CrazyDoor x="1952" y="458"/>
+	<Spikepit x="1856" y="470"/>
+	<Spikepit x="1888" y="470"/>
+	<Spikepit x="1920" y="470"/>
+	<Spikepit x="1952" y="470"/>
 	
 </Level1>
