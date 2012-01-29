@@ -15,6 +15,7 @@ package
 		public var checkPoints:Array = null;
 		public var doors:FlxGroup = null;
 		public var conveyors:FlxGroup = null;
+		public var spikepits:FlxGroup = null;
 		public var powerups:FlxGroup = null;
 		public var eyes:FlxGroup = null;
 		public var misc:FlxGroup = null;
@@ -121,6 +122,7 @@ package
 			checkPoints = new Array();
 			doors = new FlxGroup();
 			conveyors = new FlxGroup();
+			spikepits = new FlxGroup();
 			powerups = new FlxGroup();
 			countDowns = new FlxGroup();
 			doorSwitches = new FlxGroup();
@@ -161,6 +163,11 @@ package
 				{
 					obj = new Conveyor();
 					conveyors.add(obj as Conveyor);
+				}
+				else if (child.name() == "Spikepit")
+				{
+					obj = new SpikePit();
+					spikepits.add(obj as SpikePit);
 				}
 				else if (child.name() == "StaminaRechargePowerup")
 				{

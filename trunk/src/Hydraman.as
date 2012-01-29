@@ -7,6 +7,7 @@ package
 	public class Hydraman extends Character
 	{
 		[Embed(source = "graphics/main.png")] protected var ImgHydraman:Class;
+		[Embed(source = "./graphics/blood.png")] public var bloodDrop:Class;
 		
 		protected static const LEFT_SHIFT:int    = 0;
 		protected static const RIGHT_SHIFT:int   = 1;
@@ -103,8 +104,25 @@ package
 			super.destroy();
 		}
 		
+		protected function spurt():void
+		{
+			var bloodEmitter:FlxEmitter = new FlxEmitter(x+width/2,y+height/2);
+			bloodEmitter.makeParticles(bloodDrop, 100);
+			bloodEmitter.gravity = 400;
+			bloodEmitter.particleDrag.x = 0;
+			bloodEmitter.particleDrag.y = 0;
+			bloodEmitter.minParticleSpeed.x = -100;
+			bloodEmitter.maxParticleSpeed.x = 100;
+			bloodEmitter.minParticleSpeed.y = -200;
+			bloodEmitter.maxParticleSpeed.y = 10;
+			bloodEmitter.start(true, 0.5, 0.1, 100);
+			FlxG.state.add(bloodEmitter);
+		}
+		
 		override public function kill() : void
 		{
+			spurt();
+			
 			// Spawn an eye.
 			var eye : Eye = new Eye(x + 5, y + 12);
 			if (facing != FlxObject.RIGHT)

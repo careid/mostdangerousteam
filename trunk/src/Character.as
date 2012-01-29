@@ -184,6 +184,7 @@ package
 			addAnimation("dash", [9, 10, 11, 12],18);
 			addAnimation("wallslide", [13], 12);
 			addAnimation("pop", [14, 15, 16, 17, 18, 19, 20, 21], 10, false);
+			addAnimation("squash", [22, 23, 24, 25, 26, 27], 10, false);
 		}
 		
 		override public function update():void
@@ -486,6 +487,20 @@ package
 			}
 		}
 		
+		public function squash():void
+		{
+			if (playSounds)
+			{
+				FlxG.play(DeathSnd);
+			}
+			play("squash");
+			playingDeathAnimation = true;
+			
+			this.solid = false;
+			this.acceleration.x = 0;
+			this.acceleration.y = 0;
+		}
+		
 		public function die():void
 		{
 			if (playSounds)
@@ -498,9 +513,8 @@ package
 			pop.facing = facing;
 			pop.offset.x = 24;
 			pop.loadGraphic(ImgPop, true, true);
-			pop.addAnimation("pop", [0, 1, 2, 3, 4, 5, 6, 7], 15, false);
+			pop.addAnimation("pop", [0, 1, 2, 3, 4, 5, 6, 7], 12, false);
 			pop.play("pop");
-			//(FlxG.state as PlayState).level.eyes.add(pop);
 			(FlxG.state as PlayState).level.misc.add(pop);
 			visible = false;
 			

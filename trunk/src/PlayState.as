@@ -111,6 +111,7 @@ package
 			add(level.doors);
 			add(level.doorSwitches);
 			add(level.conveyors);
+			add(level.spikepits);
 			add(level.powerups);
 			add(level.eyes);
 			add(level.misc);
@@ -356,7 +357,8 @@ package
 			FlxG.collide(level.tileMap, spikes);
 			FlxG.collide(level.doors, characters);
 			FlxG.collide(level.countDowns, characters);
-			FlxG.collide(level.conveyors, characters,Conveyor.overlap);
+			FlxG.collide(level.conveyors, characters, Conveyor.overlap);
+			FlxG.collide(level.spikepits, characters, SpikePit.overlap);
 			FlxG.overlap(level.powerups, characters, PowerupEntity.overlapCharacter);
 			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
 			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
