@@ -24,6 +24,7 @@
 	<CheckPoint x="1760" y="150" threshold="25" time="55"/>
 	<CheckPoint x="2350" y="544" threshold="35" time="95"/>
 	<CheckPoint x="2350" y="544" threshold="45" time="115"/>
+	<CheckPoint x="1408" y="544" threshold="60" time="130"/>
 	<Spikepit x="2304" y="470"/>
 	<StaminaRechargePowerup x="2646" y="342"/>
 	<StaminaRechargePowerup x="2646" y="256"/>
@@ -91,6 +92,8 @@
 	<DoorSwitch x="2240" y="544" id="5" />
 	<Door x="2304" y="544" id="5" />
 
+	<DoorSwitch x="1440" y="544" id="6" />
+	<Door x="1472" y="544" id="6" />
 	
 
 </Level1>
