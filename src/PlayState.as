@@ -20,6 +20,7 @@ package
 	    [Embed(source = "./sounds/music/bgm2.mp3")] public var bgm2:Class;
 		[Embed(source = "./sounds/music/bgm3.mp3")] public var bgm3:Class;
 		[Embed(source = "./sounds/music/bgm4.mp3")] public var bgm4:Class;
+		[Embed(source = "./sounds/gameStartFanfare.mp3")] protected var fanfare:Class;
 		[Embed(source = "sounds/explosion.mp3")] public var ExplosionSnd:Class;
 		
 		public static var GRAVITY:int = 400;
@@ -121,7 +122,11 @@ package
 			
 			//play the appropriate music depending on the checkpoint the player just came out of
 			var bgm:FlxSound = FlxG.play(bgm1);
-			if (startIndex == 0 || startIndex == 1 || startIndex == 2) {
+			if (startIndex == 0) {
+				FlxG.play(fanfare);
+				bgm.fadeIn(50);
+			}
+			else if (startIndex == 1 || startIndex == 2) {
 				bgm.stop();
 				bgm = FlxG.play(bgm1);
 			}
