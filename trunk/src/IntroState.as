@@ -29,7 +29,7 @@ package
 			foreground.velocity.x = -40;
 			
 			var text:FlxText = new FlxText(100, 200, 8000,
-			"Robert works in space. He fixes important machinery.                     It is difficult work, but Robert loves a challenge.            He was working on a particularly tricky machine when something went wrong.....         To save the station, he must reach the locked control room.     'It's dangerous, but it's the only way' he says, 'after all...");
+			"Robert works in space. He fixes important machinery.                     It is difficult work, but Robert loves a challenge.            He was working on a particularly tricky machine when something went wrong.....         To save the station, he must reach the locked control room.           'It's dangerous, but it's the only way' he says, 'after all...");
 			text.size = 20;
 			text.shadow = 0xff000000;
 			text.velocity.x = -90;
@@ -43,7 +43,7 @@ package
 		
 		override public function update():void 
 		{
-			if (foreground.x < -foreground.width +FlxG.width)
+			if (foreground.x < -foreground.width*2 +100)
 			{
 				foreground.velocity.x = 0;
 			}

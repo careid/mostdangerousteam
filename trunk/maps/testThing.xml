@@ -2,7 +2,7 @@
 	<TimeMachine x="3062" y="215"/>
 	
 	<StoryBox x="2274" y="246" width="64" height="64" level="0" text="You'll need to fix the thing at the end of the corridor before the ship is completely destroyed. Use Left and Right to move, X to jump." />
-	<StoryBox x="2664" y="262" width="64" height="64" level="0" text="For a burst of speed, press C." />
+	<StoryBox x="2664" y="262" width="64" height="64" level="0" text="For a burst of speed, press Shift." />
 	<StoryBox x="2056" y="150" width="64" height="64" level="1" text="Unfortunately, it seems that the teleporter sent you to the left, instead of right. You'd better try again." />
 	<StoryBox x="2342" y="204" width="100" height="100" level="1" text="To activate a powerup, press Z. Switch powerups with Down" />
 	<StoryBox x="1765" y="150" width="64" height="64" level="2" text="This time, you're further left. Since the spaceship's shaped like a ring, maybe you can go so far left, you're right." />
@@ -22,8 +22,7 @@
 	<CheckPoint x="2315" y="278" threshold="0" time="30"/>
 	<CheckPoint x="2040" y="140" threshold="10" time="40"/>
 	<CheckPoint x="1760" y="150" threshold="20" time="55"/>
-	<CheckPoint x="2350" y="544" threshold="35" time="90"/>
-	<CheckPoint x="2350" y="544" threshold="45" time="100"/>
+	<CheckPoint x="2350" y="544" threshold="35" time="100"/>
 	<CheckPoint x="1408" y="544" threshold="55" time="120"/>
 	<Spikepit x="2304" y="470"/>
 	<StaminaRechargePowerup x="2646" y="342"/>
