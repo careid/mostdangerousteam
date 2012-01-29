@@ -208,7 +208,10 @@ package
 			}
 			else
 			{
-				stamina = Math.min(maxstamina, stamina + staminaregen);
+				if (! dash)
+				{
+					stamina = Math.min(maxstamina, stamina + staminaregen);
+				}
 				if (dash && stamina > 0.25 * maxstamina)
 				{
 					if (playSounds)
