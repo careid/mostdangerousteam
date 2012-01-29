@@ -430,7 +430,7 @@ package
 				gameOver();
 			}
 			
-			//debugShit();
+			debugShit();
 			isFirstIteration = false;
 			var powerupList:Array = player.getPowerupList();
 			if (powerupList != null)
@@ -467,10 +467,11 @@ package
 		
 		public function debugShit():void
 		{			
-			if (FlxG.keys.justPressed("B"))
+			if (FlxG.keys.justPressed("SPACE"))
 			{
 				//BRUCE
-				bots.add(new Bot(player));
+				//bots.add(new Bot(player));
+				trace(player.x, player.y);
 			}
 		}
 		

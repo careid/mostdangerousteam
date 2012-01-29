@@ -55,14 +55,14 @@ package
 			runLevel = player.m_run_level;
 			staminaLevel = player.m_stamina_level;
 			healthLevel = player.m_health_level;
-			eyeSprite = new FlxSprite(20, 10);
+			eyeSprite = new FlxSprite(20, 130);
 			eyeSprite.loadGraphic(EyesImage, true);
 			eyeSprite.addAnimation("Nothing", [0]);
 			eyeSprite.addAnimation("Eat", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], 10, false);
 			numEyes = player.numEyes;
 			eyeSprite.play("Nothing");
 			this.exp = numEyes;
-			eyesString = new FlxText(20, 50, 60);
+			eyesString = new FlxText(20, 170, 60);
 			eyesString.text = "Eyes Collected: " + numEyes;
 			super();
 			add(eyeSprite);
@@ -85,21 +85,25 @@ package
 			displayText = new MyText(0, 0, FlxG.width, "Traveling back " + int(timeLeft) + " seconds...");
 			add(displayText);
 			
-			buttons = new Array();
-			for (i = 0; i < 3; i++)
+			if (exp > 0)
 			{
-				var b:Button = new Button(i * 59 + 30, 150);
-				buttons.push(b);
-				add(b);
+			
+				buttons = new Array();
+				for (i = 0; i < 3; i++)
+				{
+					var b:Button = new Button(i * 59 + 80, 150);
+					buttons.push(b);
+					add(b);
+				}
+				
+				buttons[RUN].play("Run");
+				buttons[RUN].setCounter(runLevel);
+				buttons[STAMINA].play("Fuel");
+				buttons[STAMINA].setCounter(staminaLevel);
+				buttons[HEALTH].play("Health");
+				buttons[HEALTH].setCounter(healthLevel);
 			}
-			
-			buttons[RUN].play("Run");
-			buttons[RUN].setCounter(runLevel);
-			buttons[STAMINA].play("Fuel");
-			buttons[STAMINA].setCounter(staminaLevel);
-			buttons[HEALTH].play("Health");
-			buttons[HEALTH].setCounter(healthLevel);
-			
+				
 			FlxG.flash(0xffffffff, 0.5);
 			
 			timeMachine = new FlxSprite(0, 0,MachineImage);
