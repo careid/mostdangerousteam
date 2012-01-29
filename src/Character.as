@@ -435,6 +435,22 @@ package
 			}
 		}
 		
+		public function selectBoomerang() : void
+		{
+			if (! (m_currentPowerup is BoomerangPowerup))
+			{
+				cyclePowerups();
+			}
+		}
+		
+		public function selectSpikes():void
+		{
+			if (! (m_currentPowerup is SpikePowerup))
+			{
+				cyclePowerups();
+			}
+		}
+		
 		/////
 		/// Returns the current powerup.
 		/////

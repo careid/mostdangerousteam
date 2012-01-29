@@ -44,13 +44,15 @@ package
 		{
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
-			doJump = FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("SHIFT");
+			doJump = FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("X");
 			doDash = FlxG.keys.pressed("Z");
 			usePowerup = FlxG.keys.justPressed("C");
-			if (FlxG.keys.justPressed("X"))
-			{
+			if (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("SHIFT"))
 				cyclePowerups();
-			}
+			if (FlxG.keys.justPressed("S"))
+				selectBoomerang();
+			if (FlxG.keys.justPressed("D"))
+				selectBoomerang();
 		
 			
 			var state:int = getState(goLeft, goRight, doJump, usePowerup, doDash);
