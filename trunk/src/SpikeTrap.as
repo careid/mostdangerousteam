@@ -87,7 +87,7 @@ package
 			{
 				if (!theCharacter.flickering)
 				{
-					theCharacter.hit();
+					theCharacter.hit(14);
 					spikes.activation = CLOSING;
 					spikes.play("closing");
 					trace("CLAP!");

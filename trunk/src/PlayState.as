@@ -174,15 +174,15 @@ package
 			else if (oldPlayers != null && oldPlayers.length > 0) // asshole
 			{
 				trace("TIME TRAVEL!!!");
-				player = oldPlayers[0].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
+				player = oldPlayers[oldPlayers.length-1].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
 				oldPlayersIndex = 0;
-				while (oldPlayersIndex < oldPlayers.length && oldPlayers[oldPlayersIndex].startTime > timeLeft)
+				while (oldPlayersIndex < oldPlayers.length - 1 && oldPlayers[oldPlayersIndex].startTime > timeLeft)
 					oldPlayersIndex++;
 			}
 			else
 			{
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
-				oldPlayers = [];
+				oldPlayers = [new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel)];
 			}
 			cameraScrollVelocity = new FlxPoint(player.x, player.y);
 			cameraPreviousScroll = new FlxPoint(0, 0);
@@ -249,7 +249,7 @@ package
 			fallAccel += fallJerk * FlxG.elapsed;
 			if (fallAccum >= 1)
 			{
-				var xmax:int = int((0.75 - timeLeft / timeStart + 0.25) * level.tileMap.widthInTiles);
+				var xmax:int = int((1.0 - timeLeft / timeStart) * (level.timeMachine.x / 32 - 2) + 1);
 				var imax:int = xmax * tiles.length / level.tileMap.widthInTiles;
 				while (tiles[imax] % level.tileMap.widthInTiles > xmax)
 					imax--;
@@ -297,7 +297,7 @@ package
 			block.solid = false;
 			if (nvy > 0)
 				return;
-			char.hit();
+			char.hit(18);
 		}
 		
 		override public function update():void
@@ -308,7 +308,7 @@ package
 			{
 				timeLeft = 0;
 			}
-			if (oldPlayersIndex < oldPlayers.length && oldPlayers[oldPlayersIndex].startTime > timeLeft)
+			if (oldPlayersIndex < oldPlayers.length - 1 && oldPlayers[oldPlayersIndex].startTime > timeLeft)
 			{
 				var past_self:Player = oldPlayers[oldPlayersIndex];
 				//trace("add bots " + timeLeft + " " + past_self.startTime + " " + past_self.startX + " " + past_self.startY + " " + past_self.m_waypoints.length);
@@ -323,6 +323,13 @@ package
 			
 			cameraPreviousScroll.x = FlxG.camera.scroll.x;
 			cameraPreviousScroll.y = FlxG.camera.scroll.y;
+			
+			var i:int;
+			var s:FlxSprite;
+			while (boomerangs.remove(null));
+			while (spikes.remove(null));
+			while (level.powerups.remove(null));
+			while (level.eyes.remove(null));
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
@@ -445,21 +452,25 @@ package
 					break;
 				}
 			}
-			
-			if (oldPlayers)
+		
+			if (bestIndex < startIndex)
 			{
-				if (bestIndex == startIndex)
+				// Remove players at greater indices
+				var idx1:int = 0;
+				var idx2:int = 0;
+				while (idx1 < bestIndex && (oldPlayers[idx1].y != level.checkPoints[idx2].y || oldPlayers[idx1].y != level.checkPoints[idx2].y))
 				{
-					oldPlayers[bestIndex] = player;
+					idx2++;
 				}
-				else
-				{
-					oldPlayers.unshift(player);
-				}
+				oldPlayers.splice(idx2, player);
+			}
+			else if (bestIndex > startIndex)
+			{
+				oldPlayers.unshift(player);
 			}
 			else
 			{
-				oldPlayers = [player];
+				oldPlayers[bestIndex] = player;
 			}
 			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers,player));
 		}
