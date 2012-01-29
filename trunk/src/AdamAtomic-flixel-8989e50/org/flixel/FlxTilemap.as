@@ -207,6 +207,7 @@ package org.flixel
 				columns = rows[row++].split(",");
 				if(columns.length <= 1)
 				{
+					row = row - 1;
 					heightInTiles = heightInTiles - 1;
 					continue;
 				}
