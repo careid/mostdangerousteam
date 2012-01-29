@@ -506,7 +506,7 @@ package
 			if (FlxG.keys.justPressed("B"))
 			{
 				//BRUCE
-				//bots.add(new Bot(player));
+				bots.add(new Bot(player));
 				trace(player.x, player.y);
 			}
 		}
@@ -542,6 +542,7 @@ package
 						endGame();
 					}
 					FlxG.overlap(player, level.timeMachine, reachGoal);
+					FlxG.overlap(bots, level.timeMachine, restartLevel);
 					break;
 				case END:
 					break;
