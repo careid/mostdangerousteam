@@ -54,7 +54,6 @@ package
 					x += d.width;
 					digits[i].push(d);
 					add(d);
-					trace(d.y);
 				}
 				x += 1;
 			}

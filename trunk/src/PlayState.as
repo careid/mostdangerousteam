@@ -17,6 +17,7 @@ package
 		[Embed(source = "../maps/testThing.xml", mimeType = "application/octet-stream")] public var TestThingXML:Class;		
 		
 		[Embed(source = "./graphics/hud.png")] public var HUD:Class;
+		[Embed(source = "./graphics/powerups.png")] public var PowerupImage:Class;
 		
 		public static var GRAVITY:int = 400;
 		
@@ -69,6 +70,8 @@ package
 		protected var isFirstIteration:Boolean = false;
 		
 		protected var inventoryText:FlxText;
+		protected var eyeCounter:Counter;
+		protected var itemDisplay:FlxSprite;
 		
         public function PlayState(startIndex:int = 0,oldPlayers:Array=null,runLevel:int=0,staminaLevel:int=0,healthLevel:int=0)
 		{
@@ -228,11 +231,22 @@ package
 			staminaBar.createFilledBar(0xff000000, 0xff0000ff);
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
+			eyeCounter = new Counter(78, 16);
+			itemDisplay = new FlxSprite(85, 0);
+			itemDisplay.loadGraphic(PowerupImage,true,false,14,14);
+			itemDisplay.scrollFactor.x = itemDisplay.scrollFactor.y = 0;
+			itemDisplay.addAnimation("boomerang", [0]);
+			itemDisplay.addAnimation("doublejump", [1]);
+			itemDisplay.addAnimation("stamina", [2]);
+			itemDisplay.addAnimation("spikes", [3]);
+			
 			
 			add(hud);
 			add(healthBar);
 			add(staminaBar);
-			add(inventoryText);
+			add(eyeCounter);
+			add(itemDisplay);
+			//add(inventoryText);
 			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
 			
 			//add doors
@@ -376,7 +390,7 @@ package
 			
 			debugShit();
 			isFirstIteration = false;
-	
+			/*
 			if (player.getCurrentPowerup() != null)
 			{
 				inventoryText.text = "Current Item: " + player.getCurrentPowerup().animationName;
@@ -385,6 +399,18 @@ package
 			{
 				inventoryText.text = "Current Item: Nothing.";
 			}
+			*/
+			
+			if (player.getCurrentPowerup() != null)
+			{
+				itemDisplay.exists = true;
+				itemDisplay.play(player.getCurrentPowerup().animationName);
+			}
+			else
+			{
+				itemDisplay.exists = false;
+			}
+			eyeCounter.value = player.numEyes;
 		}
 		
 		public function debugShit():void
