@@ -187,7 +187,9 @@ package
 				{
 					i = y * level.tileMap.widthInTiles + x;
 					if (data[i] > 0)
+					{
 						tiles.push(i);
+					}
 				}
 			}
 			timeStart = level.checkPoints[level.checkPoints.length - 1].time;
@@ -198,7 +200,7 @@ package
 			fallAccum = 0;
 			fallRate = 0;
 			fallAccel = 0;
-			fallJerk = 0.1 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
+			fallJerk = 0.8 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
 			
 			fallBlocks = new FlxGroup();
 			add(fallBlocks);
@@ -334,16 +336,14 @@ package
 			fallAccel += fallJerk * FlxG.elapsed;
 			if (fallAccum >= 1)
 			{
-				var xmax:int = int((1.0 - timeLeft / timeStart) * (level.timeMachine.x / 32 - 2) + 1);
-				var imax:int = xmax * tiles.length / level.tileMap.widthInTiles;
-				while (tiles[imax] % level.tileMap.widthInTiles > xmax)
-					imax--;
-				while (tiles[imax] % level.tileMap.widthInTiles < xmax)
+				var xmax:int = int(Math.pow(1.0 - timeLeft / timeStart, 3) * level.tileMap.widthInTiles);
+				var imax:int = 0;
+				while ((tiles[imax] % level.tileMap.widthInTiles) < xmax)
 					imax++;
 				while (fallAccum >= 1)
 				{
 					fallAccum--;
-					var idx:uint = tiles.splice(FlxG.random() * imax, 1);
+					var idx:uint = tiles.splice(int(Math.abs(FlxG.random()) * imax), 1);
 					var tile_idx:uint = level.tileMap.getTileByIndex(idx);
 					level.tileMap.setTileByIndex(idx, 0);
 					
@@ -354,9 +354,9 @@ package
 					tile.mass = 5.0;
 					tile.acceleration.y = 0.5 * GRAVITY;
 					tile.maxVelocity.y = GRAVITY;
-					tile.velocity.x = 25.0 * (FlxG.random()-0.5);
-					tile.velocity.y = -25.0 * FlxG.random();
-					tile.angularVelocity = 180.0 * (FlxG.random() - 0.5);
+					tile.velocity.x = 25.0 * (Math.abs(FlxG.random())-0.5);
+					tile.velocity.y = -25.0 * Math.abs(FlxG.random());
+					tile.angularVelocity = 180.0 * (Math.abs(FlxG.random()) - 0.5);
 					fallBlocks.add(tile);
 				}
 			}
@@ -624,7 +624,7 @@ package
 			transitionState(END);
 		}
 		
-		private function endGame():void
+		private function endGame() : void
 		{
 			FlxG.fade(0xff000000, 1, gameOver);
 		}
