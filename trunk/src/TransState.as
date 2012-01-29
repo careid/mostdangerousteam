@@ -80,7 +80,7 @@ package
 			buttons = new Array();
 			for (i = 0; i < 3; i++)
 			{
-				buttons.push(new Button(i * 50 + 30, 200));
+				buttons.push(new Button(i * 50 + 30, 150));
 				add(buttons[i]);
 			}
 			
@@ -138,7 +138,8 @@ package
 				b.flash();
 				runLevel += 1;
 				exp -= 1;
-				buttons[0].setText("Press Z for RUN " + String(runLevel + 1));
+				buttons[RUN].setText("Press Z for RUN " + String(runLevel + 1));
+				buttons[RUN].flicker(0.5);
 			}
 			else if (FlxG.keys.justPressed("X"))
 			{
@@ -146,7 +147,8 @@ package
 				b.flash();
 				staminaLevel += 1;
 				exp -= 1;
-				buttons[1].setText("Press X for STAMINA " + String(staminaLevel+1));
+				buttons[STAMINA].setText("Press X for STAMINA " + String(staminaLevel + 1));
+				buttons[STAMINA].flicker(0.5);
 			}
 			else if (FlxG.keys.justPressed("C"))
 			{
@@ -154,7 +156,8 @@ package
 				b.flash();
 				healthLevel += 1;
 				exp -= 1;
-				buttons[2].setText("Press C for HEALTH " + String(healthLevel+1));
+				buttons[HEALTH].setText("Press C for HEALTH " + String(healthLevel + 1));
+				buttons[HEALTH].flicker(0.5);
 			}
 		}
 		
