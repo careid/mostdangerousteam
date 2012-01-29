@@ -32,13 +32,13 @@ package
 		
 		public var jumps:int;
 		protected var m_remaining_jumps:int;
+		protected var m_jump_cost:Number;
 		protected var m_jump_power:Number;
 		protected var m_wall_friction:Number;
 		
 		public var stamina:Number;
 		public var maxstamina:Number;
 		protected var staminaregen:Number;
-		protected var dashCooldown:Number;
 		
 		protected var m_powerupList : Array;
 		protected var m_currentPowerup : Powerup;
@@ -154,7 +154,6 @@ package
 		public function setup(run_speed:int=100,dash_speed:int=200,staminaregen:Number=1.0,maxstamina:Number=50,health:Number=10):void
 		{
 			m_isDashing = false;
-			dashCooldown = 0.0;
 			m_run_speed = run_speed;
 			m_dash_speed = dash_speed;
 			m_speed = m_run_speed;
@@ -168,6 +167,7 @@ package
 			jumps = 3;
 			m_remaining_jumps = jumps;
 			m_jump_power = 200;
+			m_jump_cost = 10;
 			maxVelocity.y = m_jump_power;
 			
 			this.staminaregen = staminaregen;
@@ -201,7 +201,6 @@ package
 			var isTouchingRight:Boolean = isTouching(RIGHT);
 			
 			// DASHING
-			dashCooldown = Math.max(0, dashCooldown - FlxG.elapsed);
 			if (m_isDashing)
 			{
 				stamina--;
@@ -212,50 +211,30 @@ package
 					m_dustEmitter.on = false;
 					m_speed = m_run_speed;
 					maxVelocity.x = m_run_speed;
-					dashCooldown = 0.75;
 				}
 			}
 			else
 			{
-				if (stamina + staminaregen < maxstamina)
-				{ // recharging
-					if (isTouchingFloor)
-					{
-						if (dashCooldown == 0)
-							stamina += staminaregen;
-						maxVelocity.x = m_run_speed*0.25;
-					}
-					else
-					{
-						maxVelocity.x = m_run_speed;
-					}
-					m_isDashing = false;
-					m_speed = m_run_speed * 0.25;
-					m_dustEmitter.on = false;
-					doDash = false;
+				if (doDash && stamina > 0.25 * maxstamina)
+				{
+					m_isDashing = true;
+					m_speed = m_dash_speed;
+					maxVelocity.x = m_dash_speed;
+					m_dustEmitter.start(false, 1.5, 0.1);
+					m_dustEmitter.on = true;
 				}
 				else
 				{
-					if (stamina < maxstamina)
-					{
-						stamina = maxstamina;
-						dashCooldown = 1.0;
-					}
-					if (doDash && dashCooldown == 0)
-					{
-						m_isDashing = true;
-						m_speed = m_dash_speed;
-						maxVelocity.x = m_dash_speed;
-						m_dustEmitter.start(false, 1.5, 0.1);
-						m_dustEmitter.on = true;
-					}
-					else
-					{
-						m_isDashing = false;
-						m_speed = m_run_speed;
-						maxVelocity.x = m_run_speed;
-						m_dustEmitter.on = false;
-					}
+					m_isDashing = false;
+					m_dustEmitter.on = false;
+					m_speed = m_run_speed;
+					maxVelocity.x = m_run_speed;
+				}
+			
+				// recharging
+				if (isTouchingFloor)
+				{
+					stamina = Math.min(maxstamina, stamina + staminaregen);
 				}
 			}
 			
@@ -264,7 +243,7 @@ package
 			{
 				m_remaining_jumps = jumps;
 			}
-			if(doJump)
+			if(doJump && stamina > m_jump_cost)
 			{
 				if (isTouchingFloor && m_remaining_jumps > 0)
 				{
@@ -272,6 +251,7 @@ package
 					{
 						FlxG.play(JumpSnd);
 					}
+					stamina -= m_jump_cost;
 					m_remaining_jumps--;
 					velocity.y = -m_jump_power;
 					m_dustEmitter.on = false;
@@ -282,6 +262,7 @@ package
 					{
 						FlxG.play(JumpSnd);
 					}
+					stamina -= m_jump_cost;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * m_jump_power;
 					m_dustEmitter.on = false;
@@ -292,6 +273,7 @@ package
 					{
 						FlxG.play(JumpSnd);
 					}
+					stamina -= m_jump_cost;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * -m_jump_power;
 					m_dustEmitter.on = false;
@@ -302,6 +284,7 @@ package
 					{
 						FlxG.play(JumpSnd);
 					}
+					stamina -= m_jump_cost;
 					m_remaining_jumps--;
 					velocity.y = -m_jump_power;
 					m_dustEmitter.on = false;
@@ -358,7 +341,7 @@ package
 				}
 				else if(velocity.x == 0)
 				{
-					if (maxVelocity.x == m_run_speed * 0.25)
+					if (maxVelocity.x == m_run_speed * 0.5)
 						play("tired idle");
 					else
 						play("idle");
@@ -369,7 +352,7 @@ package
 				}
 				else
 				{
-					if (maxVelocity.x == m_run_speed * 0.25)
+					if (maxVelocity.x == m_run_speed * 0.5)
 						play("tired run");
 					else
 						play("run");
