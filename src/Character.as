@@ -32,8 +32,6 @@ package
 		
 		public var max_health:Number;
 		
-		public var jumps:int;
-		protected var m_remaining_jumps:int;
 		protected var m_jump_cost:Number;
 		protected var m_jump_power:Number;
 		protected var m_wall_friction:Number;
@@ -158,8 +156,8 @@ package
 		public function setup(run_speed:int=100,dash_speed:int=200,staminaregen:Number=1.0,maxstamina:Number=50,health:Number=10):void
 		{
 			m_isDashing = false;
-			m_walk_stamina = 30;
-			m_walk_speed = 0.35 * run_speed;
+			m_walk_stamina = 25;
+			m_walk_speed = 0.3 * run_speed;
 			m_run_speed = run_speed;
 			m_dash_speed = dash_speed;
 			m_speed = m_run_speed;
@@ -172,9 +170,7 @@ package
 			acceleration.y = PlayState.GRAVITY;
 			m_wall_friction = 10;
 			
-			jumps = 3;
-			m_remaining_jumps = jumps;
-			m_jump_power = 200;
+			m_jump_power = 175;
 			m_jump_cost = 15;
 			maxVelocity.y = m_jump_power;
 			
@@ -226,7 +222,18 @@ package
 			{
 				if (isTouchingFloor)
 				{
-					stamina = Math.min(maxstamina, stamina + staminaregen);
+					if (velocity.x == 0)
+						stamina = Math.min(maxstamina, stamina + staminaregen);
+					else
+						stamina = Math.min(maxstamina, stamina + 0.75 * staminaregen);
+				}
+				else if (isTouchingLeft || isTouchingRight)
+				{
+					stamina = Math.min(maxstamina, stamina + 0.5 * staminaregen);
+				}
+				else if (velocity.y >= 0)
+				{
+					stamina = Math.min(maxstamina, stamina + 0.25 * staminaregen);
 				}
 				if (stamina < m_walk_stamina)
 				{
@@ -257,55 +264,31 @@ package
 			}
 			
 			// JUMPING
-			if (justTouched(FLOOR))
-			{
-				m_remaining_jumps = jumps;
-			}
 			if(doJump && (stamina > m_jump_cost || isTouchingFloor))
 			{
+				if (playSounds && isTouchingFloor)
+				{
+					FlxG.play(JumpSnd);
+				}
+				stamina -= m_jump_cost;
+				m_dustEmitter.on = false;
 				if (isTouchingFloor)
 				{
-					if (playSounds)
-					{
-						FlxG.play(JumpSnd);
-					}
-					//stamina -= m_jump_cost;
-					m_remaining_jumps--;
 					velocity.y = -m_jump_power;
-					m_dustEmitter.on = false;
 				}
 				else if (isTouchingLeft)
 				{
-					if (playSounds)
-					{
-						FlxG.play(JumpSnd);
-					}
-					stamina -= m_jump_cost;
-					velocity.y = OVER_SQRT2 * -m_jump_power;
-					velocity.x = OVER_SQRT2 * m_jump_power;
-					m_dustEmitter.on = false;
+					velocity.y = -1.5 * m_jump_power;
+					velocity.x = 1.5 * m_jump_power;
 				}
 				else if (isTouchingRight)
 				{
-					if (playSounds)
-					{
-						FlxG.play(JumpSnd);
-					}
-					stamina -= m_jump_cost;
-					velocity.y = OVER_SQRT2 * -m_jump_power;
-					velocity.x = OVER_SQRT2 * -m_jump_power;
-					m_dustEmitter.on = false;
+					velocity.y = -1.5 * m_jump_power;
+					velocity.x = -1.5 * m_jump_power;
 				}
-				else if (m_remaining_jumps > 0)
+				else
 				{
-					if (playSounds)
-					{
-						FlxG.play(JumpSnd);
-					}
-					stamina -= m_jump_cost;
-					m_remaining_jumps--;
 					velocity.y = -m_jump_power;
-					m_dustEmitter.on = false;
 				}
 			}
 			
@@ -527,17 +510,21 @@ package
 			}
 		}
 		
-		public function hit(damage:int=10):void
+		public function hit(damage:int, death:Function):Boolean
 		{
+			if (flickering)
+				return false;
+				
 			health -= damage;
 			if (health <= 0)
 			{
-				die();
+				death();
 			}
 			else
 			{
 				flicker(0.5);
 			}
+			return true;
 		}
 		
 		public function squash():void

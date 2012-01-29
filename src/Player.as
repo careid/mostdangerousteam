@@ -44,10 +44,10 @@ package
 		{
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
-			doJump = FlxG.keys.justPressed("X");
+			doJump = FlxG.keys.justPressed("UP");
 			doDash = FlxG.keys.pressed("C");
 			usePowerup = FlxG.keys.justPressed("Z");
-			if (FlxG.keys.justPressed("DOWN"))
+			if (FlxG.keys.justPressed("X"))
 			{
 				cyclePowerups();
 			}
