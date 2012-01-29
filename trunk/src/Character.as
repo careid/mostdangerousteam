@@ -437,17 +437,29 @@ package
 		
 		public function selectBoomerang() : void
 		{
-			if (! (m_currentPowerup is BoomerangPowerup))
+			if (m_currentPowerup != null)
 			{
-				cyclePowerups();
+				if (m_currentPowerup.animationName != "boomerang")
+				{
+					trace("Select boomerang");
+					cyclePowerups();
+				}
+				else
+					trace("boomerang already selected");
 			}
 		}
 		
 		public function selectSpikes():void
 		{
-			if (! (m_currentPowerup is SpikePowerup))
+			if (m_currentPowerup != null)
 			{
-				cyclePowerups();
+				if (m_currentPowerup.animationName != "spikes")
+				{
+					trace("Select spikes");
+					cyclePowerups();
+				}
+				else
+					trace("spikes already selected");
 			}
 		}
 		

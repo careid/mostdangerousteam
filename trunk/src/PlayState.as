@@ -503,7 +503,7 @@ package
 		
 		public function debugShit():void
 		{			
-			if (FlxG.keys.justPressed("SPACE"))
+			if (FlxG.keys.justPressed("B"))
 			{
 				//BRUCE
 				//bots.add(new Bot(player));
