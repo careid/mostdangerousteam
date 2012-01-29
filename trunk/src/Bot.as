@@ -4,6 +4,7 @@ package
 
 	public class Bot extends Hydraman
 	{
+		
 		public function Bot(old_player:Player)
 		{
 			super(old_player.startX, old_player.startY);

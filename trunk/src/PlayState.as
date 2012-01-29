@@ -1,10 +1,8 @@
 package
 {
 	import flash.events.Event;
-	import flash.events.TimerEvent;
 	import flash.geom.Point;
 	import flash.text.engine.BreakOpportunity;
-	import flash.utils.Timer;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 	import org.flixel.plugin.photonstorm.FX.StarfieldFX;
@@ -15,7 +13,7 @@ package
 	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
 		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var TestThingCSV:Class;		
 		[Embed(source = "../maps/testThing.xml", mimeType = "application/octet-stream")] public var TestThingXML:Class;		
-		
+		[Embed(source = "./graphics/Ring002.png")] public var CircleParticle:Class;
 		[Embed(source = "./graphics/hud.png")] public var HUD:Class;
 		[Embed(source = "./graphics/powerups.png")] public var PowerupImage:Class;
 		
@@ -69,6 +67,8 @@ package
 		protected var eyeCounter:Counter;
 		protected var itemDisplays:Array;
 		
+		protected var teleportEmitter:FlxEmitter;
+		
         public function PlayState(startIndex:int = 0,oldPlayers:Array=null,runLevel:int=0,staminaLevel:int=0,healthLevel:int=0)
 		{
 			this.startIndex = startIndex;
@@ -99,6 +99,17 @@ package
 			starfield.sprite.scrollFactor.x = 0.0;
 			starfield.sprite.scrollFactor.y = 0.0;
 			starfield.setStarSpeed( -0.25, 0);
+			
+			teleportEmitter = new FlxEmitter(0, 0, 20);
+			teleportEmitter.particleClass = AdditiveFadingParticle;
+			teleportEmitter.makeParticles(CircleParticle, 20);
+			teleportEmitter.maxParticleSpeed.x = 1;
+			teleportEmitter.minParticleSpeed.x = -1;
+			teleportEmitter.maxParticleSpeed.y = 1;
+			teleportEmitter.minParticleSpeed.y = -1;
+			teleportEmitter.minRotation = 30;
+			teleportEmitter.maxRotation = 60;
+			
 			add(starfield.sprite);
 			add(level.tileMap);
 			add(level.timeMachine);
@@ -109,6 +120,7 @@ package
 			add(level.powerups);
 			add(level.eyes);
 			add(level.misc);
+			add(teleportEmitter);
 			timeLeft = level.checkPoints[startIndex].time;
 			Hydraman.m_initialTimeLeft = timeLeft;
 			for (i = 0; i < level.countDowns.length; i++)
@@ -173,7 +185,7 @@ package
 			else if (oldPlayers != null && oldPlayers.length > 0) // asshole
 			{
 				trace("TIME TRAVEL!!!");
-				player = oldPlayers[oldPlayers.length-1].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y,runLevel,staminaLevel,healthLevel);
+				player = oldPlayers[oldPlayers.length - 1].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
 				oldPlayersIndex = 0;
 				while (oldPlayersIndex < oldPlayers.length - 1 && oldPlayers[oldPlayersIndex].startTime > timeLeft)
 					oldPlayersIndex++;
@@ -183,8 +195,13 @@ package
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
 				oldPlayers = [new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel)];
 			}
-			cameraScrollVelocity = new FlxPoint(player.x, player.y);
-			cameraPreviousScroll = new FlxPoint(0, 0);
+			teleportEmitter.x = player.x;
+			teleportEmitter.y = player.y;
+			teleportEmitter.start(true, 1.5, 0.1, 0);
+			teleportEmitter.on = true;
+			
+			cameraScrollVelocity = new FlxPoint(0,0);
+			cameraPreviousScroll = new FlxPoint(player.x, player.y);
 			characters.add(player);
 			
 			player.startTime = level.checkPoints[startIndex].time;
@@ -324,7 +341,12 @@ package
 			{
 				var past_self:Player = oldPlayers[oldPlayersIndex];
 				//trace("add bots " + timeLeft + " " + past_self.startTime + " " + past_self.startX + " " + past_self.startY + " " + past_self.m_waypoints.length);
-				bots.add(new Bot(past_self));
+				var toAdd:Bot = new Bot(past_self);
+				bots.add(toAdd);
+				teleportEmitter.x = toAdd.x;
+				teleportEmitter.y = toAdd.y;
+				teleportEmitter.start(true, 1.5, 0.1, 0);
+				teleportEmitter.on = true;
 				oldPlayersIndex++;
 			}
 			
