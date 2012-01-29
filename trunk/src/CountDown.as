@@ -48,6 +48,7 @@ package
 				for (j = 0; j < 2; j++)
 				{
 					var d:Digit = new Digit(x, y + 13);
+					d.mass = 0.25;
 					x += d.width - 1;
 					digits[i].push(d);
 					add(d);

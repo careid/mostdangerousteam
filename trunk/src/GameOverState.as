@@ -13,10 +13,11 @@ package
 		protected var index:int;
 		protected var players:Array;
 		
-		public function GameOverState(index:int,timeLeft:Number,players:Array,player:Player,exp:int=0)
+		public function GameOverState(index:int,timeLeft:Number,players:Array,exp:int=0)
 		{
 			this.index = index;
 			this.players = players;
+			var player:Player = players[players.length-1];
 			runLevel = player.m_run_level;
 			staminaLevel = player.m_stamina_level;
 			healthLevel = player.m_health_level;

@@ -181,19 +181,20 @@ package
 			{
 				// This should only run if there are no checkpoints in the level's XML file
 				player = new Player(3008,  228);
+				oldPlayersIndex = -1;
 			}
 			else if (oldPlayers != null && oldPlayers.length > 0) // asshole
 			{
 				trace("TIME TRAVEL!!!");
 				player = oldPlayers[oldPlayers.length - 1].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
-				oldPlayersIndex = 0;
-				while (oldPlayersIndex < oldPlayers.length - 1 && oldPlayers[oldPlayersIndex].startTime > timeLeft)
-					oldPlayersIndex++;
+				oldPlayersIndex = oldPlayers.length-2;
 			}
 			else
 			{
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
 				oldPlayers = [new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel)];
+				oldPlayers[0].startTime = timeLeft;
+				oldPlayersIndex = -1;
 			}
 			teleportEmitter.x = player.x;
 			teleportEmitter.y = player.y;
@@ -204,7 +205,7 @@ package
 			cameraPreviousScroll = new FlxPoint(player.x, player.y);
 			characters.add(player);
 			
-			player.startTime = level.checkPoints[startIndex].time;
+			player.startTime = timeLeft;
 			
 			// bots
 			bots = new FlxGroup();
@@ -331,13 +332,12 @@ package
 		
 		override public function update():void
 		{
-
 			timeLeft -= FlxG.elapsed;
 			if (timeLeft < 0)
 			{
 				timeLeft = 0;
 			}
-			if (oldPlayersIndex < oldPlayers.length - 1 && oldPlayers[oldPlayersIndex].startTime > timeLeft)
+			if (oldPlayersIndex >= 0 && oldPlayers[oldPlayersIndex].startTime > timeLeft)
 			{
 				var past_self:Player = oldPlayers[oldPlayersIndex];
 				//trace("add bots " + timeLeft + " " + past_self.startTime + " " + past_self.startX + " " + past_self.startY + " " + past_self.m_waypoints.length);
@@ -347,7 +347,7 @@ package
 				teleportEmitter.y = toAdd.y;
 				teleportEmitter.start(true, 1.5, 0.1, 0);
 				teleportEmitter.on = true;
-				oldPlayersIndex++;
+				oldPlayersIndex--;
 			}
 			
 			super.update();
@@ -495,17 +495,25 @@ package
 			if (bestIndex < startIndex)
 			{
 				// Remove players at greater indices
-				var idx1:int = 0;
-				var idx2:int = 0;
-				while (idx1 < bestIndex && ((oldPlayers[idx1].startX != level.checkPoints[idx2].x) ||
-						(oldPlayers[idx1].startY != level.checkPoints[idx2].y)))
+				oldPlayers.pop();
+				var time:Number = level.checkPoints[bestIndex].time;
+				while (oldPlayers.length > 0 && oldPlayers[oldPlayers.length - 1].startTime >= time)
 				{
-					idx2++;
+					oldPlayers.pop();
 				}
-				oldPlayers.splice(idx2, startIndex - bestIndex, player);
+				player.startTime = time;
+				oldPlayers.push(player);
 			}
 			else if (bestIndex > startIndex)
 			{
+				// We do this because the previous image should have the stats we had at the start of the run,
+				// but move like we did to complete the run
+				var previous:Player = oldPlayers[oldPlayers.length - 1];
+				previous.startTime = player.startTime;
+				previous.startX = player.startX;
+				previous.startY = player.startY;
+				previous.m_waypoints = player.m_waypoints;
+				previous.m_stateHistory = player.m_stateHistory;
 				oldPlayers.push(player);
 			}
 			else
@@ -529,7 +537,7 @@ package
 		{
 			FlxSpecialFX.remove(starfield);
 			
-			FlxG.switchState(new GameOverState(startIndex,level.checkPoints[startIndex].time,oldPlayers,player));
+			FlxG.switchState(new GameOverState(startIndex,level.checkPoints[startIndex].time,oldPlayers));
 		}
 		
 	}
