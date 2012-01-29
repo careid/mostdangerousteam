@@ -459,7 +459,7 @@ package
 		{
 			FlxSpecialFX.remove(starfield);
 			
-			FlxG.switchState(new GameOverState());
+			FlxG.switchState(new GameOverState(startIndex,level.checkPoints[startIndex].time,oldPlayers,player));
 		}
 		
 	}
