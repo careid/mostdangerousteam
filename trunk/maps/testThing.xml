@@ -1,5 +1,5 @@
 <Level1>
-	<TimeMachine x="3104" y="256"/>
+	<TimeMachine x="3062" y="215"/>
 	
 	<StoryBox x="2274" y="246" width="64" height="64" level="0" text="You'll need to fix the thing at the end of the corridor before the ship is completely destroyed. Use Left and Right to move, X to jump." />
 	<StoryBox x="2664" y="262" width="64" height="64" level="0" text="For a burst of speed, press C." />
@@ -82,5 +82,10 @@
 	<Spikepit x="2240" y="470"/>
 	<Spikepit x="2272" y="470"/>
 	<Spikepit x="2304" y="470"/>
+
+	<DoorSwitch x="1696" y="192" id="5" />
+	<Door x="1728" y="192" id="5" />
+
+	
 
 </Level1>
