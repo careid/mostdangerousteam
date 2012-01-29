@@ -44,8 +44,8 @@ package
 		{
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
-			doJump = FlxG.keys.justPressed("UP");
-			doDash = FlxG.keys.pressed("C");
+			doJump = FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("SPACE");
+			doDash = FlxG.keys.SHIFT;
 			usePowerup = FlxG.keys.justPressed("Z");
 			if (FlxG.keys.justPressed("X"))
 			{
