@@ -42,6 +42,7 @@ package
 		public var maxstamina:Number;
 		protected var staminaregen:Number;
 		
+		protected var m_recharge : Number;
 		protected var m_powerupList : Array;
 		protected var m_currentPowerup : Powerup;
 		protected var m_dustEmitter : FlxEmitter;
@@ -156,7 +157,7 @@ package
 		public function setup(run_speed:int=100,dash_speed:int=200,staminaregen:Number=1.0,maxstamina:Number=50,health:Number=10):void
 		{
 			m_isDashing = false;
-			m_walk_stamina = 15;
+			m_walk_stamina = 30;
 			m_walk_speed = 0.35 * run_speed;
 			m_run_speed = run_speed;
 			m_dash_speed = dash_speed;
@@ -165,13 +166,15 @@ package
 			m_accel_constant = 4.0;
 			maxVelocity.x = m_run_speed;
 			
+			m_recharge = 0;
+			
 			acceleration.y = PlayState.GRAVITY;
 			m_wall_friction = 10;
 			
 			jumps = 3;
 			m_remaining_jumps = jumps;
 			m_jump_power = 200;
-			m_jump_cost = 10;
+			m_jump_cost = 15;
 			maxVelocity.y = m_jump_power;
 			
 			this.staminaregen = staminaregen;
@@ -231,7 +234,8 @@ package
 						m_isDashing = false;
 						m_dustEmitter.on = false;
 						m_speed = m_walk_speed;
-						maxVelocity.x = m_walk_speed;
+						if (isTouchingFloor)
+							maxVelocity.x = m_walk_speed;
 					}
 				}
 				else if (doDash)
@@ -256,15 +260,15 @@ package
 			{
 				m_remaining_jumps = jumps;
 			}
-			if(doJump && stamina > m_jump_cost)
+			if(doJump && (stamina > m_jump_cost || isTouchingFloor))
 			{
-				if (isTouchingFloor && m_remaining_jumps > 0)
+				if (isTouchingFloor)
 				{
 					if (playSounds)
 					{
 						FlxG.play(JumpSnd);
 					}
-					stamina -= m_jump_cost;
+					//stamina -= m_jump_cost;
 					m_remaining_jumps--;
 					velocity.y = -m_jump_power;
 					m_dustEmitter.on = false;
@@ -365,7 +369,7 @@ package
 				}
 				else
 				{
-					if (stamina < m_walk_stamina)
+					if (maxVelocity.x < m_run_speed)
 						play("tired run");
 					else
 						play("run");
@@ -373,10 +377,12 @@ package
 			}
 			
 			// POWERUPS
-			if (usePowerup && m_currentPowerup != null)
+			m_recharge = Math.max(0, m_recharge - FlxG.elapsed);
+			if (usePowerup && m_currentPowerup != null && m_recharge == 0)
 			{
 				trace("Activating");
 				activateCurrentPowerup();
+				m_recharge = 0.5;
 			}
 			
 			if (m_currentPowerup != null)
