@@ -22,7 +22,7 @@ package
 		{
 			super(X, Y);
 			this.powerup  = powerup;
-			loadGraphic(Image, true, false, 14, 14, false);
+			loadGraphic(Image, true, false, 16,16, false);
 			addAnimation("boomerang", [0]);
 			addAnimation("doublejump", [1]);
 			addAnimation("stamina", [2]);

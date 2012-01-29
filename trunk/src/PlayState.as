@@ -68,7 +68,7 @@ package
 		
 		protected var inventoryText:FlxText;
 		protected var eyeCounter:Counter;
-		protected var itemDisplay:FlxSprite;
+		protected var itemDisplays:Array;
 		
         public function PlayState(startIndex:int = 0,oldPlayers:Array=null,runLevel:int=0,staminaLevel:int=0,healthLevel:int=0)
 		{
@@ -224,21 +224,26 @@ package
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
 			eyeCounter = new Counter(78, 16);
-			itemDisplay = new FlxSprite(87, 0);
-			itemDisplay.loadGraphic(PowerupImage,true,false,14,14);
-			itemDisplay.scrollFactor.x = itemDisplay.scrollFactor.y = 0;
-			itemDisplay.addAnimation("boomerang", [0]);
-			itemDisplay.addAnimation("doublejump", [1]);
-			itemDisplay.addAnimation("stamina", [2]);
-			itemDisplay.addAnimation("spikes", [3]);
-			
 			
 			add(hud);
 			add(healthBar);
 			add(staminaBar);
 			add(eyeCounter);
-			add(itemDisplay);
-			add(inventoryText);
+			itemDisplays = new Array()
+			for (i = 0; i < 5; i++)
+			{
+				itemDisplays.push(new FlxSprite(i * 12, 35));
+				itemDisplays[i].loadGraphic(PowerupImage,true,false,16,16);
+				itemDisplays[i].scrollFactor.x = itemDisplays[i].scrollFactor.y = 0;
+				itemDisplays[i].addAnimation("boomerang", [0]);
+				itemDisplays[i].addAnimation("doublejump", [1]);
+				itemDisplays[i].addAnimation("stamina", [2]);
+				itemDisplays[i].addAnimation("spikes", [3]);
+				add(itemDisplays[i]);
+			}
+			
+			
+			//add(inventoryText);
 			add(new FlxText(0, 40, FlxG.width, "press B to bot"));
 			add(countdown);
 			
@@ -385,15 +390,35 @@ package
 				inventoryText.text = "Current Item: Nothing.";
 			}
 			*/
-			
-			if (player.getCurrentPowerup() != null)
+			var powerupList:Array = player.getPowerupList();
+			if (powerupList != null)
 			{
-				itemDisplay.exists = true;
-				itemDisplay.play(player.getCurrentPowerup().animationName);
+				for (i = 0; i < itemDisplays.length; i++)
+				{
+					itemDisplays[i].scale.x = itemDisplays[i].scale.y = 0.7;
+					itemDisplays[i].alpha = 0.7;
+					if (i < powerupList.length)
+					{
+						itemDisplays[i].exists = true;
+						itemDisplays[i].play(powerupList[i].animationName);
+						if (powerupList[i] == player.getCurrentPowerup())
+						{
+							itemDisplays[i].scale.x = itemDisplays[i].scale.y = 1.0;
+							itemDisplays[i].alpha = 1.0;
+						}
+					}
+					else
+					{
+						itemDisplays[i].exists = false;
+					}
+				}
 			}
 			else
 			{
-				itemDisplay.exists = false;
+				for (i = 0; i < itemDisplays.length; i++)
+				{
+					itemDisplays[i].exists = false;
+				}
 			}
 			eyeCounter.value = player.numEyes;
 		}
@@ -459,13 +484,13 @@ package
 				if (timeLeft > c.threshold)
 				{
 					bestIndex = i;
-				} 
+				}
 				else
 				{
 					break;
 				}
 			}
-		
+			
 			if (bestIndex < startIndex)
 			{
 				// Remove players at greater indices
