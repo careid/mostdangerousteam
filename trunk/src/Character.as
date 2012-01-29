@@ -7,7 +7,9 @@ package
 	{
 		[Embed(source = "./graphics/Cloud003.png")] public var Cloud:Class;
 		[Embed(source = "./graphics/pop.png")] public var ImgPop:Class;
+		[Embed(source = "./graphics/zap.png")] public var ImgZap:Class;
 		[Embed(source = "./graphics/blood.png")] public var bloodDrop:Class;
+		[Embed(source = "./graphics/spark.png")] public var spark:Class;
 		
 		[Embed(source = "./sounds/playerJump.mp3")] public var JumpSnd:Class;
 		[Embed(source = "sounds/playerJump.mp3")] public var DeathSnd:Class;
@@ -566,6 +568,40 @@ package
 			}
 			play("squash");
 			playingDeathAnimation = true;
+			
+			this.solid = false;
+			this.acceleration.x = 0;
+			this.acceleration.y = 0;
+		}
+		
+		public function electrocute():void
+		{
+			if (playSounds)
+			{
+				FlxG.play(DeathSnd);
+			}
+			pop = new FlxSprite(x, y, ImgZap);
+			pop.facing = facing;
+			pop.offset.x = 1;
+			pop.loadGraphic(ImgZap, true, true);
+			pop.addAnimation("zap", [0, 1], 18, false);
+			pop.play("zap");
+			(FlxG.state as PlayState).level.misc.add(pop);
+			visible = false;
+			
+			// particles
+			var sparkEmitter:FlxEmitter = new FlxEmitter(x+width/2,y+height/2);
+			sparkEmitter.makeParticles(spark, 20);
+			sparkEmitter.gravity = 0;
+			sparkEmitter.particleDrag.x = 0;
+			sparkEmitter.particleDrag.y = 0;
+			sparkEmitter.minParticleSpeed.x = -500;
+			sparkEmitter.maxParticleSpeed.x = 500;
+			sparkEmitter.minParticleSpeed.y = -500;
+			sparkEmitter.maxParticleSpeed.y = 500;
+			sparkEmitter.start(true, 0.5, 0.1, 20);
+			FlxG.state.add(sparkEmitter);
+			
 			
 			this.solid = false;
 			this.acceleration.x = 0;

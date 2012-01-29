@@ -37,9 +37,9 @@ package
 			}
 		}
 		
-		public static function overlap(a:FlxObject, b:Character):void
+		public static function overlap(a:FlxObject, b:Hydraman):void
 		{
-			b.squash();
+			b.electrocute();
 		}
 	}
 

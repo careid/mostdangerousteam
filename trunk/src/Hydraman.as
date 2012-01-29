@@ -117,10 +117,36 @@ package
 			FlxG.state.add(bloodEmitter);
 		}
 		
+		override public function electrocute() : void
+		{
+			var eye : Eye = new Eye(x + 5, y + 12);
+			if (facing != FlxObject.RIGHT)
+			{
+				eye.x = x + 2;
+			}
+			eye.acceleration.y = 400;
+			if (facing == FlxObject.RIGHT)
+				eye.velocity.x = maxVelocity.x;
+			else
+				eye.velocity.x = -maxVelocity.x;
+			eye.velocity.y = -3*maxVelocity.y;
+			(FlxG.state as PlayState).level.eyes.add(eye);
+			
+			if (glitch != null)
+			{
+				glitch.stop();
+				glitch.sprite.kill();
+				FlxSpecialFX.remove(glitch);
+				(FlxG.state as PlayState).remove(glitch.sprite);
+			}
+			super.electrocute();
+		}
+		
 		override public function kill() : void
 		{
 			spurt();
-			if (pop)
+
+			if (pop != null)
 				pop.kill();
 			
 			// Spawn an eye.

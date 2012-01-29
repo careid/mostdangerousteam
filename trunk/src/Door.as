@@ -103,7 +103,7 @@ package
 			{
 				if (c.x + c.offset.x + c.width > d.x + d.offset.x && c.x + c.offset.x < d.x + d.offset.x + d.width && c.y > d.y)
 				{
-					c.die();
+					c.squash();
 				}
 			}
 		}
