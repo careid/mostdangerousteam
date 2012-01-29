@@ -24,6 +24,8 @@ package
 		
 		protected var m_isDashing:Boolean;
 		protected var m_speed:Number;
+		protected var m_walk_speed:Number;
+		protected var m_walk_stamina:Number;
 		protected var m_run_speed:Number;
 		protected var m_dash_speed:Number;
 		protected var m_accel_constant:Number;
@@ -154,6 +156,8 @@ package
 		public function setup(run_speed:int=100,dash_speed:int=200,staminaregen:Number=1.0,maxstamina:Number=50,health:Number=10):void
 		{
 			m_isDashing = false;
+			m_walk_stamina = 5;
+			m_walk_speed = 0.35 * run_speed;
 			m_run_speed = run_speed;
 			m_dash_speed = dash_speed;
 			m_speed = m_run_speed;
@@ -200,41 +204,58 @@ package
 			var isTouchingLeft:Boolean = isTouching(LEFT);
 			var isTouchingRight:Boolean = isTouching(RIGHT);
 			
-			// DASHING
+			// VELOCITY
 			if (m_isDashing)
 			{
-				stamina--;
+				stamina = Math.max(0, stamina - 1);
 				
-				if (stamina <= 0 || doDash == false)
+				if (doDash == false)
 				{
 					m_isDashing = false;
-					m_dustEmitter.on = false;
-					m_speed = m_run_speed;
-					maxVelocity.x = m_run_speed;
+				}
+				if (maxVelocity.x == m_dash_speed)
+				{
+					if (stamina < m_walk_stamina)
+					{
+						m_dustEmitter.on = false;
+						m_speed = m_walk_speed;
+						maxVelocity.x = m_walk_speed;
+					}
+				}
+				else if (stamina >= m_walk_stamina)
+				{
+					m_dustEmitter.start(false, 1.5, 0.1);
+					m_dustEmitter.on = true;
+					m_speed = m_dash_speed;
+					maxVelocity.x = m_dash_speed;
 				}
 			}
 			else
 			{
-				if (doDash && stamina > 0.25 * maxstamina)
+				if (doDash)
 				{
 					m_isDashing = true;
-					m_speed = m_dash_speed;
-					maxVelocity.x = m_dash_speed;
-					m_dustEmitter.start(false, 1.5, 0.1);
-					m_dustEmitter.on = true;
 				}
-				else
+				if (isTouchingFloor)
+				{
+					stamina = Math.min(maxstamina, stamina + staminaregen);
+				}
+				if (stamina < m_walk_stamina)
+				{
+					if (maxVelocity.x > m_walk_speed)
+					{
+						m_isDashing = false;
+						m_dustEmitter.on = false;
+						m_speed = m_walk_speed;
+						maxVelocity.x = m_walk_speed;
+					}
+				}
+				else if (maxVelocity.x != m_run_speed)
 				{
 					m_isDashing = false;
 					m_dustEmitter.on = false;
 					m_speed = m_run_speed;
 					maxVelocity.x = m_run_speed;
-				}
-			
-				// recharging
-				if (isTouchingFloor)
-				{
-					stamina = Math.min(maxstamina, stamina + staminaregen);
 				}
 			}
 			
@@ -341,7 +362,7 @@ package
 				}
 				else if(velocity.x == 0)
 				{
-					if (maxVelocity.x == m_run_speed * 0.5)
+					if (stamina < m_walk_stamina)
 						play("tired idle");
 					else
 						play("idle");
@@ -352,7 +373,7 @@ package
 				}
 				else
 				{
-					if (maxVelocity.x == m_run_speed * 0.5)
+					if (stamina < m_walk_stamina)
 						play("tired run");
 					else
 						play("run");
