@@ -170,7 +170,7 @@ package
 			
 			boomerangs = new FlxGroup();
 			spikes = new FlxGroup();
-
+			
 			add(boomerangs);
 			add(spikes);
 			
@@ -352,16 +352,7 @@ package
 				teleportEmitter.on = true;
 				oldPlayersIndex--;
 			}
-			
-			if (feedback.visible)
-			{
-				if (timeLeft == 0)
-					transitionState(END);
-			}
-			else
-			{
-				super.update();
-			}
+			super.update();
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
 			cameraScrollVelocity.y = cameraPreviousScroll.y - FlxG.camera.scroll.y;
@@ -538,11 +529,8 @@ package
 		
 		private function reachGoal(a:FlxObject,b:FlxObject):void
 		{
-			if (!feedback.visible)
-			{
-				feedback.visible = true;
-				timeLeft = 1.0;
-			}
+			feedback.visible = true;
+			transitionState(END);
 		}
 		
 		private function endGame():void
