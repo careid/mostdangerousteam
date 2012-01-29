@@ -41,7 +41,7 @@ package
 		public function collect(character : Character) : Powerup
 		{
 			FlxG.play(PowerSnd);
-			FlxG.flash(0xffffffff, 0.3);
+			//FlxG.flash(0xffffffff, 0.3);
 			powerup.character = character;
 			if (powerup is AutoUsePowerup)
 			{
