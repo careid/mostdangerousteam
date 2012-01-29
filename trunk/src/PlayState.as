@@ -394,7 +394,7 @@ package
 			{
 				timeLeft = 0;
 			}
-			if (oldPlayersIndex >= 0 && oldPlayers[oldPlayersIndex].startTime > timeLeft)
+			if (oldPlayersIndex >= 0 && oldPlayers[oldPlayersIndex] && oldPlayers[oldPlayersIndex].startTime > timeLeft)
 			{
 				var past_self:Player = oldPlayers[oldPlayersIndex];
 				//trace("add bots " + timeLeft + " " + past_self.startTime + " " + past_self.startX + " " + past_self.startY + " " + past_self.m_waypoints.length);
