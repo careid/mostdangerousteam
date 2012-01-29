@@ -38,7 +38,7 @@ package
 			startX = X;
 			startY = Y;
 			loadGraphic(ImgHydraman, true, true, 26, 26);
-			super.setup(60+m_run_level*5, 120+m_run_level*10, 0.1+m_stamina_level*0.01, 100+m_stamina_level*10, 10+m_health_level*4);
+			super.setup(100+m_run_level*5, 200+m_run_level*10, 0.5+m_stamina_level*0.1, 100+m_stamina_level*10, 10+m_health_level*4);
 			offset.y -= 1;
 			offset.x = 6;
 			width = 15;
@@ -57,9 +57,9 @@ package
 		protected function setState(state:int):void {
 			goLeft = new Boolean(LEFT_MASK & state);
 			goRight = new Boolean(RIGHT_MASK & state);
-			jump = new Boolean(JUMP_MASK & state);
+			doJump = new Boolean(JUMP_MASK & state);
 			usePowerup = new Boolean(POWERUP_MASK & state);
-			dash = new Boolean(DASH_MASK & state);
+			doDash = new Boolean(DASH_MASK & state);
 		}
 		
 		protected function getState(isLeft:Boolean, isRight:Boolean, isJump:Boolean, isPowerup:Boolean, isDash:Boolean):int

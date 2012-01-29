@@ -44,8 +44,8 @@ package
 		{
 			goLeft = FlxG.keys.LEFT;
 			goRight = FlxG.keys.RIGHT;
-			jump = FlxG.keys.justPressed("X");
-			dash = FlxG.keys.pressed("C");
+			doJump = FlxG.keys.justPressed("X");
+			doDash = FlxG.keys.pressed("C");
 			usePowerup = FlxG.keys.justPressed("Z");
 			if (FlxG.keys.justPressed("DOWN"))
 			{
@@ -53,7 +53,7 @@ package
 			}
 		
 			
-			var state:int = getState(goLeft, goRight, jump, usePowerup, dash);
+			var state:int = getState(goLeft, goRight, doJump, usePowerup, doDash);
 			if (m_stateHistory.length < 2 || m_stateHistory[m_stateHistory.length - 1] != state)
 			{
 				m_stateHistory.push(state);

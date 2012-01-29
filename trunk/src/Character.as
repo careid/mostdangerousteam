@@ -20,7 +20,7 @@ package
 		
 		public const OVER_SQRT2:Number = 0.707107;
 		
-		protected var m_dashing:Boolean;
+		protected var m_isDashing:Boolean;
 		protected var m_speed:Number;
 		protected var m_run_speed:Number;
 		protected var m_dash_speed:Number;
@@ -36,6 +36,7 @@ package
 		public var stamina:Number;
 		public var maxstamina:Number;
 		protected var staminaregen:Number;
+		protected var dashCooldown:Number;
 		
 		protected var m_powerupList : Array;
 		protected var m_currentPowerup : Powerup;
@@ -44,8 +45,8 @@ package
 		
 		public var goLeft:Boolean;
 		public var goRight:Boolean;
-		public var jump:Boolean;
-		public var dash:Boolean;
+		public var doJump:Boolean;
+		public var doDash:Boolean;
 		public var usePowerup:Boolean;
 		
 		public var playSounds:Boolean;
@@ -148,9 +149,10 @@ package
 			}
 		}
 		
-		public function setup(run_speed:int=60,dash_speed:int=120,staminaregen:Number=0.1,maxstamina:Number=100,health:Number=10):void
+		public function setup(run_speed:int=100,dash_speed:int=200,staminaregen:Number=1.0,maxstamina:Number=50,health:Number=10):void
 		{
-			m_dashing = false;
+			m_isDashing = false;
+			dashCooldown = 0.0;
 			m_run_speed = run_speed;
 			m_dash_speed = dash_speed;
 			m_speed = m_run_speed;
@@ -182,6 +184,8 @@ package
 			addAnimation("wallslide", [13], 12);
 			addAnimation("pop", [14, 15, 16, 17, 18, 19, 20, 21], 10, false);
 			addAnimation("squash", [22, 23, 24, 25, 26, 27], 10, false);
+			addAnimation("tired idle", [28, 29, 30], 6, true);
+			addAnimation("tired run", [31, 32, 33, 34], 6, true);
 		}
 		
 		override public function update():void
@@ -195,29 +199,73 @@ package
 			var isTouchingRight:Boolean = isTouching(RIGHT);
 			
 			// DASHING
-			if (m_dashing)
+			dashCooldown = Math.max(0, dashCooldown - FlxG.elapsed);
+			if (m_isDashing)
 			{
 				stamina--;
 				
-				if (stamina <= 0 || dash == false)
+				if (stamina <= 0 || doDash == false)
 				{
-					m_dashing = false;
+					m_isDashing = false;
 					m_dustEmitter.on = false;
+					m_speed = m_run_speed;
+					maxVelocity.x = m_run_speed;
+					dashCooldown = 0.75;
 				}
 			}
 			else
 			{
-				if (! dash)
+				if (stamina + staminaregen < maxstamina)
+				{ // recharging
+					if (isTouchingFloor)
+					{
+						if (dashCooldown == 0)
+							stamina += staminaregen;
+						maxVelocity.x = m_run_speed*0.25;
+					}
+					else
+					{
+						maxVelocity.x = m_run_speed;
+					}
+					m_isDashing = false;
+					m_speed = m_run_speed * 0.25;
+					m_dustEmitter.on = false;
+					doDash = false;
+				}
+				else
+				{
+					if (stamina < maxstamina)
+					{
+						stamina = maxstamina;
+						dashCooldown = 1.0;
+					}
+					if (doDash && dashCooldown == 0)
+					{
+						m_isDashing = true;
+						m_speed = m_dash_speed;
+						maxVelocity.x = m_dash_speed;
+						m_dustEmitter.start(false, 1.5, 0.1);
+						m_dustEmitter.on = true;
+					}
+					else
+					{
+						m_isDashing = false;
+						m_speed = m_run_speed;
+						maxVelocity.x = m_run_speed;
+						m_dustEmitter.on = false;
+					}
+				}
+				/*if (!doDash)
 				{
 					stamina = Math.min(maxstamina, stamina + staminaregen);
 				}
-				if (dash && stamina > 0.25 * maxstamina)
+				if (doDash && stamina > 0.25 * maxstamina)
 				{
 					if (playSounds)
 					{
 						//play dash sound
 					}
-					m_dashing = true;
+					m_isDashing = true;
 					m_speed = m_dash_speed;
 					maxVelocity.x = m_dash_speed;
 					m_dustEmitter.start(false, 1.5, 0.1);
@@ -225,11 +273,11 @@ package
 				}
 				else
 				{
-					m_dashing = false;
+					m_isDashing = false;
 					m_speed = m_run_speed;
 					maxVelocity.x = m_run_speed;
 					m_dustEmitter.on = false;
-				}
+				}*/
 			}
 			
 			// JUMPING
@@ -237,7 +285,7 @@ package
 			{
 				m_remaining_jumps = jumps;
 			}
-			if(jump)
+			if(doJump)
 			{
 				if (isTouchingFloor && m_remaining_jumps > 0)
 				{
@@ -246,7 +294,7 @@ package
 						FlxG.play(JumpSnd);
 					}
 					m_remaining_jumps--;
-					m_dashing = false;
+					m_isDashing = false;
 					velocity.y = -m_jump_power;
 					m_dustEmitter.on = false;
 				}
@@ -256,7 +304,7 @@ package
 					{
 						FlxG.play(JumpSnd);
 					}
-					m_dashing = false;
+					m_isDashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * m_jump_power;
 					m_dustEmitter.on = false;
@@ -267,7 +315,7 @@ package
 					{
 						FlxG.play(JumpSnd);
 					}
-					m_dashing = false;
+					m_isDashing = false;
 					velocity.y = OVER_SQRT2 * -m_jump_power;
 					velocity.x = OVER_SQRT2 * -m_jump_power;
 					m_dustEmitter.on = false;
@@ -279,7 +327,7 @@ package
 						FlxG.play(JumpSnd);
 					}
 					m_remaining_jumps--;
-					m_dashing = false;
+					m_isDashing = false;
 					velocity.y = -m_jump_power;
 					m_dustEmitter.on = false;
 				}
@@ -335,7 +383,10 @@ package
 				}
 				else if(velocity.x == 0)
 				{
-					play("idle");
+					if (maxVelocity.x == m_run_speed * 0.25)
+						play("tired idle");
+					else
+						play("idle");
 				}
 				else if (maxVelocity.x == m_dash_speed)
 				{
@@ -343,7 +394,10 @@ package
 				}
 				else
 				{
-					play("run");
+					if (maxVelocity.x == m_run_speed * 0.25)
+						play("tired run");
+					else
+						play("run");
 				}
 			}
 			
