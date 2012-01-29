@@ -561,7 +561,7 @@ package
 			{
 				oldPlayers[bestIndex] = player;
 			}
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[startIndex].time,oldPlayers,player,(bestIndex!=startIndex)));
+			FlxG.switchState(new TransState(bestIndex,level.checkPoints[bestIndex].time,oldPlayers,player,(bestIndex!=startIndex)));
 		}
 		
 		private function overlapStoryBox(a:FlxObject, b:FlxObject):void
