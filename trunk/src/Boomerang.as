@@ -53,7 +53,7 @@ package
 			{
 				if (!theCharacter.flickering)
 				{
-					theCharacter.hit(8);
+					theCharacter.hit(7);
 				}
 			}
 		}

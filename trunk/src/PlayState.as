@@ -37,6 +37,7 @@ package
 		protected var startIndex:int;
 		protected var state:uint;
 		protected var characters:FlxGroup;
+		protected var countdown:CountDown;
 		
 		protected var END:uint = 0;
 		protected var START:uint = 1;
@@ -48,10 +49,6 @@ package
 		
 		protected var timeStart:Number = 0;
 		protected var timeLeft:Number = 0;
-		
-		protected var healthText:FlxText;
-		protected var staminaText:FlxText;
-		protected var debugDoor:Door;
 		
 		protected var doors:FlxGroup;
 		
@@ -120,8 +117,8 @@ package
 			Hydraman.m_initialTimeLeft = timeLeft;
 			for (i = 0; i < level.countDowns.members.length; i++)
 			{
-				level.countDowns.members[i].timer = timeLeft;
-				level.countDowns.members[i].setup();
+				var countdown:CountDown = level.countDowns.members[i] as CountDown;
+				countdown.setup(countdown.x, countdown.y, timeLeft);
 			}
 			add(level.countDowns);
 			
@@ -207,23 +204,17 @@ package
 			//set starting variables
 			state = MID;
 			
-			//debug shit
-			healthText = new FlxText(0, 0, 200);
-			healthText.scrollFactor.x = 0;
-			healthText.scrollFactor.y = 0;
-			staminaText = new FlxText(0, 15, 200);
-			staminaText.text = "Stamina: ";
-			staminaText.shadow = 0xFF111111;
-			staminaText.scrollFactor.x = 0;
-			staminaText.scrollFactor.y = 0;
-			
-			add(staminaText);
-			add(healthText);
-			
 			//hud
 			var hud:FlxSprite = new FlxSprite(0, 0, HUD);
 			hud.scrollFactor.x = hud.scrollFactor.y = 0;
-			healthBar = new FlxBar(11, 3, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "health",0,player.m_max_health);
+			countdown = new CountDown(2, false);
+			countdown.setup(68, -9, timeLeft);
+			for (i = 0; i < countdown.length; i++)
+			{
+				countdown.members[i].scrollFactor.x = 0;
+				countdown.members[i].scrollFactor.y = 0;
+			}
+			healthBar = new FlxBar(11, 3, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "health", 0, player.max_health);
 			healthBar.createFilledBar(0xff000000, 0xffff0000);
 			healthBar.scrollFactor.x = 0;
 			healthBar.scrollFactor.y = 0;
@@ -232,7 +223,7 @@ package
 			staminaBar.scrollFactor.x = 0;
 			staminaBar.scrollFactor.y = 0;
 			eyeCounter = new Counter(78, 16);
-			itemDisplay = new FlxSprite(85, 0);
+			itemDisplay = new FlxSprite(87, 0);
 			itemDisplay.loadGraphic(PowerupImage,true,false,14,14);
 			itemDisplay.scrollFactor.x = itemDisplay.scrollFactor.y = 0;
 			itemDisplay.addAnimation("boomerang", [0]);
@@ -246,15 +237,9 @@ package
 			add(staminaBar);
 			add(eyeCounter);
 			add(itemDisplay);
-			//add(inventoryText);
-			add(new FlxText(0, 40, FlxG.width, "press D to door \npress B to bot"));
-			
-			//add doors
-			doors = new FlxGroup();
-			add(doors);
-			debugDoor = new Door(50, 100);
-			doors.add(debugDoor);
-			
+			add(inventoryText);
+			add(new FlxText(0, 40, FlxG.width, "press B to bot"));
+			add(countdown);
 			
 			FlxG.flash(0xffffffff, 0.7);
 		}
@@ -326,7 +311,7 @@ package
 			block.solid = false;
 			if (nvy > 0)
 				return;
-			char.hit(18);
+			char.hit(17);
 		}
 		
 		override public function update():void
@@ -386,8 +371,6 @@ package
 				gameOver();
 			}
 			
-			healthText.text = "Health: " + String(Math.floor(player.health));
-			
 			debugShit();
 			isFirstIteration = false;
 			/*
@@ -414,20 +397,7 @@ package
 		}
 		
 		public function debugShit():void
-		{
-			
-			if (FlxG.keys.justPressed("D"))
-			{
-				if (debugDoor.state == Door.DOWN)
-				{
-					debugDoor.switchState(Door.OPENING);
-				}
-				else
-				{
-					debugDoor.switchState(Door.CLOSING);
-				}
-			}
-			
+		{			
 			if (FlxG.keys.justPressed("B"))
 			{
 				//BRUCE
@@ -499,7 +469,8 @@ package
 				// Remove players at greater indices
 				var idx1:int = 0;
 				var idx2:int = 0;
-				while (idx1 < bestIndex && (oldPlayers[idx1].y != level.checkPoints[idx2].y || oldPlayers[idx1].y != level.checkPoints[idx2].y))
+				while (idx1 < bestIndex && ((oldPlayers[idx1].startX != level.checkPoints[idx2].x) ||
+						(oldPlayers[idx1].startY != level.checkPoints[idx2].y)))
 				{
 					idx2++;
 				}

@@ -22,7 +22,7 @@ package
 		protected var m_dash_speed:Number;
 		protected var m_accel_constant:Number;
 		
-		public var m_max_health:Number;
+		public var max_health:Number;
 		
 		public var jumps:int;
 		protected var m_remaining_jumps:int;
@@ -169,7 +169,7 @@ package
 			this.maxstamina = maxstamina;
 			stamina = maxstamina;
 			
-			m_max_health = health;
+			max_health = health;
 			this.health = health;
 			
 			//animations
@@ -394,7 +394,7 @@ package
 			}
 			else
 			{
-				var desiredIndex = m_powerupList.indexOf(m_currentPowerup) + 1
+				var desiredIndex:int = m_powerupList.indexOf(m_currentPowerup) + 1
 				if (desiredIndex < m_powerupList.length)
 				{
 					m_currentPowerup = m_powerupList[desiredIndex];

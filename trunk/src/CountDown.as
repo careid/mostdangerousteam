@@ -1,10 +1,10 @@
 package
 {
 	import org.flixel.*;
+	import org.flixel.plugin.photonstorm.FlxColor;
 	
 	public class CountDown extends FlxGroup
 	{
-		
 		//array index code names
 		protected const M:int = 0;
 		protected const S:int = 1;
@@ -17,6 +17,7 @@ package
 		public var time:Array;
 		public var previousTime:Array;
 		
+		private var num_digits:int;
 		protected var digits:Array;
 		
 		protected var base:FlxSprite;
@@ -26,36 +27,38 @@ package
 		
 		[Embed(source = "graphics/clockBase.png")] protected var ImgBase:Class;
 		
-		public function CountDown(X:Number=0,Y:Number=0,timeLeft:Number=0) 
+		public function CountDown(num_digits:int = 3, background:Boolean=true)
 		{
 			super();
-			
+			this.num_digits = num_digits;
+			if (background)
+			{
+				base = new FlxSprite(x, y, ImgBase);
+				base.immovable = true;
+				add(base);
+			}
 		}
 		
-		public function setup():void
+		public function setup(x:int, y:int, timeLeft:Number=0):void
 		{
-			var x:int = x;
-			base = new FlxSprite(x, y, ImgBase);
-			base.immovable = true;
-			add(base);
-			
+			timer = timeLeft;
 			time = [0, 0, 0];
 			previousTime = [0,0,0];
 			
 			//set the time
 			digits = new Array();
 			var i:int, j:int;
-			for (i = 0; i < 3; i++)
+			for (i = 0; i < num_digits; i++)
 			{
 				digits.push(new Array());
 				for (j = 0; j < 2; j++)
 				{
 					var d:Digit = new Digit(x, y+13);
-					x += d.width;
+					x += d.width - 1;
 					digits[i].push(d);
 					add(d);
 				}
-				x += 1;
+				x += 2;
 			}
 			
 			syncTime();
@@ -64,7 +67,7 @@ package
 		private function syncTime():void
 		{
 			var t:int, o:int, i:int;
-			for (i = 0; i < 3; i++ )
+			for (i = 0; i < num_digits; i++ )
 			{
 				if (time[i] != previousTime[i])
 				{

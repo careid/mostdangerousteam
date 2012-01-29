@@ -37,8 +37,9 @@ package
 			super(X, Y, soundOn);
 			startX = X;
 			startY = Y;
-			loadGraphic(ImgHydraman, true, true,26,26);
-			super.setup(60+m_run_level*5,120+m_run_level*10,0.1+m_stamina_level*0.1,100+m_stamina_level*10,10+m_health_level*5);
+			loadGraphic(ImgHydraman, true, true, 26, 26);
+			trace(m_health_level);
+			super.setup(60+m_run_level*5, 120+m_run_level*10, 0.1+m_stamina_level*0.01, 100+m_stamina_level*10, 10+m_health_level*4);
 			offset.y -= 1;
 			offset.x = 6;
 			width = 15;
