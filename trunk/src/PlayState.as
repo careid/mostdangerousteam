@@ -132,19 +132,19 @@ package
 			}
 			else if (startIndex == 1 || startIndex == 2) {
 				bgm.stop();
-				bgm = FlxG.play(bgm1);
+				bgm = FlxG.play(bgm1, 1, true);
 			}
 			else if (startIndex == 3 || startIndex == 4 || startIndex == 5) {
 				bgm.stop();
-				bgm = FlxG.play(bgm2);
+				bgm = FlxG.play(bgm2, 1, true);
 			}
 			else if (startIndex == 6 || startIndex == 7 || startIndex == 8) {
 				bgm.stop();
-				bgm = FlxG.play(bgm3);
+				bgm = FlxG.play(bgm3, 1, true);
 			}
 			else if (startIndex == 9 || startIndex == 10 || startIndex == 11) {
 				bgm.stop();
-				bgm = FlxG.play(bgm4);
+				bgm = FlxG.play(bgm4, 1, true);
 			}
 			
 			// warp effect

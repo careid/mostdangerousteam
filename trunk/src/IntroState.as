@@ -9,7 +9,7 @@ package
 		
 		[Embed(source = "graphics/introforeground.png")] protected var ImgFore:Class;
 		[Embed(source = "graphics/introbackground2.png")] protected var ImgBack:Class;
-		[Embed(source = "./sounds/music/menuBgm.mp3")] protected var menuBgm:Class;
+		[Embed(source = "./sounds/music/bgm1.mp3")] protected var menuBgm:Class;
 		
 		override public function create():void
 		{
