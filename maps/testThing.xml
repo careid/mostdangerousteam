@@ -107,6 +107,9 @@
 	<DoorSwitch x="2176" y="192" id="7" />
 	<Door x="2208" y="192" id="7" />
 
+	<DoorSwitch x="1760" y="448" id="8" />
+	<Door x="1728" y="448" id="8" />
+
 	<StaminaRechargePowerup x="2176" y="128"/>
 	<StaminaRechargePowerup x="1888" y="160"/>
 	<StaminaRechargePowerup x="664" y="228"/>
