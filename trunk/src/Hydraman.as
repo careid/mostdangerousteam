@@ -80,9 +80,9 @@ package
 			
 			if (glitch != null)
 			{
-				glitch.sprite.color = 0xFFFFFF - FlxColor.getRandomColor(50, 50);
+				glitch.sprite.color = FlxColor.getRandomColor(255, 50);
 				glitch.sprite.x = x - 8;
-				glitch.sprite.alpha = FlxG.random() + 0.5;
+				glitch.sprite.alpha = Math.max(0.0, Math.min(1.0, FlxG.random() + 0.5));
 				glitch.sprite.y = y ;
 				glitch.sprite.blend = "add";
 			}
