@@ -67,11 +67,9 @@ package
 		{
 			var powerup : TaserPowerup = (taserSpark.m_thrower.getPowerupOfType(TaserPowerup) as TaserPowerup);
 			
-			var playState : PlayState = (PlayState)(FlxG.state);
-			
 			if (theCharacter != taserSpark.m_thrower && !theCharacter.flickering)
 			{
-				playState.sparks.remove(taserSpark);
+				(FlxG.state as PlayState).sparks.remove(taserSpark);
 				taserSpark.kill();
 				if (powerup != null)
 					powerup.ammo -= 10;
@@ -83,6 +81,8 @@ package
 		public static function overlapBoomerang(spark : TaserSpark, boomerang:Boomerang) : void
 		{
 			spark.m_thrower.electrocute();
+			(FlxG.state as PlayState).sparks.remove(taserSpark);
+			taserSpark.kill();
 		}
 		
 		public static function overlapShield(spark : TaserSpark, shield : Shield) : void
