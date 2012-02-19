@@ -1,10 +1,14 @@
 NEW SHIT:
 
--Eye Pickup SFX
 -Feedforward/Feedback on Eye Pickups
 -Bot AI re: weapons
 -Refashioning Pick-up Sprites
 -The Game
+
+-Eye Pickup SFX
+-Weapon out of ammo SFX
+-Taser SFX
+-Shields SFX
 
 
 
