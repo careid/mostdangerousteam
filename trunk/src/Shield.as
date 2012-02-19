@@ -6,7 +6,7 @@ package
 	{
 		[Embed(source = "./graphics/shield.png")] public var Image:Class;
 		
-		public static const MAX_LIFESPAN : Number = 1.25;
+		public static const MAX_LIFESPAN : Number = 0.3;
 		public var m_thrower : Character;
 		public var lifespan : Number;
 		protected var m_trackSpeed : Number = 10;
@@ -21,7 +21,7 @@ package
 		{
 			super(thrower.x, thrower.y + 7);
 			loadGraphic(Image, true);
-			addAnimation("shield", [0, 1, 0, 1, 0, 1], 30, true);
+			addAnimation("shield", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], 30, true);
 			play("shield");
 			m_thrower = thrower;
 			offset.x = offset.y = 8;
@@ -41,7 +41,7 @@ package
 			}
 			
 			lifespan -= FlxG.elapsed;
-			if (lifespan < 0)
+			if (lifespan <= 0)
 			{
 				(FlxG.state as PlayState).shields.remove(this);
 				kill();

@@ -22,7 +22,7 @@ package
 		{
 			if (character.m_recharge == 0 && super.activate(target))
 			{
-				if (shield == null)
+				if (shield == null || shield.lifespan <= 0)
 				{
 					createShield(target);
 				}
