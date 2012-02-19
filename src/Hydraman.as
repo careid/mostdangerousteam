@@ -117,11 +117,12 @@ package
 			}
 			eye.acceleration.y = 400;
 			if (facing == FlxObject.RIGHT)
-				eye.velocity.x = maxVelocity.x;
-			else
 				eye.velocity.x = -maxVelocity.x;
+			else
+				eye.velocity.x = maxVelocity.x;
 			eye.velocity.y = -3*maxVelocity.y;
 			(FlxG.state as PlayState).level.eyes.add(eye);
+			(FlxG.state as PlayState).camTarget = eye;
 			
 			/*if (glitch != null)
 			{
