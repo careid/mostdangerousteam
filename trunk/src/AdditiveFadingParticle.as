@@ -13,6 +13,9 @@ package
 			var randomScale:Number = FlxG.random();
 			scale.x *= randomScale;
 			scale.y *= randomScale;
+			velocity.x = 0;
+			velocity.y = 0;
+
 		}
 		
 		override public function update():void 
