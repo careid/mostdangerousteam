@@ -49,15 +49,9 @@ package
 				usePowerup = FlxG.keys.justPressed("C");
 			else
 				usePowerup = FlxG.keys.pressed("C");
-			if (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("SHIFT") || FlxG.keys.justPressed("DOWN"))
-				cyclePowerups();
-			if (FlxG.keys.justPressed("S"))
-				selectBoomerang();
-			if (FlxG.keys.justPressed("D"))
-				selectSpikes();
-		
+			changePowerup = (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("SHIFT") || FlxG.keys.justPressed("DOWN"));
 			
-			var state:int = getState(goLeft, goRight, doJump, usePowerup, doDash);
+			var state:int = getState(goLeft, goRight, doJump, changePowerup, usePowerup, doDash);
 			if (m_stateHistory.length < 2 || m_stateHistory[m_stateHistory.length - 2] != state)
 			{
 				m_stateHistory.push(state);

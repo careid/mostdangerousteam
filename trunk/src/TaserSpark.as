@@ -83,6 +83,14 @@ package
 			spark.m_thrower.electrocute();
 			(FlxG.state as PlayState).sparks.remove(spark);
 			spark.kill();
+			
+			(FlxG.state as PlayState).boomerangs.remove(boomerang);
+			boomerang.kill();
+			
+			var powerup : BoomerangPowerup = (boomerang.m_thrower.getPowerupOfType(BoomerangPowerup) as BoomerangPowerup);
+			if (powerup != null)
+				powerup.ammo -= 1;
+			boomerang.m_thrower.m_recharge = 0.5;
 		}
 		
 		public static function overlapShield(spark : TaserSpark, shield : Shield) : void

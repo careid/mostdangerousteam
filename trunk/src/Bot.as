@@ -70,7 +70,7 @@ package
 			var playState:PlayState = (FlxG.state as PlayState);
 			var player:Character = playState.player;
 			// weapons
-			if (m_currentPowerup != null)
+			if (m_currentPowerup != null && !usePowerup && m_recharge == 0)
 			{
 				if (playState.level.tileMap.ray(player.origin,this.origin))
 				{
