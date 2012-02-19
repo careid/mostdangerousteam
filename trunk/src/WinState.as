@@ -4,7 +4,7 @@ package
 	
 	public class WinState extends FlxState
 	{
-		[Embed(source = "graphics/dangerlogo.png")] protected var Win:Class;
+		[Embed(source = "graphics/ending.png")] protected var Win:Class;
 		
 		override public function create():void 
 		{
