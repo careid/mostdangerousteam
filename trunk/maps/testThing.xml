@@ -93,6 +93,7 @@
 	<Spikepit x="2272" y="470"/>
 	<Spikepit x="2304" y="470"/>
 
+	
 	<DoorSwitch x="1666" y="192" id="4" />
 	<SlowDoor x="1728" y="128" id="4" />
 
@@ -111,6 +112,7 @@
 	<DoorSwitch x="2176" y="256" id="9" />
 	<Door x="2208" y="256" id="9" />
 
+	<Spikepit x="2420" y="192" />
 	<DoorSwitch x="2450" y="192" id="10" />
 	<SlowDoor x="2528" y="150" id="10" />
 
