@@ -75,6 +75,8 @@ package
 		protected var checkPoints:Array;
 		public var boomerangs:FlxGroup;
 		public var spikes:FlxGroup;
+		public var sparks:FlxGroup;
+		public var shields:FlxGroup;
 		protected var doors:FlxGroup;
 		
 		protected var bots:FlxGroup;
@@ -211,9 +213,13 @@ package
 			
 			boomerangs = new FlxGroup();
 			spikes = new FlxGroup();
+			sparks = new FlxGroup();
+			shields = new FlxGroup();
 			
 			add(boomerangs);
 			add(spikes);
+			add(sparks);
+			add(shields);
 			
 			//add characters
 			characters = new FlxGroup();
@@ -273,57 +279,6 @@ package
 			//set starting variables
 			state = PAN_START;
 			
-			//hud
-			var hud:FlxSprite = new FlxSprite(0, 0, HUD);
-			hud.scrollFactor.x = hud.scrollFactor.y = 0;
-			countdown = new CountDown(2);
-			countdown.setup(68, -9, timeLeft);
-			for (i = 0; i < countdown.length; i++)
-			{
-				countdown.members[i].scrollFactor.x = 0;
-				countdown.members[i].scrollFactor.y = 0;
-			}
-			
-			healthBar = new FlxBar(11, 3, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "health", 0, player.max_health);
-			healthBar.createFilledBar(0xff000000, 0xffff0000);
-			healthBar.scrollFactor.x = 0;
-			healthBar.scrollFactor.y = 0;
-			staminaBar = new FlxBar(11, 14, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "stamina", 0, 100, true);
-			staminaBar.createFilledBar(0xff000000, 0xff0000ff);
-			staminaBar.scrollFactor.x = 0;
-			staminaBar.scrollFactor.y = 0;
-			eyeCounter = new Counter(78, 16);
-			ammoCounter = new Counter(2, 29);
-			
-			add(hud);
-			add(healthBar);
-			add(staminaBar);
-			add(eyeCounter);
-			add(ammoCounter);
-			itemDisplays = new Array()
-			for (i = 0; i < 5; i++)
-			{
-				itemDisplays.push(new FlxSprite(16 + i * 14, 28));
-				itemDisplays[i].loadGraphic(PowerupImage, true, false, 16, 16);
-				itemDisplays[i].scrollFactor.x = itemDisplays[i].scrollFactor.y = 0;
-				itemDisplays[i].addAnimation("boomerang", [0]);
-				itemDisplays[i].addAnimation("doublejump", [1]);
-				itemDisplays[i].addAnimation("stamina", [2]);
-				itemDisplays[i].addAnimation("spikes", [3]);
-				add(itemDisplays[i]);
-			}
-
-			add(countdown);
-			
-			textBox = new TextBox(0, 150);
-			add(textBox);
-			
-			var t:Number = camMaxVelocity / camAcceleration;
-			timeTravelCountdown = t + (level.timeMachine.x - player.x - camAcceleration * Math.pow(t, 3.0) / 6.0) / camMaxVelocity;
-			add(bloodEmitters);
-			timeMachineEmitter.x = level.timeMachine.x + level.timeMachine.width/2;
-			timeMachineEmitter.y = level.timeMachine.y + level.timeMachine.height/2;
-			timeMachineEmitter.start(false, 1.0, 0.1);
 			
 			
 			// Falling blocks initialize
@@ -396,6 +351,66 @@ package
 				fallBlocks.update();
 				fallBlocks.postUpdate();
 			}
+			
+			
+			
+			//hud
+			var hud:FlxSprite = new FlxSprite(0, 0, HUD);
+			hud.scrollFactor.x = hud.scrollFactor.y = 0;
+			countdown = new CountDown(2);
+			countdown.setup(68, -9, timeLeft);
+			for (i = 0; i < countdown.length; i++)
+			{
+				countdown.members[i].scrollFactor.x = 0;
+				countdown.members[i].scrollFactor.y = 0;
+			}
+			
+			healthBar = new FlxBar(11, 3, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "health", 0, player.max_health);
+			healthBar.createFilledBar(0xff000000, 0xffff0000);
+			healthBar.scrollFactor.x = 0;
+			healthBar.scrollFactor.y = 0;
+			staminaBar = new FlxBar(11, 14, FlxBar.FILL_LEFT_TO_RIGHT, 56, 6, player, "stamina", 0, 100, true);
+			staminaBar.createFilledBar(0xff000000, 0xff0000ff);
+			staminaBar.scrollFactor.x = 0;
+			staminaBar.scrollFactor.y = 0;
+			eyeCounter = new Counter(78, 16);
+			ammoCounter = new Counter(2, 29);
+			
+			add(hud);
+			add(healthBar);
+			add(staminaBar);
+			add(eyeCounter);
+			add(ammoCounter);
+			itemDisplays = new Array()
+			// 4 ammo types: boomerang, spikes, shield, taser
+			for (i = 0; i <= 4; i++)
+			{
+				itemDisplays.push(new FlxSprite(16 + i * 14, 28));
+				itemDisplays[i].loadGraphic(PowerupImage, true, false, 16, 16);
+				itemDisplays[i].scrollFactor.x = itemDisplays[i].scrollFactor.y = 0;
+				itemDisplays[i].addAnimation("boomerang",  [0]);
+				itemDisplays[i].addAnimation("doublejump", [1]);
+				itemDisplays[i].addAnimation("stamina",    [2]);
+				itemDisplays[i].addAnimation("spikes",     [3]);
+				itemDisplays[i].addAnimation("health",     [4]);
+				itemDisplays[i].addAnimation("shield",     [5]);
+				itemDisplays[i].addAnimation("taser",      [6]);
+				add(itemDisplays[i]);
+			}
+
+			add(countdown);
+			
+			textBox = new TextBox(0, 150);
+			add(textBox);
+			
+			var t:Number = camMaxVelocity / camAcceleration;
+			timeTravelCountdown = t + (level.timeMachine.x - player.x - camAcceleration * Math.pow(t, 3.0) / 6.0) / camMaxVelocity;
+			add(bloodEmitters);
+			timeMachineEmitter.x = level.timeMachine.x + level.timeMachine.width/2;
+			timeMachineEmitter.y = level.timeMachine.y + level.timeMachine.height/2;
+			timeMachineEmitter.start(false, 1.0, 0.1);
+			
+			
 			timeLeft = timeEnd;
 			
 			super.update();
@@ -621,9 +636,22 @@ package
 			FlxG.overlap(level.powerups, characters, PowerupEntity.overlapCharacter);
 			FlxG.overlap(level.doorSwitches, characters, DoorSwitch.overlap);
 			FlxG.overlap(level.eyes, player, Eye.overlapPlayer);
+			
+			// weapons
+			// shield > boomerang > taser > shield
+			FlxG.overlap(boomerangs, spikes, Boomerang.overlapSpikes);
+			FlxG.overlap(boomerangs, shields, Boomerang.overlapShield);
 			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
-			FlxG.overlap(boomerangs, spikes, SpikeTrap.overlapBoomerang);
+			
 			FlxG.overlap(spikes, characters, SpikeTrap.overlapCharacter);
+			
+			FlxG.overlap(sparks, characters, TaserSpark.overlapCharacter);
+			FlxG.overlap(sparks, boomerangs, TaserSpark.overlapBoomerang);
+			FlxG.overlap(sparks, shields, TaserSpark.overlapShield);
+			
+			FlxG.overlap(shields, spikes, Shield.overlapSpikes);
+			FlxG.overlap(shields, characters, Shield.overlapCharacter);
+			
 			FlxG.overlap(level.storyBoxes, player, overlapStoryBox);
 			FlxG.collide(fallBlocks, characters, fallingBlockCollide);
 			for each(var emit:FlxEmitter in bloodEmitters.members)
@@ -678,22 +706,20 @@ package
 			eyeCounter.value = player.numEyes;
 			var p:AmmoPowerup = (player.getCurrentPowerup() as AmmoPowerup);
 			if (p != null)
-				ammoCounter.value = p.ammo;
+				ammoCounter.value = Math.min(99, p.ammo);
 			else
 				ammoCounter.value = 0;
 		}
 		
 		public function debugShit():void
 		{
-		/*if (FlxG.keys.justPressed("B"))
-		   {
-		   //BRUCE
-		   var bt:Bot = new Bot(player);
-		   bots.add(bt);
-		   FlxG.flash(0x0, 0.5);
-		   FlxG.camera.follow(bt);
-		   trace(player.x, player.y);
-		 }*/
+			/*if (FlxG.keys.justPressed("B"))
+			{
+				//BRUCE
+				var bt:Bot = new Bot(player);
+				bots.add(bt);
+				FlxG.flash(0x0, 0.5);
+			}*/
 		}
 		
 		public function transitionState(newState:uint):void

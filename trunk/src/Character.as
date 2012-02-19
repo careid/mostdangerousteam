@@ -79,33 +79,31 @@ package
 				{
 					m_currentPowerup = new SpikePowerup();
 					(m_currentPowerup as SpikePowerup).ammo = (old_character.getCurrentPowerup() as SpikePowerup).ammo;
+					addPowerup(m_currentPowerup);
 				}
 				else if (old_character.getCurrentPowerup() is BoomerangPowerup)
 				{
 					m_currentPowerup = new BoomerangPowerup();
 					(m_currentPowerup as BoomerangPowerup).ammo = (old_character.getCurrentPowerup() as BoomerangPowerup).ammo;
+					addPowerup(m_currentPowerup);
 				}
-				else if (old_character.getCurrentPowerup() is ChargingPowerup)
+				else if (old_character.getCurrentPowerup() is ShieldPowerup)
 				{
-					m_currentPowerup = new ChargingPowerup((old_character.getCurrentPowerup() as ChargingPowerup).maxCharge, (old_character.getCurrentPowerup() as ChargingPowerup).chargeRate);
+					m_currentPowerup = new ShieldPowerup();
+					(m_currentPowerup as ShieldPowerup).ammo = (old_character.getCurrentPowerup() as ShieldPowerup).ammo;
+					addPowerup(m_currentPowerup);
 				}
-				else if (old_character.getCurrentPowerup() is StaminaRechargePowerup)
+				else if (old_character.getCurrentPowerup() is TaserPowerup)
 				{
-					m_currentPowerup = new StaminaRechargePowerup();
+					m_currentPowerup = new TaserPowerup();
+					(m_currentPowerup as TaserPowerup).ammo = (old_character.getCurrentPowerup() as TaserPowerup).ammo;
+					addPowerup(m_currentPowerup);
 				}
-				else if (old_character.getCurrentPowerup() is AutoUsePowerup)
+				else
 				{
-					m_currentPowerup = new AutoUsePowerup();
+					trace("Unknown powerup: %s", old_character.getCurrentPowerup().animationName);
+					m_currentPowerup = null;
 				}
-				else if (old_character.getCurrentPowerup() is AmmoPowerup)
-				{
-					m_currentPowerup = new AmmoPowerup((old_character.getCurrentPowerup() as AmmoPowerup).ammo);
-				}
-				else if (old_character.getCurrentPowerup() is Powerup)
-				{
-					m_currentPowerup = new Powerup();
-				}
-				addPowerup(m_currentPowerup);
 			}
 			
 			for each (var powerup:Powerup in old_character.getPowerupList())
@@ -123,25 +121,18 @@ package
 					{
 						newPowerup = new BoomerangPowerup();
 					}
-					else if (powerup is ChargingPowerup)
+					else if (powerup is ShieldPowerup)
 					{
-						newPowerup = new ChargingPowerup((powerup as ChargingPowerup).maxCharge, (powerup as ChargingPowerup).chargeRate);
+						newPowerup = new ShieldPowerup();
 					}
-					else if (powerup is StaminaRechargePowerup)
+					else if (powerup is TaserPowerup)
 					{
-						newPowerup = new StaminaRechargePowerup();
+						newPowerup = new TaserPowerup();
 					}
-					else if (powerup is AutoUsePowerup)
+					else // do nothing with unknown powerups
 					{
-						newPowerup = new AutoUsePowerup();
-					}
-					else if (powerup is AmmoPowerup)
-					{
-						newPowerup = new AmmoPowerup((powerup as AmmoPowerup).ammo);
-					}
-					else if (powerup is Powerup)
-					{
-						newPowerup = new Powerup();
+						trace("Unknown powerup: %s", powerup.animationName);
+						continue;
 					}
 					
 					addPowerup(newPowerup);
@@ -554,7 +545,9 @@ package
 		{
 			if (m_currentPowerup != null && !m_currentPowerup.shouldBeDiscarded)
 			{
-				m_currentPowerup.activate(target);
+				m_currentPowerup.activate(target)
+				if ( m_currentPowerup.shouldBeDiscarded || !m_currentPowerup.continuousUse )
+					usePowerup = false;
 			}
 			else if (m_currentPowerup != null && m_currentPowerup.shouldBeDiscarded)
 			{

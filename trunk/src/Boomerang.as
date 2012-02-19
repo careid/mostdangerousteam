@@ -6,7 +6,7 @@ package
 	{
 		[Embed(source = "./graphics/boomerang.png")] public var Image:Class;
 		
-		protected var m_thrower : Character;
+		public var m_thrower : Character;
 		protected var m_trackSpeed : Number = 10;
 		
 		////
@@ -92,6 +92,38 @@ package
 			}
 			
 			super.update();
+		}
+		
+		public static function overlapSpikes(boomerang:Boomerang, spikes : SpikeTrap) : void
+		{
+			if (spikes.activation == SpikeTrap.OPEN)
+			{
+				spikes.activation = SpikeTrap.CLOSING;
+				spikes.play("closing");
+				trace("CLAP!");
+			}
+		}
+		
+		public static function overlapShield(boomerang:Boomerang, shield : Shield) : void
+		{
+			var powerup : BoomerangPowerup = (shield.m_thrower.getPowerupOfType(BoomerangPowerup) as BoomerangPowerup);
+			
+			if ( shield.m_thrower != boomerang.m_thrower )
+			{
+				if (powerup == null)
+				{
+					shield.m_thrower.addPowerup(new BoomerangPowerup());
+				}
+				else
+				{
+					powerup.ammo += 1;
+					powerup.charge = powerup.maxCharge;
+				}
+				boomerang.m_thrower.m_recharge = 0.5;
+				boomerang.velocity.x *= -2;
+				boomerang.velocity.y *= -2;
+				boomerang.m_thrower = shield.m_thrower;
+			}
 		}
 	}
 
