@@ -4,9 +4,9 @@ package
 	
 	public class SplashState extends FlxState
 	{
-		var DangerLogo:FlxSprite;
-		var GGJLogo:FlxSprite;
-		var phase:int = 0;
+		protected var DangerLogo:FlxSprite;
+		protected var GGJLogo:FlxSprite;
+		protected var phase:int = 0;
 		
 		[Embed(source = "graphics/ggjlogo.png")] protected var GGJ:Class;
 		[Embed(source = "graphics/dangerlogo.png")] protected var Danger:Class;
@@ -21,6 +21,14 @@ package
 			DangerLogo.exists = false;
 			FlxG.flash(0xff000000, 2, changePhase);
 			super.create();
+		}
+		
+		public override function update():void
+		{
+			if (FlxG.keys.justPressed("SPACE"))
+			{
+				FlxG.switchState(new IntroState());
+			}
 		}
 		
 		private function changePhase():void
