@@ -94,7 +94,7 @@
 	<Spikepit x="2304" y="470"/>
 
 	<DoorSwitch x="1696" y="192" id="4" />
-	<SlowDoor x="1728" y="192" id="4" />
+	<SlowDoor x="1728" y="150" id="4" />
 
 	<DoorSwitch x="2240" y="544" id="5" />
 	<SlowDoor x="2304" y="544" id="5" />
@@ -103,13 +103,16 @@
 	<SlowDoor x="1472" y="544" id="6" />
 
 	<DoorSwitch x="2176" y="192" id="7" />
-	<SlowDoor x="2208" y="192" id="7" />
+	<SlowDoor x="2208" y="160" id="7" />
 
 	<DoorSwitch x="1760" y="448" id="8" />
 	<SlowDoor x="1728" y="448" id="8" />
 
 	<DoorSwitch x="2176" y="256" id="9" />
-	<SlowDoor x="2208" y="256" id="9" />
+	<Door x="2208" y="256" id="9" />
+
+	<DoorSwitch x="2450" y="192" id="10" />
+	<SlowDoor x="2528" y="150" id="10" />
 
 	<StaminaRechargePowerup x="2176" y="128"/>
 	<StaminaRechargePowerup x="1888" y="160"/>

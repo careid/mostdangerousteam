@@ -1,17 +1,21 @@
 -Continuous tired noise ((Donezo))
--Doors need to fall ((Donezo))
+-Doors need to fall ((Amos))
 -Doors need to be slower to open ((DONEZO))
 
 -A camera tracker 
 --Camera pans over to time machine
 --Camera stops falling when you're electrocuted
 -Arrows
--Conveyor Belts
+-Conveyor Belts ((DONEZO))
 
 NONESSENTIAL
--Effects
+-Effects ((Matt))
 -Continuous cloning 
 -Bump up wall-jumps
+
+-Ending
+-Level Fixing
+
 
 KONGREGATE
 -Some things
