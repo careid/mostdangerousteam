@@ -2,7 +2,7 @@
 -Doors need to fall ((Amos))
 -Doors need to be slower to open ((DONEZO))
 
--A camera tracker 
+-A camera tracker ((DONISIMO))
 --Camera pans over to time machine
 --Camera stops falling when you're electrocuted
 -Arrows
