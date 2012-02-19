@@ -180,8 +180,8 @@ package
 			m_dustEmitter = new FlxEmitter();
 			m_dustEmitter.particleClass = AdditiveFadingParticle;
 			m_dustEmitter.makeParticles(Cloud, 1000);
-			m_dustEmitter.particleDrag.x = 300;
-			m_dustEmitter.particleDrag.y = 300;
+			m_dustEmitter.particleDrag.x = 100;
+			m_dustEmitter.particleDrag.y = 100;
 			m_dustEmitter.maxParticleSpeed.x = 10;
 			m_dustEmitter.maxParticleSpeed.y = 10;
 			m_dustEmitter.minParticleSpeed.x = -10;
@@ -597,18 +597,16 @@ package
 			visible = false;
 			
 			// particles
-			var sparkEmitter:FlxEmitter = new FlxEmitter(x+width/2,y+height/2);
+			var sparkEmitter:FlxEmitter = new FlxEmitter();
+			sparkEmitter.x = x;
+			sparkEmitter.y = y;
+			sparkEmitter.particleClass = AdditiveFadingParticle;
 			sparkEmitter.makeParticles(spark, 20);
 			sparkEmitter.gravity = 0;
-			sparkEmitter.particleDrag.x = 0;
-			sparkEmitter.particleDrag.y = 0;
-			sparkEmitter.minParticleSpeed.x = -500;
-			sparkEmitter.maxParticleSpeed.x = 500;
-			sparkEmitter.minParticleSpeed.y = -500;
-			sparkEmitter.maxParticleSpeed.y = 500;
+			sparkEmitter.particleDrag.x = 100;
+			sparkEmitter.particleDrag.y = 100;
 			sparkEmitter.start(true, 0.5, 0.1, 20);
 			FlxG.state.add(sparkEmitter);
-			
 			
 			this.solid = false;
 			this.acceleration.x = 0;
@@ -626,27 +624,38 @@ package
 			pop.loadGraphic(ImgPop, true, true);
 			pop.addAnimation("pop", [0, 1, 2, 3, 4, 5, 6, 7], 10, false);
 			pop.play("pop");
+			velocity.x = 0;
+			velocity.y = 0;
 			(FlxG.state as PlayState).level.misc.add(pop);
-			visible = false;
+			
 			
 			// particles
-			var bloodEmitter:FlxEmitter = new FlxEmitter(x+width/2,y+height/2);
-			bloodEmitter.makeParticles(bloodDrop, 80);
-			bloodEmitter.gravity = 400;
-			bloodEmitter.particleDrag.x = 0;
-			bloodEmitter.particleDrag.y = 0;
-			bloodEmitter.minParticleSpeed.x = -100;
-			bloodEmitter.maxParticleSpeed.x = 100;
-			bloodEmitter.minParticleSpeed.y = -200;
-			bloodEmitter.maxParticleSpeed.y = 10;
-			bloodEmitter.start(true, 0.5, 0.1, 80);
-			FlxG.state.add(bloodEmitter);
+			if (visible)
+			{
+				var bloodEmitter:FlxEmitter = new FlxEmitter();
+				bloodEmitter.x = x;
+				bloodEmitter.y = y;
+				
+				bloodEmitter.makeParticles(bloodDrop, 80,16,false, 0.8);
+				bloodEmitter.particleDrag.x = 300;
+				bloodEmitter.particleDrag.y = 300;
+				bloodEmitter.minParticleSpeed.x = -100;
+				bloodEmitter.maxParticleSpeed.x = 100;
+				bloodEmitter.minParticleSpeed.y = -100;
+				bloodEmitter.maxParticleSpeed.y = 100;
+				bloodEmitter.setXSpeed( -100, 100);
+				bloodEmitter.setYSpeed( -100, 100);
+				bloodEmitter.gravity = 800;
+				bloodEmitter.start(true, 2.0);
+				(FlxG.state as PlayState).bloodEmitters.add(bloodEmitter);
+			}
 			
+			visible = false;
 			
 			this.solid = false;
 			this.acceleration.x = 0;
 			this.acceleration.y = 0;
-		
+			
 		}
 	}
 }

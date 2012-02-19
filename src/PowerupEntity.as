@@ -55,11 +55,14 @@ package
 			var emitter:FlxEmitter = new FlxEmitter(x, y);
 			emitter.particleClass = AdditiveFadingParticle;
 			emitter.makeParticles(Particle2);
-			emitter.particleDrag.x = 30;
-			emitter.particleDrag.y = 30;
-			emitter.maxParticleSpeed.x = 100;
-			emitter.maxParticleSpeed.y = 100;
+			emitter.particleDrag.x = 300;
+			emitter.particleDrag.y = 300;
 			emitter.start(true, 1.5);
+			emitter.setXSpeed( -100, 100);
+			emitter.setYSpeed( -100, 100);
+			emitter.x = x;
+			emitter.y = y;
+			emitter.on = true;
 			FlxG.state.add(emitter);
 			
 			var playState : PlayState = (PlayState)(FlxG.state);

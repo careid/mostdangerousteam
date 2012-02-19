@@ -87,12 +87,14 @@ package
 		
 		protected var newLevel:Boolean;
 		
+		public var bloodEmitters:FlxGroup;
         public function PlayState(startIndex:int = 0, oldPlayers:Array = null, runLevel:int = 0, staminaLevel:int = 0, healthLevel:int = 0, newLevel:Boolean = true)
 		{
 			this.startIndex = startIndex;
 			this.oldPlayers = oldPlayers;
 			this.cameraPreviousScroll = new FlxPoint();
 			this.cameraScrollVelocity = new FlxPoint();
+			this.bloodEmitters = new FlxGroup();
 			this.runLevel = runLevel;
 			this.staminaLevel = staminaLevel;
 			this.healthLevel = healthLevel;
@@ -329,6 +331,8 @@ package
 				itemDisplays[i].addAnimation("spikes", [3]);
 				add(itemDisplays[i]);
 			}
+			
+			
 			add(new FlxText(0, 40, FlxG.width, "press B to bot"));
 			add(countdown);
 			
@@ -337,7 +341,7 @@ package
 			
 			FlxG.flash(0xffffffff, 0.7);
 			FlxG.play(ExplosionSnd);
-			
+			add(bloodEmitters);
 	
 			super.update();
 		}
@@ -489,6 +493,13 @@ package
 			FlxG.overlap(spikes, characters, SpikeTrap.overlapCharacter);
 			FlxG.overlap(level.storyBoxes, player, overlapStoryBox);
 			FlxG.collide(fallBlocks, characters, fallingBlockCollide);
+			for each(var emit:FlxEmitter in bloodEmitters.members)
+			{
+				for each(var part:FlxParticle in emit.members)
+				{
+					FlxG.collide(level.tileMap, part);
+				}
+			}
 			updateFallingBlocks();
 			
 			updateStateEvents();
