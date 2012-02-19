@@ -213,11 +213,6 @@ package
 			var isTouchingLeft:Boolean = isTouching(LEFT);
 			var isTouchingRight:Boolean = isTouching(RIGHT);
 			
-			if (stamina <= 0 && playSounds)
-			{
-				FlxG.play(StaminaSnd);
-			}
-			
 			// VELOCITY
 			if (m_isDashing)
 			{
@@ -229,6 +224,8 @@ package
 				
 				if (doDash == false || stamina <= 0)
 				{
+					if (stamina <= 0)
+						FlxG.play(StaminaSnd);
 					m_isDashing = false;
 					m_dustEmitter.on = false;
 				}
