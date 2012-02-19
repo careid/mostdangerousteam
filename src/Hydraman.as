@@ -23,8 +23,6 @@ package
 		public var m_run_level:int = 0;
 		public var m_stamina_level:int = 0;
 		public var m_health_level:int = 0;
-		public var m_timeLeft:Number;
-		public static var m_initialTimeLeft:Number;
 		//private var glitch:GlitchFX;
 		
 		public var m_stateHistory:Array;
@@ -42,7 +40,6 @@ package
 			offset.y -= 1;
 			offset.x = 6;
 			width = 15;
-			m_timeLeft = m_initialTimeLeft;
 			m_stateHistory = new Array();
 			if (isEnemy)
 			{
@@ -77,7 +74,6 @@ package
 		override public function update():void
 		{
 			super.update();
-			m_timeLeft -= FlxG.elapsed;
 			
 			/*if (glitch != null)
 			{

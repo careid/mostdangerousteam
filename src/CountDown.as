@@ -12,8 +12,6 @@ package
 		protected const T:int = 0;
 		protected const O:int = 1;
 		
-		public var timer:Number = 0;
-		
 		public var time:Array;
 		public var previousTime:Array;
 		
@@ -35,7 +33,6 @@ package
 		
 		public function setup(x:int, y:int, timeLeft:Number=0):void
 		{
-			timer = timeLeft;
 			time = [0, 0, 0];
 			previousTime = [0,0,0];
 			
@@ -84,7 +81,7 @@ package
 		
 		private function updateTime():void
 		{
-			timer -= FlxG.elapsed;
+			var timer:Number = (FlxG.state as PlayState).timeLeft;
 			time[C] = Math.floor(timer * 100) % 100;
 			time[S] = Math.floor(timer) % 60;
 			time[M] = Math.floor(timer/60) % 60;

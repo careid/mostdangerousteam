@@ -19,7 +19,6 @@ package
 			m_waypoints = new Array();
 			m_waypoint_timer = new Timer(1000);
 			m_waypoint_timer.addEventListener(TimerEvent.TIMER, scheduled_waypoint_push);
-			m_waypoint_timer.start();
 			
 			
 			numEyes = 0;
@@ -59,16 +58,26 @@ package
 			if (m_stateHistory.length < 2 || m_stateHistory[m_stateHistory.length - 2] != state)
 			{
 				m_stateHistory.push(state);
-				m_stateHistory.push(m_timeLeft);
+				m_stateHistory.push((FlxG.state as PlayState).timeLeft);
 			}
-
-
 			super.update();
+		}
+	
+		public function start_timer():void
+		{	
+			m_waypoint_timer.start();
 		}
 		
 		protected function scheduled_waypoint_push(e:TimerEvent):void
 		{
-			push_waypoint();
+			trace("Pushing!");
+			if (FlxG.state is PlayState && (FlxG.state as PlayState).state == PlayState.MID)
+				push_waypoint();
+			else
+			{
+				m_waypoint_timer.removeEventListener(TimerEvent.TIMER, scheduled_waypoint_push);
+				m_waypoint_timer.stop();
+			}
 		}
 		
 		public function push_waypoint():void

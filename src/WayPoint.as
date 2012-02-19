@@ -8,7 +8,7 @@ package
 		public function WayPoint(player:Player)
 		{
 			super(player.x, player.y, player.width, player.height);
-			timeLeft = player.m_timeLeft;
+			timeLeft = (FlxG.state as PlayState).timeLeft;
 			velocity = player.velocity;
 			acceleration = player.velocity;
 		}
