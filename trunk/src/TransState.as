@@ -23,6 +23,7 @@ package
 		
 		protected var planet:FlxSprite;
 		protected const RINGRADIUS:Number = 155;
+		protected const SPINSPEED:Number = 0.9;
 		
 		protected const SPIN:uint = 0;
 		protected const STOP:uint = 1;
@@ -81,7 +82,7 @@ package
 			
 			planet = new FlxSprite(25, 25);
 			planet.loadGraphic(SpaceStationImage);
-			planet.angularVelocity = 0.4 * timeLeft;
+			planet.angularVelocity = SPINSPEED * timeLeft;
 			planet.blend = "normal";
 			planet.antialiasing = true;
 			add(planet);

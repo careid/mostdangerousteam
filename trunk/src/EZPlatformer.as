@@ -8,7 +8,7 @@ package
 	{
 		public function EZPlatformer()
 		{
-			super(320,240,SplashState,2);
+			super(320,240,LoadKong,2);
 			forceDebugger = true;
 		}
 	}
