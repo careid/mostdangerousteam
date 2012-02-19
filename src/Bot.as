@@ -80,7 +80,7 @@ package
 					{
 						activateCurrentPowerup();
 					}
-					else if (m_currentPowerup.animationName == "taser" && dx * dx + dy * dy <= 20 * 20)
+					else if (m_currentPowerup.animationName == "taser" && dx * dx + dy * dy <= 48 * 48)
 					{
 						activateCurrentPowerup();
 					}
