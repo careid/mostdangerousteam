@@ -1,6 +1,6 @@
 -Continuous tired noise
 -Doors need to fall
--Doors need to be slower to open
+-Doors need to be slower to open ((DONEZO))
 -A camera tracker 
 --Camera pans over to time machine
 --Camera stops falling when you're electrocuted
