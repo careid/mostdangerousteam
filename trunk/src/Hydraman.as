@@ -149,6 +149,7 @@ package
 			}
 			eye.acceleration.y = 400;
 			(FlxG.state as PlayState).level.eyes.add(eye);
+			(FlxG.state as PlayState).camTarget = eye;
 			
 			/*if (glitch != null)
 			{
