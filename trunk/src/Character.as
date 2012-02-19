@@ -302,12 +302,14 @@ package
 					if (playSounds)
 						FlxG.play(RocketSnd);
 				}
+				/*
 				else
 				{
 					velocity.y = -m_jump_power;
 					if (playSounds)
 						FlxG.play(JumpSnd);
 				}
+				*/
 			}
 			
 			// FRICTION

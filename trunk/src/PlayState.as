@@ -3,31 +3,46 @@ package
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.text.engine.BreakOpportunity;
+	import mx.core.FlexSprite;
 	import org.flixel.*;
 	import org.flixel.plugin.photonstorm.*;
 	import org.flixel.plugin.photonstorm.FX.StarfieldFX;
 	
 	public class PlayState extends FlxState
 	{
-	    [Embed(source = "../maps/level1.csv", mimeType = "application/octet-stream")] public var Level1CSV:Class;
-	    [Embed(source = "../maps/level1.xml", mimeType = "application/octet-stream")] public var Level1XML:Class;
-		[Embed(source = "../maps/testThing.txt", mimeType = "application/octet-stream")] public var TestThingCSV:Class;		
-		[Embed(source = "../maps/testThing.xml", mimeType = "application/octet-stream")] public var TestThingXML:Class;		
-		[Embed(source = "./graphics/Ring002.png")] public var CircleParticle:Class;
-		[Embed(source = "./graphics/hud2.png")] public var HUD:Class;
-		[Embed(source = "./graphics/powerups.png")] public var PowerupImage:Class;
-		[Embed(source = "./sounds/music/bgm1.mp3")] public var bgm1:Class;
-	    [Embed(source = "./sounds/music/bgm2.mp3")] public var bgm2:Class;
-		[Embed(source = "./sounds/music/bgm3.mp3")] public var bgm3:Class;
-		[Embed(source = "./sounds/music/bgm4.mp3")] public var bgm4:Class;
-		[Embed(source = "./sounds/gameStartFanfare.mp3")] protected var fanfare:Class;
-		[Embed(source = "sounds/explosion.mp3")] public var ExplosionSnd:Class;
+		[Embed(source="../maps/level1.csv",mimeType="application/octet-stream")]
+		public var Level1CSV:Class;
+		[Embed(source="../maps/level1.xml",mimeType="application/octet-stream")]
+		public var Level1XML:Class;
+		[Embed(source="../maps/testThing.txt",mimeType="application/octet-stream")]
+		public var TestThingCSV:Class;
+		[Embed(source="../maps/testThing.xml",mimeType="application/octet-stream")]
+		public var TestThingXML:Class;
+		[Embed(source="./graphics/Ring002.png")]
+		public var CircleParticle:Class;
+		[Embed(source="./graphics/hud2.png")]
+		public var HUD:Class;
+		[Embed(source="./graphics/powerups.png")]
+		public var PowerupImage:Class;
+		[Embed(source="./sounds/music/bgm1.mp3")]
+		public var bgm1:Class;
+		[Embed(source="./sounds/music/bgm2.mp3")]
+		public var bgm2:Class;
+		[Embed(source="./sounds/music/bgm3.mp3")]
+		public var bgm3:Class;
+		[Embed(source="./sounds/music/bgm4.mp3")]
+		public var bgm4:Class;
+		[Embed(source="./sounds/gameStartFanfare.mp3")]
+		protected var fanfare:Class;
+		[Embed(source="sounds/explosion.mp3")]
+		public var ExplosionSnd:Class;
 		
 		public static var GRAVITY:int = 200;
-
+		
 		protected var winner:Boolean;
 		
 		protected var tiles:Array;
+		protected var objects:Array;
 		protected var fallAccum:Number;
 		protected var fallRate:Number;
 		protected var fallAccel:Number;
@@ -56,15 +71,15 @@ package
 		protected var checkPoints:Array;
 		public var boomerangs:FlxGroup;
 		public var spikes:FlxGroup;
+		protected var doors:FlxGroup;
+		
+		protected var bots:FlxGroup;
+		protected var groups:Array;
 		
 		protected var timeStart:Number = 0;
 		protected var timeEnd:Number = 0;
 		protected var timeLeft:Number = 0;
 		protected var timeTravelCountdown:Number = 0;
-		
-		protected var doors:FlxGroup;
-		
-		protected var bots:FlxGroup;
 		
 		protected var oldPlayersIndex:int;
 		protected var oldPlayers:Array;
@@ -86,6 +101,7 @@ package
 		
 		protected var teleportEmitter:FlxEmitter;
 		protected var timeMachineEmitter:FlxEmitter;
+		
 		protected var textBox:TextBox;
 		
 		protected var newLevel:Boolean;
@@ -118,11 +134,11 @@ package
 			level.loadFromCSV(new TestThingCSV());
 			level.loadFromXML(new TestThingXML());
 			starfield = FlxSpecialFX.starfield();
-			starfield.create(0 , 0, FlxG.width, FlxG.height, 100);
+			starfield.create(0, 0, FlxG.width, FlxG.height, 100);
 			starfield.active = true;
 			starfield.sprite.scrollFactor.x = 0.0;
 			starfield.sprite.scrollFactor.y = 0.0;
-			starfield.setStarSpeed( -0.25, 0);
+			starfield.setStarSpeed(-0.25, 0);
 			
 			//video feedback generator
 			feedback = new Feedback(15, 12, FlxG.camera.buffer);
@@ -131,23 +147,28 @@ package
 			
 			//play the appropriate music depending on the checkpoint the player just came out of
 			var bgm:FlxSound = FlxG.play(bgm1);
-			if (startIndex == 0 && oldPlayers==null) {
+			if (startIndex == 0 && oldPlayers == null)
+			{
 				FlxG.play(fanfare);
 				bgm.fadeIn(50);
 			}
-			else if (startIndex == 1 || startIndex == 2) {
+			else if (startIndex == 1 || startIndex == 2)
+			{
 				bgm.stop();
 				bgm = FlxG.play(bgm1, 1, true);
 			}
-			else if (startIndex == 3 || startIndex == 4 || startIndex == 5) {
+			else if (startIndex == 3 || startIndex == 4 || startIndex == 5)
+			{
 				bgm.stop();
 				bgm = FlxG.play(bgm2, 1, true);
 			}
-			else if (startIndex == 6 || startIndex == 7 || startIndex == 8) {
+			else if (startIndex == 6 || startIndex == 7 || startIndex == 8)
+			{
 				bgm.stop();
 				bgm = FlxG.play(bgm3, 1, true);
 			}
-			else if (startIndex == 9 || startIndex == 10 || startIndex == 11) {
+			else if (startIndex == 9 || startIndex == 10 || startIndex == 11)
+			{
 				bgm.stop();
 				bgm = FlxG.play(bgm4, 1, true);
 			}
@@ -211,51 +232,11 @@ package
 				Door(level.doors.members[i]).setup();
 			}
 			
-			tiles = new Array();
-			FlxG.globalSeed = 519074;
-			var data:Array = level.tileMap.getData();
-			for (x = 0; x < level.tileMap.widthInTiles; x++)
-			{
-				for (y = 0; y < level.tileMap.heightInTiles; y++)
-				{
-					i = y * level.tileMap.widthInTiles + x;
-					if (data[i] > 0)
-					{
-						tiles.push(i);
-					}
-				}
-			}
-			timeStart = level.checkPoints[level.checkPoints.length - 1].time;
-			timeEnd = level.checkPoints[startIndex].time;
-			// formula for increasing falling blocks from start of level
-			// # fallen blocks = accel * time^2/2     accel = blocks * 2 / time ^ 2
-			// Calc intermediate 
-			fallAccum = 0;
-			fallRate = 0;
-			fallAccel = 0;
-			fallJerk = 0.8 * tiles.length * 6.0 / Math.pow(timeStart, 3.0);	// Have all blocks fall by end of level
-			
-			fallBlocks = new FlxGroup();
-			fallBGBlocks = new FlxGroup();
-			add(fallBlocks);
-			add(fallBGBlocks);
-			
-			// Simulate the falling from the start time until the current time
-			for (timeLeft = timeStart; timeLeft > timeEnd; timeLeft -= FlxG.elapsed)
-			{
-				updateFallingBlocks();
-				fallBlocks.preUpdate();
-				fallBlocks.update();
-				fallBlocks.postUpdate();
-			}
-			timeLeft = timeEnd;
-			
 			boomerangs = new FlxGroup();
 			spikes = new FlxGroup();
 			
 			add(boomerangs);
 			add(spikes);
-			
 			
 			//add characters
 			characters = new FlxGroup();
@@ -265,7 +246,7 @@ package
 			if (level.checkPoints != null && level.checkPoints.length == 0)
 			{
 				// This should only run if there are no checkpoints in the level's XML file
-				player = new Player(3008,  228);
+				player = new Player(3008, 228);
 				trace("No checkpoints");
 				oldPlayersIndex = -1;
 			}
@@ -273,7 +254,7 @@ package
 			{
 				trace("TIME TRAVEL!!!");
 				player = oldPlayers[oldPlayers.length - 1].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
-				oldPlayersIndex = oldPlayers.length-2;
+				oldPlayersIndex = oldPlayers.length - 2;
 			}
 			else
 			{
@@ -295,7 +276,7 @@ package
 			teleportEmitter.start(true, 1.5, 0.1, 0);
 			teleportEmitter.on = true;
 			
-			cameraScrollVelocity = new FlxPoint(0,0);
+			cameraScrollVelocity = new FlxPoint(0, 0);
 			cameraPreviousScroll = new FlxPoint(player.x, player.y);
 			characters.add(player);
 			
@@ -306,9 +287,9 @@ package
 			characters.add(bots);
 			
 			//set camera
-			FlxG.camera.setBounds( -10000, 0, 20000, 24000, true);
+			FlxG.camera.setBounds(-10000, 0, 20000, 24000, true);
 			FlxG.camera.follow(cam, FlxCamera.STYLE_PLATFORMER);
-
+			
 			//set starting variables
 			state = MID;
 			
@@ -343,7 +324,7 @@ package
 			for (i = 0; i < 5; i++)
 			{
 				itemDisplays.push(new FlxSprite(16 + i * 14, 28));
-				itemDisplays[i].loadGraphic(PowerupImage,true,false,16,16);
+				itemDisplays[i].loadGraphic(PowerupImage, true, false, 16, 16);
 				itemDisplays[i].scrollFactor.x = itemDisplays[i].scrollFactor.y = 0;
 				itemDisplays[i].addAnimation("boomerang", [0]);
 				itemDisplays[i].addAnimation("doublejump", [1]);
@@ -363,10 +344,83 @@ package
 			timeMachineEmitter.x = level.timeMachine.x + level.timeMachine.width/2;
 			timeMachineEmitter.y = level.timeMachine.y + level.timeMachine.height/2;
 			timeMachineEmitter.start(false, 1.0, 0.1);
+			
+			
+			tiles = new Array();
+			FlxG.globalSeed = 519074;
+			var data:Array = level.tileMap.getData();
+			for (x = 0; x < level.tileMap.widthInTiles; x++)
+			{
+				for (y = 0; y < level.tileMap.heightInTiles; y++)
+				{
+					i = y * level.tileMap.widthInTiles + x;
+					if (data[i] > 0)
+					{
+						tiles.push(i);
+					}
+				}
+			}
+			groups = new Array(level.doors, level.doorSwitches, level.conveyors, level.spikepits, level.misc, level.countDowns);
+			for each (var g:FlxGroup in groups)
+			{
+				for each (var s in g.members)
+				{
+					if (s is FlxSprite)
+					{
+						tiles.push(s);
+					}
+				}
+			}
+			function compare(a, b): int {
+				var x1:int
+				var x2:int;
+				if (a is int)
+					x1 = (a as int) % level.tileMap.widthInTiles * 32;
+				else
+					x1 = a.x as int;
+				if (b is int)
+					x2 = (b as int) % level.tileMap.widthInTiles * 32;
+				else
+					x2 = b.x as int;
+					
+				if (x1 < x2)
+					return -1;
+				else if (x1 > x2)
+					return 1;
+				else
+					return 0;
+			};
+			tiles.sort(compare);
+			
+			timeStart = level.checkPoints[level.checkPoints.length - 1].time;
+			timeEnd = level.checkPoints[startIndex].time;
+			// formula for increasing falling blocks from start of level
+			// # fallen blocks = accel * time^2/2     accel = blocks * 2 / time ^ 2
+			// Calc intermediate 
+			fallAccum = 0;
+			fallRate = 0;
+			fallAccel = 0;
+			fallJerk = 0.8 * tiles.length * 6.0 / Math.pow(timeStart, 3.0); // Have all blocks fall by end of level
+			
+			fallBlocks = new FlxGroup();
+			fallBGBlocks = new FlxGroup();
+			add(fallBlocks);
+			add(fallBGBlocks);
+			
+			// Simulate the falling from the start time until the current time
+			for (timeLeft = timeStart; timeLeft > timeEnd; timeLeft -= FlxG.elapsed)
+			{
+				updateFallingBlocks();
+				fallBlocks.preUpdate();
+				fallBlocks.update();
+				fallBlocks.postUpdate();
+			}
+			timeLeft = timeEnd;
+			
 			super.update();
 		}
 		
-		protected function updateFallingBlocks() : void
+		protected function updateFallingBlocks():void
 		{
 			// Update falling blocks
 			// Remove blocks out of view
@@ -375,7 +429,7 @@ package
 			for (i = fallBlocks.length - 1; i >= 0; i--)
 			{
 				block = fallBlocks.members[i];
-				if (block == null || block.y > LEVELBOTTOM)
+				if (block == null || block.y > FlxG.camera.bounds.y + FlxG.camera.bounds.height)
 				{
 					fallBlocks.remove(block);
 				}
@@ -383,7 +437,7 @@ package
 			for (i = fallBGBlocks.length - 1; i >= 0; i--)
 			{
 				block = fallBGBlocks.members[i];
-				if (block == null || block.y > LEVELBOTTOM)
+				if (block == null || block.y > FlxG.camera.bounds.y + FlxG.camera.bounds.height)
 				{
 					fallBGBlocks.remove(block);
 				}
@@ -394,40 +448,71 @@ package
 			fallAccel += fallJerk * FlxG.elapsed;
 			if (fallAccum >= 1)
 			{
-				var xmax:int = int(Math.pow(1.0 - timeLeft / timeStart, 3) * level.tileMap.widthInTiles);
+				var xmax:int = int(Math.pow(1.0 - timeLeft / timeStart, 2.0) * level.tileMap.width);
 				var imax:int = 0;
-				while ((tiles[imax] % level.tileMap.widthInTiles) < xmax)
+				while (imax < tiles.length)
+				{
+					var o = tiles[imax];
+					var x:int;
+					if (o is int)
+						x = o % level.tileMap.widthInTiles * 32;
+					else
+						x = o.x;
+					if (x >= xmax)
+						break;
 					imax++;
-				while (fallAccum >= 1)
+				}
+				while (fallAccum >= 1 && imax > 0)
 				{
 					fallAccum--;
-					var idx:uint = tiles.splice(int(Math.abs(FlxG.random()) * imax), 1);
-					var tile_idx:uint = level.tileMap.getTileByIndex(idx);
-					level.tileMap.setTileByIndex(idx, 0);
-					
-					var tile:FlxSprite = new FlxSprite(idx % level.tileMap.widthInTiles * 32, idx / level.tileMap.widthInTiles * 32);
-					tile.loadGraphic(level.Image, true, true, 32, 32);
-					tile.addAnimation("idle", [tile_idx]);
-					tile.play("idle");
-					tile.mass = 5.0;
-					tile.acceleration.y = 0.5 * GRAVITY;
-					tile.maxVelocity.y = GRAVITY;
-					tile.velocity.x = 25.0 * (Math.abs(FlxG.random())-0.5);
-					tile.velocity.y = -25.0 * Math.abs(FlxG.random());
-					tile.angularVelocity = 180.0 * (Math.abs(FlxG.random()) - 0.5);
-					if (tile_idx >= 25)
+					var o = tiles.splice(int(Math.abs(FlxG.random()) * imax), 1)[0];
+					var s:FlxSprite;
+					imax--;
+					if (o is int)
 					{
-						fallBGBlocks.add(tile);
+						var tile_idx:uint = level.tileMap.getTileByIndex(o);
+						level.tileMap.setTileByIndex(o, 0);
+						
+						s = new FlxSprite((o % level.tileMap.widthInTiles) * 32, (o / level.tileMap.widthInTiles) * 32 - 22);
+						s.loadGraphic(level.Image, true, true, 32, 32);
+						s.addAnimation("idle", [tile_idx]);
+						s.play("idle");
+						s.mass = 5.0;
+						if (tile_idx >= 25)
+						{
+							fallBlocks.add(s);
+						}
+						else
+						{
+							fallBGBlocks.add(s);
+						}
 					}
 					else
 					{
-						fallBlocks.add(tile);
+						s = o;
+						fallBlocks.add(s);
+						
+						for each (var g:FlxGroup in groups)
+						{
+							g.remove(o);
+						}
 					}
+					s.immovable = false;
+					s.moves = true;
+					s.velocity.x = 0;
+					s.velocity.y = 10;
+					s.angularVelocity = 0;
+					s.maxVelocity.x = 50.0;
+					s.maxVelocity.y = GRAVITY;
+					s.maxAngular = 360.0;
+					s.acceleration.x = 20.0 * (Math.abs(FlxG.random()) - 0.5);
+					s.acceleration.y = 0.25 * GRAVITY;
+					s.angularAcceleration = 90.0 * Math.abs(FlxG.random());
 				}
 			}
 		}
 		
-		protected function fallingBlockCollide(Object1:FlxObject,Object2:FlxObject):void
+		protected function fallingBlockCollide(Object1:FlxObject, Object2:FlxObject):void
 		{
 			var char:Character;
 			var block:FlxSprite;
@@ -447,7 +532,7 @@ package
 			block.solid = false;
 			if (nvy > 0 || block.y > char.y)
 				return;
-			char.hit(14, char.squash);
+			char.hit(4, char.squash);
 		}
 		
 		override public function update():void
@@ -506,7 +591,9 @@ package
 			
 			var i:int;
 			var s:FlxSprite;
-			while (level.misc.remove(null)) {}
+			while (level.misc.remove(null))
+			{
+			}
 			
 			FlxG.collide(level.tileMap, characters);
 			FlxG.collide(level.tileMap, spikes);
@@ -516,7 +603,7 @@ package
 			FlxG.collide(level.conveyors, characters, Conveyor.overlap);
 			FlxG.collide(level.spikepits, characters, SpikePit.overlap);
 			FlxG.overlap(level.powerups, characters, PowerupEntity.overlapCharacter);
-			FlxG.overlap(level.doorSwitches, characters,DoorSwitch.overlap);
+			FlxG.overlap(level.doorSwitches, characters, DoorSwitch.overlap);
 			FlxG.overlap(level.eyes, player, Eye.overlapPlayer);
 			FlxG.overlap(boomerangs, characters, Boomerang.overlapCharacter);
 			FlxG.overlap(boomerangs, spikes, SpikeTrap.overlapBoomerang);
@@ -533,7 +620,7 @@ package
 			updateFallingBlocks();
 			
 			updateStateEvents();
-
+			
 			if (!player.alive)
 			{
 				endGame();
@@ -584,28 +671,28 @@ package
 		}
 		
 		public function debugShit():void
-		{			
-			/*if (FlxG.keys.justPressed("B"))
-			{
-				//BRUCE
-				var bt:Bot = new Bot(player);
-				bots.add(bt);
-				FlxG.flash(0x0, 0.5);
-				FlxG.camera.follow(bt);
-				trace(player.x, player.y);
-			}*/
+		{
+		/*if (FlxG.keys.justPressed("B"))
+		   {
+		   //BRUCE
+		   var bt:Bot = new Bot(player);
+		   bots.add(bt);
+		   FlxG.flash(0x0, 0.5);
+		   FlxG.camera.follow(bt);
+		   trace(player.x, player.y);
+		 }*/
 		}
 		
-		public function transitionState(newState:uint):void 
+		public function transitionState(newState:uint):void
 		{
 			state = newState;
-			switch(state)
+			switch (state)
 			{
-				case START:
+				case START: 
 					break;
-				case MID:
+				case MID: 
 					break;
-				case END:
+				case END: 
 					FlxSpecialFX.remove(starfield);
 					remove(starfield.sprite);
 					FlxG.play(ExplosionSnd);
@@ -624,13 +711,13 @@ package
 			}
 		}
 		
-		private function updateStateEvents():void 
+		private function updateStateEvents():void
 		{
-			switch(state)
+			switch (state)
 			{
-				case START:
+				case START: 
 					break;
-				case MID:
+				case MID: 
 					if (timeLeft <= 0)
 					{
 						endGame();
@@ -638,14 +725,14 @@ package
 					FlxG.overlap(player, level.timeMachine, reachGoal);
 					FlxG.overlap(bots, level.timeMachine, loseToBot);
 					break;
-				case END:
+				case END: 
 					break;
-				default:
+				default: 
 					break;
 			}
 		}
 		
-		private function restartLevel():void 
+		private function restartLevel():void
 		{
 			FlxSpecialFX.remove(starfield);
 			remove(starfield.sprite);
@@ -691,9 +778,9 @@ package
 			}
 			else
 			{
-				oldPlayers[oldPlayers.length-1] = player;
+				oldPlayers[oldPlayers.length - 1] = player;
 			}
-			FlxG.switchState(new TransState(bestIndex,level.checkPoints[bestIndex].time,oldPlayers,player,(bestIndex!=startIndex)));
+			FlxG.switchState(new TransState(bestIndex, level.checkPoints[bestIndex].time, oldPlayers, player, (bestIndex != startIndex)));
 		}
 		
 		private function overlapStoryBox(a:FlxObject, b:FlxObject):void
@@ -709,7 +796,7 @@ package
 			}
 		}
 		
-		private function loseToBot(a:FlxObject,b:FlxObject):void
+		private function loseToBot(a:FlxObject, b:FlxObject):void
 		{
 			winner = false;
 			//FlxG.camera.follow(a);
@@ -722,11 +809,11 @@ package
 				timeTravelCountdown = 2.5;
 			}
 			transitionState(END);
-			
+		
 			//gameOver();
 		}
 		
-		private function reachGoal(a:FlxObject,b:FlxObject):void
+		private function reachGoal(a:FlxObject, b:FlxObject):void
 		{
 			winner = true;
 			if (!feedback.visible)
@@ -738,7 +825,7 @@ package
 			transitionState(END);
 		}
 		
-		private function endGame() : void
+		private function endGame():void
 		{
 			FlxG.fade(0xff000000, 1, gameOver);
 		}
@@ -747,9 +834,9 @@ package
 		{
 			FlxSpecialFX.remove(starfield);
 			
-			FlxG.switchState(new GameOverState(startIndex,level.checkPoints[startIndex].time,oldPlayers));
+			FlxG.switchState(new GameOverState(startIndex, level.checkPoints[startIndex].time, oldPlayers));
 		}
-		
+	
 		private function beatGame():void
 		{
 			FlxSpecialFX.remove(starfield);
