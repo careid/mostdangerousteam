@@ -82,7 +82,7 @@ package
 		protected var itemDisplays:Array;
 		
 		protected var teleportEmitter:FlxEmitter;
-			
+		protected var timeMachineEmitter:FlxEmitter;
 		protected var textBox:TextBox;
 		
 		protected var newLevel:Boolean;
@@ -150,7 +150,7 @@ package
 			}
 			
 			// warp effect
-			teleportEmitter = new FlxEmitter(0, 0, 20000);
+			teleportEmitter = new FlxEmitter(0, 0, 2000);
 			teleportEmitter.particleClass = AdditiveFadingParticle;
 			teleportEmitter.makeParticles(CircleParticle, 20);
 			teleportEmitter.maxParticleSpeed.x = 1;
@@ -159,6 +159,17 @@ package
 			teleportEmitter.minParticleSpeed.y = -1;
 			teleportEmitter.minRotation = 30;
 			teleportEmitter.maxRotation = 60;
+			timeMachineEmitter = new FlxEmitter(0, 0, 2000);
+			timeMachineEmitter.particleClass = AdditiveFadingParticle;
+			timeMachineEmitter.makeParticles(CircleParticle, 200);
+			timeMachineEmitter.maxParticleSpeed.x = 1;
+			timeMachineEmitter.minParticleSpeed.x = -1;
+			timeMachineEmitter.maxParticleSpeed.y = 1;
+			timeMachineEmitter.minParticleSpeed.y = -1;
+			timeMachineEmitter.minRotation = -60;
+			timeMachineEmitter.maxRotation = 60;
+		
+
 			
 			add(starfield.sprite);
 			add(feedback);
@@ -174,6 +185,7 @@ package
 			add(level.countDowns);
 			add(level.storyBoxes);
 			add(teleportEmitter);
+			add(timeMachineEmitter);
 			timeEnd = level.checkPoints[startIndex].time;
 			timeLeft = timeEnd; //level.checkPoints[startIndex].time;
 			
@@ -342,7 +354,9 @@ package
 			FlxG.flash(0xffffffff, 0.7);
 			FlxG.play(ExplosionSnd);
 			add(bloodEmitters);
-	
+			timeMachineEmitter.x = level.timeMachine.x + level.timeMachine.width/2;
+			timeMachineEmitter.y = level.timeMachine.y + level.timeMachine.height/2;
+			timeMachineEmitter.start(false, 1.0, 0.1);
 			super.update();
 		}
 		
