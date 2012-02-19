@@ -39,6 +39,8 @@ package
 		
 		public var level:Level;
 		public var player:Player;
+		public var cam:FlxObject;
+		public var camTarget:FlxObject;
 		public var characters:FlxGroup;
 		protected var healthBar:FlxBar;
 		protected var staminaBar:FlxBar;
@@ -282,6 +284,13 @@ package
 				oldPlayers[0].startTime = timeEnd;
 				oldPlayersIndex = -1;
 			}
+			
+			cam = new FlxObject(player.x, player.y, 1, 1);
+			cam.velocity.x = 0;
+			cam.velocity.y = 0;
+			camTarget = player;
+			add(cam);
+			
 			teleportEmitter.x = player.x;
 			teleportEmitter.y = player.y;
 			teleportEmitter.start(true, 1.5, 0.1, 0);
@@ -299,7 +308,7 @@ package
 			
 			//set camera
 			FlxG.camera.setBounds( -10000, 0, 20000, 24000, true);
-			FlxG.camera.follow(player, FlxCamera.STYLE_PLATFORMER);
+			FlxG.camera.follow(cam, FlxCamera.STYLE_PLATFORMER);
 
 			//set starting variables
 			state = MID;
@@ -343,9 +352,7 @@ package
 				itemDisplays[i].addAnimation("spikes", [3]);
 				add(itemDisplays[i]);
 			}
-			
-			
-			add(new FlxText(0, 40, FlxG.width, "press B to bot"));
+
 			add(countdown);
 			
 			textBox = new TextBox(0, 150);
@@ -446,6 +453,12 @@ package
 		
 		override public function update():void
 		{
+			// move camera towards target
+			var diffX:Number = camTarget.x - cam.x;
+			var diffY:Number = camTarget.y - cam.y;
+			cam.velocity.x += cam.velocity.x * -0.1 + diffX * 0.5;
+			cam.velocity.y += cam.velocity.y * -0.1 + diffY * 0.5;
+			
 			timeLeft -= FlxG.elapsed;
 			timeTravelCountdown = Math.max(0, timeTravelCountdown - FlxG.elapsed);
 			if (timeLeft < 0)
@@ -479,6 +492,9 @@ package
 			{
 				if (teleportEmitter.on)
 					teleportEmitter.update();
+				cam.preUpdate();
+				cam.update();
+				cam.postUpdate();
 			}
 			
 			cameraScrollVelocity.x = cameraPreviousScroll.x - FlxG.camera.scroll.x;
@@ -594,9 +610,9 @@ package
 					remove(starfield.sprite);
 					FlxG.play(ExplosionSnd);
 					if (winner)
-						FlxG.fade(0xffffff, 1.5, restartLevel);
+						FlxG.fade(0xffffff, 2.5, restartLevel);
 					else
-						FlxG.fade(0xffffff, 1.5, gameOver);
+						FlxG.fade(0xffffff, 2.5, gameOver);
 					break;
 				default:
 					break;
@@ -691,13 +707,14 @@ package
 		private function loseToBot(a:FlxObject,b:FlxObject):void
 		{
 			winner = false;
-			FlxG.camera.follow(a);
+			//FlxG.camera.follow(a);
+			camTarget = a;
 			FlxG.flash(0x0, 0.5);
 			if (!feedback.visible)
 			{
 				a.update();
 				feedback.visible = true;
-				timeTravelCountdown = 1.5;
+				timeTravelCountdown = 2.5;
 			}
 			transitionState(END);
 			
