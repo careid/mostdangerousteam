@@ -9,11 +9,10 @@
 -Conveyor Belts ((DONEZO))
 
 NONESSENTIAL
--Effects ((Matt))
--Continuous cloning 
--Bump up wall-jumps
+-Effects ((Matt)) 
+-Bump up wall-jumps ((DONEZO))
 
--Ending
+-Ending (())
 -Level Fixing
 
 

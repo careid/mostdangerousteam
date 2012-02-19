@@ -112,9 +112,8 @@
 	<DoorSwitch x="2176" y="256" id="9" />
 	<Door x="2208" y="256" id="9" />
 
-	<Spikepit x="2420" y="192" />
-	<DoorSwitch x="2450" y="192" id="10" />
-	<SlowDoor x="2528" y="150" id="10" />
+	<DoorSwitch x="2450" y="224" id="10" />
+	<Door x="2528" y="150" id="10" />
 
 	<StaminaRechargePowerup x="2176" y="128"/>
 	<StaminaRechargePowerup x="1888" y="160"/>
