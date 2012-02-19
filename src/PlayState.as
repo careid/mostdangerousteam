@@ -338,6 +338,7 @@ package
 			FlxG.flash(0xffffffff, 0.7);
 			FlxG.play(ExplosionSnd);
 			
+	
 			super.update();
 		}
 		

@@ -45,7 +45,7 @@ package
 		public var m_recharge : Number;
 		protected var m_powerupList : Array;
 		protected var m_currentPowerup : Powerup;
-		protected var m_dustEmitter : FlxEmitter;
+		public var m_dustEmitter : FlxEmitter;
 		protected var m_sliding : Boolean;
 		
 		public var goLeft:Boolean;
@@ -62,16 +62,10 @@ package
 		{
 			m_powerupList = new Array();
 			m_currentPowerup = null;
-			m_dustEmitter = new FlxEmitter();
-			m_dustEmitter.particleClass = AdditiveFadingParticle;
-			m_dustEmitter.makeParticles(Cloud, 1000);
-			m_dustEmitter.particleDrag.x = 300;
-			m_dustEmitter.particleDrag.y = 300;
-			m_dustEmitter.maxParticleSpeed.x = 100;
-			m_dustEmitter.maxParticleSpeed.y = 100;
+
 			m_sliding = false;
 			this.playSounds = playSounds;
-			FlxG.state.add(m_dustEmitter);
+
 			playingDeathAnimation = false;
 			super(X,Y);
 		}
@@ -182,7 +176,17 @@ package
 			
 			max_health = health;
 			this.health = health;
-			
+		
+			m_dustEmitter = new FlxEmitter();
+			m_dustEmitter.particleClass = AdditiveFadingParticle;
+			m_dustEmitter.makeParticles(Cloud, 1000);
+			m_dustEmitter.particleDrag.x = 300;
+			m_dustEmitter.particleDrag.y = 300;
+			m_dustEmitter.maxParticleSpeed.x = 10;
+			m_dustEmitter.maxParticleSpeed.y = 10;
+			m_dustEmitter.minParticleSpeed.x = -10;
+			m_dustEmitter.minParticleSpeed.y = -10;
+			FlxG.state.add(m_dustEmitter);			
 			//animations
 			addAnimation("idle", [0]);
 			addAnimation("run", [1, 2, 3, 4], 12);
@@ -260,7 +264,10 @@ package
 				else if (doDash)
 				{
 					m_isDashing = true;
-					m_dustEmitter.on = true;
+			        if (Math.abs(velocity.x) > 0.1)
+					{
+						m_dustEmitter.on = true;
+					}
 					m_dustEmitter.start(false, 1.5, 0.1);
 					m_speed = m_dash_speed;
 					maxVelocity.x = m_dash_speed;
@@ -304,7 +311,12 @@ package
 			if (velocity.y > 0 && ((isTouchingLeft && goLeft) || (isTouchingRight && goRight)))
 			{
 				acceleration.y = PlayState.GRAVITY - velocity.y * m_wall_friction;
-				m_dustEmitter.on = true;
+				
+				if (Math.abs(velocity.x) > 0.1)
+				{
+					m_dustEmitter.on = true;
+				}
+		
 				
 				if (!m_sliding)
 				{
@@ -400,8 +412,8 @@ package
 			}
 			m_dustEmitter.x = x + 5;
 			m_dustEmitter.y = y + 20;
-			m_dustEmitter.setXSpeed(velocity.x - 50, -velocity.x + 50);
-			m_dustEmitter.setYSpeed(velocity.y - 50, -velocity.y + 50);
+			m_dustEmitter.setXSpeed(-velocity.x/3 + 5, velocity.x/3 - 5);
+			m_dustEmitter.setYSpeed(-velocity.y/3 + 5, velocity.y/3 - 5);
 			
 			if (playingDeathAnimation)
 			{
