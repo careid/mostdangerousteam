@@ -702,9 +702,9 @@ package
 					remove(starfield.sprite);
 					FlxG.play(ExplosionSnd);
 					if (winner)
-						FlxG.fade(0xffffff, 2.5, restartLevel);
+						FlxG.fade(0xffffff, timeTravelCountdown, restartLevel);
 					else
-						FlxG.fade(0xffffff, 2.5, gameOver);
+						FlxG.fade(0xffffff, timeTravelCountdown, gameOver);
 					break;
 				case WIN:
 					FlxSpecialFX.remove(starfield);
@@ -805,13 +805,14 @@ package
 		{
 			winner = false;
 			//FlxG.camera.follow(a);
+			cam.maxVelocity.x = 500;
 			camTarget = a;
 			FlxG.flash(0x0, 0.5);
 			if (!feedback.visible)
 			{
 				a.update();
 				feedback.visible = true;
-				timeTravelCountdown = 2.5;
+				timeTravelCountdown = 1.0 + Math.abs(level.timeMachine.x - cameraPreviousScroll.x) / cam.maxVelocity.x;
 			}
 			transitionState(END);
 		
