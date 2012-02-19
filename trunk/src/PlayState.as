@@ -265,7 +265,7 @@ package
 				oldPlayersIndex = -1;
 			}
 			
-			cam = new FlxObject(player.x, player.y, 1, 1);
+			cam = new FlxObject(level.timeMachine.x, level.timeMachine.y, 1, 1);
 			cam.velocity.x = 0;
 			cam.velocity.y = 0;
 			camTarget = player;
