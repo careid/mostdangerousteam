@@ -53,6 +53,7 @@ package
 		public var doJump:Boolean;
 		public var doDash:Boolean;
 		public var usePowerup:Boolean;
+		public var changePowerup:Boolean;
 		
 		public var playSounds:Boolean;
 		
@@ -377,6 +378,8 @@ package
 			}
 			
 			// POWERUPS
+			if (changePowerup)
+				cyclePowerups();
 			m_recharge = Math.max(0, m_recharge - FlxG.elapsed);
 			if (usePowerup && m_currentPowerup != null && m_recharge == 0)
 			{

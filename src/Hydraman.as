@@ -11,12 +11,14 @@ package
 		protected static const LEFT_SHIFT:int    = 0;
 		protected static const RIGHT_SHIFT:int   = 1;
 		protected static const JUMP_SHIFT:int    = 2;
-		protected static const POWERUP_SHIFT:int = 3;
-		protected static const DASH_SHIFT:int    = 4;
+		protected static const CHANGE_SHIFT:int  = 3;
+		protected static const POWERUP_SHIFT:int = 4;
+		protected static const DASH_SHIFT:int    = 5;
 		
 		protected static const LEFT_MASK:int    = 1 << LEFT_SHIFT;
 		protected static const RIGHT_MASK:int   = 1 << RIGHT_SHIFT;
 		protected static const JUMP_MASK:int    = 1 << JUMP_SHIFT;
+		protected static const CHANGE_MASK:int  = 1 << CHANGE_SHIFT;
 		protected static const POWERUP_MASK:int = 1 << POWERUP_SHIFT;
 		protected static const DASH_MASK:int    = 1 << DASH_SHIFT;
 		
@@ -56,16 +58,18 @@ package
 			goLeft = new Boolean(LEFT_MASK & state);
 			goRight = new Boolean(RIGHT_MASK & state);
 			doJump = new Boolean(JUMP_MASK & state);
+			changePowerup = new Boolean(CHANGE_MASK & state);
 			usePowerup = new Boolean(POWERUP_MASK & state);
 			doDash = new Boolean(DASH_MASK & state);
 		}
 		
-		protected function getState(isLeft:Boolean, isRight:Boolean, isJump:Boolean, isPowerup:Boolean, isDash:Boolean):int
+		protected function getState(isLeft:Boolean, isRight:Boolean, isJump:Boolean, isChange:Boolean, isPowerup:Boolean, isDash:Boolean):int
 		{
 			var ret:int = 0;
 			if (isLeft) ret |= LEFT_MASK;
 			if (isRight) ret |= RIGHT_MASK;
 			if (isJump) ret |= JUMP_MASK;
+			if (isChange) ret |= CHANGE_MASK;
 			if (isPowerup) ret |= POWERUP_MASK;
 			if (isDash) ret |= DASH_MASK;
 			return ret;

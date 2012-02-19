@@ -219,11 +219,13 @@ package
 			add(boomerangs);
 			add(spikes);
 			add(sparks);
-			add(shields);
 			
 			//add characters
 			characters = new FlxGroup();
 			add(characters);
+			
+			// shields are above the characters
+			add(shields);
 			
 			//add player
 			var firstTime:Boolean = false;

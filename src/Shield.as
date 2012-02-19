@@ -6,7 +6,9 @@ package
 	{
 		[Embed(source = "./graphics/shield.png")] public var Image:Class;
 		
+		public static const MAX_LIFESPAN : Number = 1.25;
 		public var m_thrower : Character;
+		public var lifespan : Number;
 		protected var m_trackSpeed : Number = 10;
 		
 		////
@@ -15,13 +17,9 @@ package
 		/// \param vX the x velocity of the shield.
 		/// \param vY the y velocity of the shield.
 		/////
-		public function Shield(thrower : Character, X : Number, Y : Number, vX : Number , vY : Number) 
+		public function Shield(thrower : Character) 
 		{
-			super(X, Y);
-			velocity.x = vX;
-			velocity.y = vY;
-			maxVelocity.x = 500;
-			maxVelocity.y = 500;
+			super(thrower.x, thrower.y + 7);
 			loadGraphic(Image, true);
 			addAnimation("shield", [0, 1, 0, 1, 0, 1], 30, true);
 			play("shield");
@@ -29,6 +27,7 @@ package
 			offset.x = offset.y = 8;
 			width = 11;
 			height = 11;
+			lifespan = MAX_LIFESPAN;
 		}
 		
 		
@@ -41,7 +40,8 @@ package
 				velocity = m_thrower.velocity;
 			}
 			
-			if (finished)
+			lifespan -= FlxG.elapsed;
+			if (lifespan < 0)
 			{
 				(FlxG.state as PlayState).shields.remove(this);
 				kill();

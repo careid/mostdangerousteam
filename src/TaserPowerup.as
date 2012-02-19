@@ -36,6 +36,7 @@ package
 			var  taserSpark : TaserSpark = new TaserSpark(character);
 			var playState : PlayState = (PlayState)(FlxG.state);
 			playState.sparks.add(taserSpark);
+			character.m_recharge = 0.5;
 		}
 		
 	}

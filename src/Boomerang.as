@@ -120,8 +120,10 @@ package
 					powerup.charge = powerup.maxCharge;
 				}
 				boomerang.m_thrower.m_recharge = 0.5;
-				boomerang.velocity.x *= -2;
-				boomerang.velocity.y *= -2;
+				boomerang.x -= boomerang.velocity.x;
+				boomerang.y -= boomerang.velocity.y;
+				boomerang.velocity.x *= -1;
+				boomerang.velocity.y *= -1;
 				boomerang.m_thrower = shield.m_thrower;
 			}
 		}

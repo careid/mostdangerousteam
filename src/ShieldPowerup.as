@@ -8,6 +8,7 @@ package
 	/////
 	public class ShieldPowerup extends AmmoPowerup
 	{
+		protected var shield : Shield = null;
 		
 		public function ShieldPowerup() 
 		{
@@ -19,9 +20,17 @@ package
 		
 		override public function activate(target:Character = null):Boolean 
 		{
-			if (super.activate(target))
+			if (character.m_recharge == 0 && super.activate(target))
 			{
-				createShield(target);
+				if (shield == null)
+				{
+					createShield(target);
+				}
+				else
+				{
+					shield.lifespan = Shield.MAX_LIFESPAN;
+				}
+				character.m_recharge = 0.25;
 				return true;
 			}
 			else
@@ -32,9 +41,9 @@ package
 		
 		public function createShield(target:Character = null): void
 		{
-			var  shield : Shield = new Shield(character, character.x, character.y, character.velocity.x, character.velocity.y);
-			var playState : PlayState = (PlayState)(FlxG.state);
-			playState.shields.add(shield);
+			shield = new Shield(character);
+			(FlxG.state as PlayState).shields.add(shield);
+			character.m_recharge = 0.1;
 		}
 		
 	}
