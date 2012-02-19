@@ -1,2 +1,13 @@
-Time needs to be tightened.
-Accepted minimum time should be loosened.
+-Continuous tired noise
+-Doors need to fall
+-Doors need to be slower to open
+-A camera tracker 
+--Camera pans over to time machine
+--Camera stops falling when you're electrocuted
+-Arrows
+-Conveyor Belts
+
+NONESSENTIAL
+-Effects
+-Continuous cloning 
+-Bump up wall-jumps
