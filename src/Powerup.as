@@ -11,6 +11,7 @@ package
 		public var character : Character;
 		public var shouldBeDiscarded : Boolean;
 		public var animationName : String = "powerup";
+		public var continuousUse : Boolean = false;
 		
 		public function Powerup() 
 		{

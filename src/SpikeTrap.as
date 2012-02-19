@@ -9,7 +9,7 @@ package
 		public static const OPENING:uint = 1;
 		public static const OPEN:uint = 2;
 		public static const CLOSING:uint = 3;
-		private var activation : uint = CLOSED;
+		public var activation : uint = CLOSED;
 		private var landing_zone : FlxPoint = null;
 		
 		/////
@@ -28,7 +28,7 @@ package
 			loadGraphic(Image, true, false, 39, 39);
 			addAnimation("inactive", [0], 0, false);
 			addAnimation("activating", [0, 1, 2, 3, 4], 15, false);
-			addAnimation("closing", [5, 6, 7, 8],15,false);
+			addAnimation("closing", [5, 6, 7, 8], 15, false);
 			play("inactive");
 			offset.x = (39 - 7) / 2;
 			offset.y = (39 - 7);
@@ -93,16 +93,6 @@ package
 					spikes.play("closing");
 					trace("CLAP!");
 				}
-			}
-		}
-		
-		public static function overlapBoomerang(boomerang:Boomerang, spikes : SpikeTrap) : void
-		{
-			if (spikes.activation == OPEN)
-			{
-				spikes.activation = CLOSING;
-				spikes.play("closing");
-				trace("CLAP!");
 			}
 		}
 	}

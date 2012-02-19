@@ -174,6 +174,11 @@ package
 					obj = new PowerupEntity(0,0,new StaminaRechargePowerup());
 					powerups.add(obj as PowerupEntity);
 				}
+				else if (child.name() == "HealthPowerup")
+				{
+					obj = new PowerupEntity(0,0,new HealthPowerup());
+					powerups.add(obj as PowerupEntity);
+				}
 				else if (child.name() == "BoomerangPowerup")
 				{
 					obj = new PowerupEntity(0,0,new BoomerangPowerup());
@@ -182,6 +187,16 @@ package
 				else if (child.name() == "SpikePowerup")
 				{
 					obj = new PowerupEntity(0,0,new SpikePowerup());
+					powerups.add(obj as PowerupEntity);
+				}
+				else if (child.name() == "TaserPowerup")
+				{
+					obj = new PowerupEntity(0,0,new TaserPowerup());
+					powerups.add(obj as PowerupEntity);
+				}
+				else if (child.name() == "ShieldPowerup")
+				{
+					obj = new PowerupEntity(0,0,new ShieldPowerup());
 					powerups.add(obj as PowerupEntity);
 				}
 				else

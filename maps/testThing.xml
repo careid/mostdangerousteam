@@ -31,7 +31,12 @@
 	<CheckPoint x="1380" y="544" threshold="60" time="110"/>
 	<CheckPoint x="1384" y="544" threshold="65" time="115"/>
 	<Spikepit x="2304" y="470"/>
-	<StaminaRechargePowerup x="2646" y="342"/>
+
+
+	<TaserPowerup x="2614" y="256"/>
+	<ShieldPowerup x="2678" y="256"/>
+	<HealthPowerup x="2710" y="256"/>
+
 
 	<BoomerangPowerup x="2112" y="298"/>
 	

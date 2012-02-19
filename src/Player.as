@@ -45,8 +45,11 @@ package
 			goRight = FlxG.keys.RIGHT;
 			doJump = FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("X");
 			doDash = FlxG.keys.pressed("Z");
-			usePowerup = FlxG.keys.justPressed("C");
-			if (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("SHIFT"))
+			if ( !usePowerup ) 
+				usePowerup = FlxG.keys.justPressed("C");
+			else
+				usePowerup = FlxG.keys.pressed("C");
+			if (FlxG.keys.justPressed("SPACE") || FlxG.keys.justPressed("SHIFT") || FlxG.keys.justPressed("DOWN"))
 				cyclePowerups();
 			if (FlxG.keys.justPressed("S"))
 				selectBoomerang();

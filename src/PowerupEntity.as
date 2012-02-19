@@ -23,10 +23,13 @@ package
 			super(X, Y);
 			this.powerup  = powerup;
 			loadGraphic(Image, true, false, 16,16, false);
-			addAnimation("boomerang", [0]);
+			addAnimation("boomerang",  [0]);
 			addAnimation("doublejump", [1]);
-			addAnimation("stamina", [2]);
-			addAnimation("spikes", [3]);
+			addAnimation("stamina",    [2]);
+			addAnimation("spikes",     [3]);
+			addAnimation("health",     [4]);
+			addAnimation("shield",     [5]);
+			addAnimation("taser",      [6]);
 			if (powerup == null)
 				visible = false;
 			else
