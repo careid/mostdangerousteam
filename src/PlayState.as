@@ -23,7 +23,7 @@ package
 		[Embed(source = "./sounds/gameStartFanfare.mp3")] protected var fanfare:Class;
 		[Embed(source = "sounds/explosion.mp3")] public var ExplosionSnd:Class;
 		
-		public static var GRAVITY:int = 400;
+		public static var GRAVITY:int = 200;
 
 		protected var winner:Boolean;
 		

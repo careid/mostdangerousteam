@@ -107,7 +107,7 @@ package
 		{
 			var bloodEmitter:FlxEmitter = new FlxEmitter(x+width/2,y+height/2);
 			bloodEmitter.makeParticles(bloodDrop, 100);
-			bloodEmitter.gravity = 400;
+			bloodEmitter.gravity = PlayState.GRAVITY;
 			bloodEmitter.particleDrag.x = 0;
 			bloodEmitter.particleDrag.y = 0;
 			bloodEmitter.minParticleSpeed.x = -100;
