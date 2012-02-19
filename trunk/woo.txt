@@ -5,11 +5,12 @@
 -A camera tracker ((DONISIMO))
 --Camera pans over to time machine
 --Camera stops falling when you're electrocuted
--Arrows
+
+-Arrows ((Made but not in the game yet))
 -Conveyor Belts ((DONEZO))
 
 NONESSENTIAL
--Effects ((Matt)) 
+-Effects ((DONEZO))
 -Bump up wall-jumps ((DONEZO))
 
 -Ending (())
@@ -18,3 +19,10 @@ NONESSENTIAL
 
 KONGREGATE
 -Some things
+
+--------------------
+
+
+-- Slow doors need flat spaces in front of them.
+-- Adjust spawn times/places
+-- Lengthen final room
