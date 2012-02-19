@@ -57,16 +57,20 @@ package
 		public var cam:FlxObject;
 		public var camTarget:FlxObject;
 		public var characters:FlxGroup;
+		public var state:uint;
+		protected var camMaxVelocity:Number;
+		protected var camAcceleration:Number;
 		protected var healthBar:FlxBar;
 		protected var staminaBar:FlxBar;
 		protected var startIndex:int;
-		protected var state:uint;
 		protected var countdown:CountDown;
 		
-		protected var END:uint = 0;
-		protected var START:uint = 1;
-		protected var MID:uint = 2;
-		protected var WIN:uint = 3;
+		public static var PAN_START:uint = 0;
+		public static var START:uint = 1;
+		public static var MID:uint = 2;
+		public static var PAN_END:uint = 3;
+		public static var END:uint = 4;
+		public static var WIN:uint = 5;
 		
 		protected var checkPoints:Array;
 		public var boomerangs:FlxGroup;
@@ -76,9 +80,9 @@ package
 		protected var bots:FlxGroup;
 		protected var groups:Array;
 		
+		public var timeLeft:Number = 0;
 		protected var timeStart:Number = 0;
 		protected var timeEnd:Number = 0;
-		protected var timeLeft:Number = 0;
 		protected var timeTravelCountdown:Number = 0;
 		
 		protected var oldPlayersIndex:int;
@@ -93,7 +97,6 @@ package
 		protected var runLevel:int;
 		protected var staminaLevel:int;
 		protected var healthLevel:int;
-		protected var isFirstIteration:Boolean = false;
 		
 		protected var eyeCounter:Counter;
 		protected var ammoCounter:Counter;
@@ -135,43 +138,13 @@ package
 			level.loadFromXML(new TestThingXML());
 			starfield = FlxSpecialFX.starfield();
 			starfield.create(0, 0, FlxG.width, FlxG.height, 100);
-			starfield.active = true;
+			starfield.active = false;
 			starfield.sprite.scrollFactor.x = 0.0;
 			starfield.sprite.scrollFactor.y = 0.0;
 			starfield.setStarSpeed(-0.25, 0);
 			
 			//video feedback generator
 			feedback = new Feedback(15, 12, FlxG.camera.buffer);
-			timeTravelCountdown = 1.0;
-			feedback.visible = true;
-			
-			//play the appropriate music depending on the checkpoint the player just came out of
-			var bgm:FlxSound = FlxG.play(bgm1);
-			if (startIndex == 0 && oldPlayers == null)
-			{
-				FlxG.play(fanfare);
-				bgm.fadeIn(50);
-			}
-			else if (startIndex == 1 || startIndex == 2)
-			{
-				bgm.stop();
-				bgm = FlxG.play(bgm1, 1, true);
-			}
-			else if (startIndex == 3 || startIndex == 4 || startIndex == 5)
-			{
-				bgm.stop();
-				bgm = FlxG.play(bgm2, 1, true);
-			}
-			else if (startIndex == 6 || startIndex == 7 || startIndex == 8)
-			{
-				bgm.stop();
-				bgm = FlxG.play(bgm3, 1, true);
-			}
-			else if (startIndex == 9 || startIndex == 10 || startIndex == 11)
-			{
-				bgm.stop();
-				bgm = FlxG.play(bgm4, 1, true);
-			}
 			
 			if (startIndex >= level.checkPoints.length-1)
 			{
@@ -216,7 +189,6 @@ package
 			timeEnd = level.checkPoints[startIndex].time;
 			timeLeft = timeEnd; //level.checkPoints[startIndex].time;
 			
-			Hydraman.m_initialTimeLeft = timeLeft;
 			// clock for the timemachine
 			var timemachine_clock:CountDown = new CountDown();
 			timemachine_clock.x = level.timeMachine.x + 18;
@@ -248,6 +220,7 @@ package
 			add(characters);
 			
 			//add player
+			var firstTime:Boolean = false;
 			if (level.checkPoints != null && level.checkPoints.length == 0)
 			{
 				// This should only run if there are no checkpoints in the level's XML file
@@ -259,10 +232,12 @@ package
 			{
 				trace("TIME TRAVEL!!!");
 				player = oldPlayers[oldPlayers.length - 1].timeTravel(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
+				player.visible = false;
 				oldPlayersIndex = oldPlayers.length - 2;
 			}
 			else
 			{
+				firstTime = true;
 				player = new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel);
 				// This is to make sure different poinwer for old player. Do not remoe
 				oldPlayers = [new Player(level.checkPoints[startIndex].x, level.checkPoints[startIndex].y, runLevel, staminaLevel, healthLevel)];
@@ -270,16 +245,16 @@ package
 				oldPlayersIndex = -1;
 			}
 			
-			cam = new FlxObject(level.timeMachine.x, level.timeMachine.y, 1, 1);
+			camMaxVelocity = 800;
+			camAcceleration = 350;
+			cam = new FlxObject(level.timeMachine.x + level.timeMachine.width, level.timeMachine.y, 1, 1);
+			cam.maxVelocity.x = 1;
+			cam.maxVelocity.y = 1;
+			cam.velocity.x = 0;
 			cam.velocity.x = 0;
 			cam.velocity.y = 0;
 			camTarget = player;
 			add(cam);
-			
-			teleportEmitter.x = player.x;
-			teleportEmitter.y = player.y;
-			teleportEmitter.start(true, 1.5, 0.1, 0);
-			teleportEmitter.on = true;
 			
 			cameraScrollVelocity = new FlxPoint(0, 0);
 			cameraPreviousScroll = new FlxPoint(player.x, player.y);
@@ -296,7 +271,7 @@ package
 			FlxG.camera.follow(cam, FlxCamera.STYLE_PLATFORMER);
 			
 			//set starting variables
-			state = MID;
+			state = PAN_START;
 			
 			//hud
 			var hud:FlxSprite = new FlxSprite(0, 0, HUD);
@@ -343,14 +318,15 @@ package
 			textBox = new TextBox(0, 150);
 			add(textBox);
 			
-			FlxG.flash(0xffffffff, 0.7);
-			FlxG.play(ExplosionSnd);
+			var t:Number = camMaxVelocity / camAcceleration;
+			timeTravelCountdown = t + (level.timeMachine.x - player.x - camAcceleration * Math.pow(t, 3.0) / 6.0) / camMaxVelocity;
 			add(bloodEmitters);
 			timeMachineEmitter.x = level.timeMachine.x + level.timeMachine.width/2;
 			timeMachineEmitter.y = level.timeMachine.y + level.timeMachine.height/2;
 			timeMachineEmitter.start(false, 1.0, 0.1);
 			
 			
+			// Falling blocks initialize
 			tiles = new Array();
 			FlxG.globalSeed = 519074;
 			var data:Array = level.tileMap.getData();
@@ -423,6 +399,34 @@ package
 			timeLeft = timeEnd;
 			
 			super.update();
+			
+			//play the appropriate music depending on the checkpoint the player just came out of
+			var bgm:FlxSound = FlxG.play(bgm1);
+			if (firstTime)
+			{
+				FlxG.play(fanfare);
+				bgm.fadeIn(50);
+			}
+			else if (startIndex == 1 || startIndex == 2)
+			{
+				bgm.stop();
+				bgm = FlxG.play(bgm1, 1, true);
+			}
+			else if (startIndex == 3 || startIndex == 4 || startIndex == 5)
+			{
+				bgm.stop();
+				bgm = FlxG.play(bgm2, 1, true);
+			}
+			else if (startIndex == 6 || startIndex == 7 || startIndex == 8)
+			{
+				bgm.stop();
+				bgm = FlxG.play(bgm3, 1, true);
+			}
+			else if (startIndex == 9 || startIndex == 10 || startIndex == 11)
+			{
+				bgm.stop();
+				bgm = FlxG.play(bgm4, 1, true);
+			}
 		}
 		
 		protected function updateFallingBlocks():void
@@ -568,6 +572,8 @@ package
 				oldPlayersIndex--;
 			}
 			
+			updateStateEvents();
+			
 			if (timeTravelCountdown == 0)
 			{
 				if (feedback.visible)
@@ -579,6 +585,11 @@ package
 			}
 			else
 			{
+				if (state == PAN_START)
+				{
+					cam.maxVelocity.x = Math.min(camMaxVelocity, cam.maxVelocity.x + camAcceleration * FlxG.elapsed);
+					cam.maxVelocity.y = Math.min(camMaxVelocity, cam.maxVelocity.y + camAcceleration * FlxG.elapsed);
+				}
 				if (teleportEmitter.on)
 					teleportEmitter.update();
 				cam.preUpdate();
@@ -624,8 +635,6 @@ package
 			}
 			updateFallingBlocks();
 			
-			updateStateEvents();
-			
 			if (!player.alive)
 			{
 				endGame();
@@ -636,7 +645,6 @@ package
 			}
 			
 			debugShit();
-			isFirstIteration = false;
 			var powerupList:Array = player.getPowerupList();
 			if (powerupList != null)
 			{
@@ -693,11 +701,36 @@ package
 			state = newState;
 			switch (state)
 			{
-				case START: 
+				case START:
+					FlxG.flash(0xffffffff, 0.7);
+					FlxG.play(ExplosionSnd);
+					if (!player.visible)
+					{				
+						teleportEmitter.x = player.x;
+						teleportEmitter.y = player.y;
+						teleportEmitter.start(true, 1.5, 0.1, 0);
+						teleportEmitter.on = true;
+						player.visible = true;
+						feedback.visible = true;
+					}
+					timeTravelCountdown = 1.0;
+					starfield.active = true;
+					player.update();
 					break;
-				case MID: 
+				case MID:
+					player.start_timer();
+					break;
+				case PAN_END:
+					starfield.active = false;
 					break;
 				case END: 
+					FlxG.flash(0x0, 0.5);
+					if (!feedback.visible)
+					{
+						player.update();
+						feedback.visible = true;
+					}
+					timeTravelCountdown = 1.5;
 					FlxSpecialFX.remove(starfield);
 					remove(starfield.sprite);
 					FlxG.play(ExplosionSnd);
@@ -720,7 +753,13 @@ package
 		{
 			switch (state)
 			{
-				case START: 
+				case PAN_START:
+					if (timeTravelCountdown == 0)
+						transitionState(START);
+					break;
+				case START:
+					if (timeTravelCountdown == 0)
+						transitionState(MID);
 					break;
 				case MID: 
 					if (timeLeft <= 0)
@@ -729,6 +768,10 @@ package
 					}
 					FlxG.overlap(player, level.timeMachine, reachGoal);
 					FlxG.overlap(bots, level.timeMachine, loseToBot);
+					break;
+				case PAN_END:
+					if (timeTravelCountdown == 0)
+						transitionState(END);
 					break;
 				case END: 
 					break;
@@ -804,29 +847,19 @@ package
 		private function loseToBot(a:FlxObject, b:FlxObject):void
 		{
 			winner = false;
-			//FlxG.camera.follow(a);
-			cam.maxVelocity.x = 500;
 			camTarget = a;
-			FlxG.flash(0x0, 0.5);
-			if (!feedback.visible)
-			{
-				a.update();
-				feedback.visible = true;
-				timeTravelCountdown = 1.0 + Math.abs(level.timeMachine.x - cameraPreviousScroll.x) / cam.maxVelocity.x;
-			}
-			transitionState(END);
-		
-			//gameOver();
+			timeTravelCountdown = Math.abs(level.timeMachine.x - cameraPreviousScroll.x) / cam.maxVelocity.x;
+			transitionState(PAN_END);
 		}
 		
 		private function reachGoal(a:FlxObject, b:FlxObject):void
 		{
+			// Stop adding
 			winner = true;
 			if (!feedback.visible)
 			{
 				a.update();
 				feedback.visible = true;
-				timeTravelCountdown = 1.5;
 			}
 			transitionState(END);
 		}

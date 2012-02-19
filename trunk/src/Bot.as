@@ -22,7 +22,6 @@ package
 			}
 			m_run_level = old_player.m_run_level;
 			m_stamina_level = old_player.m_stamina_level;
-			m_timeLeft = old_player.startTime;
 			
 			FlxG.play(ExplosionSnd);
 		}
@@ -33,7 +32,7 @@ package
 			{
 				var state:int = m_stateHistory[0];
 				var time:Number = m_stateHistory[1];
-				if (time >= m_timeLeft)
+				if (time >= (FlxG.state as PlayState).timeLeft)
 				{
 					m_stateHistory.shift();
 					m_stateHistory.shift();
@@ -47,11 +46,12 @@ package
 			
 			if (m_waypoints.length > 0)
 			{
+				var timeLeft:Number = (FlxG.state as PlayState).timeLeft;
 				var wp:WayPoint = m_waypoints[0];
 				//trace("Waypoint: ", wp.x, wp.y, wp.timeLeft);
-				//trace("My point: ", x, y, m_timeLeft);
+				//trace("My point: ", x, y, timeLeft);
 				// when you hit a waypoint, move onto the next one
-				if (!canFuckUp && wp.timeLeft >= m_timeLeft && !onScreen() && !wp.onScreen())
+				if (!canFuckUp && wp.timeLeft >= timeLeft && !onScreen() && !wp.onScreen())
 				{
 					x = wp.x;
 					y = wp.y;
