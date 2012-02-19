@@ -13,15 +13,14 @@ package
 			var randomScale:Number = FlxG.random();
 			scale.x *= randomScale;
 			scale.y *= randomScale;
-			alpha *= randomScale;
 		}
 		
 		override public function update():void 
 		{
 			super.update();
-			alpha *= 0.96;
-			scale.x *= 0.96;
-			scale.y *= 0.96;
+			alpha *= 0.99;
+			scale.x *= 0.99;
+			scale.y *= 0.99;
 		}
 		
 	}
