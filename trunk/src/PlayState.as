@@ -173,6 +173,11 @@ package
 				bgm = FlxG.play(bgm4, 1, true);
 			}
 			
+			if (startIndex >= level.checkPoints.length-1)
+			{
+				transitionState(WIN);
+			}
+			
 			// warp effect
 			teleportEmitter = new FlxEmitter(0, 0, 2000);
 			teleportEmitter.particleClass = AdditiveFadingParticle;
