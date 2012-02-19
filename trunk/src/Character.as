@@ -172,8 +172,8 @@ package
 			acceleration.y = PlayState.GRAVITY;
 			m_wall_friction = 10;
 			
-			m_jump_power = 175;
-			m_jump_cost = 15;
+			m_jump_power = 150;
+			m_jump_cost = 13;
 			maxVelocity.y = m_jump_power;
 			
 			this.staminaregen = staminaregen;
@@ -277,36 +277,26 @@ package
 			// JUMPING
 			if(doJump && (stamina > m_jump_cost || isTouchingFloor))
 			{
-				if (playSounds && isTouchingFloor)
-				{
-					FlxG.play(JumpSnd);
-				}
-				else
-				{
-					FlxG.play(RocketSnd);
-				}
-				if (!isTouchingFloor)
-				{
-					stamina -= m_jump_cost;
-				}
 				m_dustEmitter.on = false;
 				if (isTouchingFloor)
 				{
 					velocity.y = -m_jump_power;
+					if (playSounds)
+						FlxG.play(JumpSnd);
 				}
 				else if (isTouchingLeft)
 				{
 					velocity.y = -1.5 * m_jump_power;
-					velocity.x = 1.5 * m_jump_power;
+					velocity.x = 1.0 * m_jump_power;
+					stamina -= m_jump_cost;
 				}
 				else if (isTouchingRight)
 				{
 					velocity.y = -1.5 * m_jump_power;
-					velocity.x = -1.5 * m_jump_power;
-				}
-				else
-				{
-					velocity.y = -m_jump_power;
+					velocity.x = -1.0 * m_jump_power;
+					stamina -= m_jump_cost;
+					if (playSounds)
+						FlxG.play(RocketSnd);
 				}
 			}
 			
@@ -328,7 +318,7 @@ package
 				m_sliding = false;
 			}
 			
-			// ACCELEARTION
+			// ACCELERATION
 			if(goLeft)
 			{
 				facing = LEFT;
