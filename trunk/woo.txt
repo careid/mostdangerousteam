@@ -1,3 +1,13 @@
+NEW SHIT:
+
+-Eye Pickup SFX
+-Feedforward/Feedback on Eye Pickups
+-Bot AI re: weapons
+-Refashioning Pick-up Sprites
+-The Game
+
+
+
 -Continuous tired noise ((Donezo))
 -Doors need to fall ((Amos))
 -Doors need to be slower to open ((DONEZO))
@@ -18,6 +28,7 @@ NONESSENTIAL
 
 
 KONGREGATE
+
 -Some things
 
 --------------------
