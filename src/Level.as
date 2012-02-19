@@ -139,6 +139,11 @@ package
 					obj = new Door();
 					doors.add(obj as Door);
 				}
+				else if (child.name() == "SlowDoor")
+				{
+					obj = new SlowDoor();
+					doors.add(obj as SlowDoor);
+				}
 				else if (child.name() == "CrazyDoor")
 				{
 					obj = new CrazyDoor();
