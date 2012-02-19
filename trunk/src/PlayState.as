@@ -51,6 +51,7 @@ package
 		protected var END:uint = 0;
 		protected var START:uint = 1;
 		protected var MID:uint = 2;
+		protected var WIN:uint = 3;
 		
 		protected var checkPoints:Array;
 		public var boomerangs:FlxGroup;
@@ -170,9 +171,7 @@ package
 			timeMachineEmitter.minParticleSpeed.y = -1;
 			timeMachineEmitter.minRotation = -60;
 			timeMachineEmitter.maxRotation = 60;
-		
 
-			
 			add(starfield.sprite);
 			add(feedback);
 			add(level.tileMap);
@@ -615,6 +614,11 @@ package
 					else
 						FlxG.fade(0xffffff, 2.5, gameOver);
 					break;
+				case WIN:
+					FlxSpecialFX.remove(starfield);
+					remove(starfield.sprite);
+					FlxG.fade(0xffffff, 1.5, beatGame);
+					break;
 				default:
 					break;
 			}
@@ -744,6 +748,13 @@ package
 			FlxSpecialFX.remove(starfield);
 			
 			FlxG.switchState(new GameOverState(startIndex,level.checkPoints[startIndex].time,oldPlayers));
+		}
+		
+		private function beatGame():void
+		{
+			FlxSpecialFX.remove(starfield);
+			
+			FlxG.switchState(new WinState());
 		}
 		
 	}

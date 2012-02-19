@@ -39,7 +39,7 @@ package
 			displayImage.play("go");
 			add(displayImage);
 			
-			displayText = new FlxText(0, 80, FlxG.width, "GAME OVER\n\n\npress r to restart");
+			displayText = new FlxText(0, 80, FlxG.width, "GAME OVER\n\n\n Make it to the time machine before the time is up!\n Beat your time clones to the time machine!\npress r to restart");
 			displayText.color = 0xff000000;
 			displayText.alignment = "center";
 			add(displayText);
