@@ -1,6 +1,7 @@
--Continuous tired noise
--Doors need to fall
+-Continuous tired noise ((Donezo))
+-Doors need to fall ((Donezo))
 -Doors need to be slower to open ((DONEZO))
+
 -A camera tracker 
 --Camera pans over to time machine
 --Camera stops falling when you're electrocuted
@@ -11,3 +12,6 @@ NONESSENTIAL
 -Effects
 -Continuous cloning 
 -Bump up wall-jumps
+
+KONGREGATE
+-Some things

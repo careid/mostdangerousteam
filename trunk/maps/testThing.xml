@@ -16,7 +16,7 @@
 	<Spikepit x="1888"y="224"/>
 	<Spikepit x="1920"y="224"/>
 	<DoorSwitch x="1088" y="288" id="1" />
-	<Door x="1184" y="288" id="1" />
+	<SlowDoor x="1184" y="288" id="1" />
 	<CheckPoint x="2315" y="278" threshold="0" time="30"/>
 	<CheckPoint x="2240" y="278" threshold="10" time="35"/>
 	<CheckPoint x="2040" y="140" threshold="15" time="40"/>
@@ -94,22 +94,22 @@
 	<Spikepit x="2304" y="470"/>
 
 	<DoorSwitch x="1696" y="192" id="4" />
-	<Door x="1728" y="192" id="4" />
+	<SlowDoor x="1728" y="192" id="4" />
 
 	<DoorSwitch x="2240" y="544" id="5" />
-	<Door x="2304" y="544" id="5" />
+	<SlowDoor x="2304" y="544" id="5" />
 
 	<DoorSwitch x="1440" y="544" id="6" />
-	<Door x="1472" y="544" id="6" />
+	<SlowDoor x="1472" y="544" id="6" />
 
 	<DoorSwitch x="2176" y="192" id="7" />
-	<Door x="2208" y="192" id="7" />
+	<SlowDoor x="2208" y="192" id="7" />
 
 	<DoorSwitch x="1760" y="448" id="8" />
-	<Door x="1728" y="448" id="8" />
+	<SlowDoor x="1728" y="448" id="8" />
 
 	<DoorSwitch x="2176" y="256" id="9" />
-	<Door x="2208" y="256" id="9" />
+	<SlowDoor x="2208" y="256" id="9" />
 
 	<StaminaRechargePowerup x="2176" y="128"/>
 	<StaminaRechargePowerup x="1888" y="160"/>
