@@ -70,37 +70,40 @@ package
 			var playState:PlayState = (FlxG.state as PlayState);
 			var player:Character = playState.player;
 			// weapons
-			if (playState.level.tileMap.ray(player.origin,this.origin))
+			if (m_currentPowerup != null)
 			{
-				var dx:Number = player.x - x;
-				var dy:Number = player.y - y;
-				if (m_currentPowerup.animationName == "shield" && dx * dx + dy * dy <= 100 * 100)
+				if (playState.level.tileMap.ray(player.origin,this.origin))
 				{
-					activateCurrentPowerup();
-				}
-				else if (m_currentPowerup.animationName == "taser" && dx * dx + dy * dy <= 20 * 20)
-				{
-					activateCurrentPowerup();
-				}
-				else if (m_currentPowerup.animationName == "boomerang" && Math.random() < 0.01 && dx * dx + dy * dy <= 100 * 100)
-				{
-					activateCurrentPowerup(player);
-				}
-			}
-			else if (m_currentPowerup.animationName == "spikes" && Math.random() < 0.01)
-			{
-				var dx:Number = player.x - x;
-				var dy:Number = player.y - y;
-				
-				if ((dx > 0) == (velocity.x > 0))
-				{ // 2 tiles ahead
-					if (dx*dx+dy*dy <= 64*64)
+					var dx:Number = player.x - x;
+					var dy:Number = player.y - y;
+					if (m_currentPowerup.animationName == "shield" && dx * dx + dy * dy <= 100 * 100)
+					{
+						activateCurrentPowerup();
+					}
+					else if (m_currentPowerup.animationName == "taser" && dx * dx + dy * dy <= 20 * 20)
+					{
+						activateCurrentPowerup();
+					}
+					else if (m_currentPowerup.animationName == "boomerang" && Math.random() < 0.01 && dx * dx + dy * dy <= 100 * 100)
+					{
 						activateCurrentPowerup(player);
+					}
 				}
-				else
-				{ // 3 tiles behind
-					if (dx*dx+dy*dy <= 96*96)
-						activateCurrentPowerup(player);
+				else if (m_currentPowerup.animationName == "spikes" && Math.random() < 0.01)
+				{
+					var dx:Number = player.x - x;
+					var dy:Number = player.y - y;
+					
+					if ((dx > 0) == (velocity.x > 0))
+					{ // 2 tiles ahead
+						if (dx*dx+dy*dy <= 64*64)
+							activateCurrentPowerup(player);
+					}
+					else
+					{ // 3 tiles behind
+						if (dx*dx+dy*dy <= 96*96)
+							activateCurrentPowerup(player);
+					}
 				}
 			}
 			
