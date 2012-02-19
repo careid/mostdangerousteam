@@ -81,8 +81,8 @@ package
 		public static function overlapBoomerang(spark : TaserSpark, boomerang:Boomerang) : void
 		{
 			spark.m_thrower.electrocute();
-			(FlxG.state as PlayState).sparks.remove(taserSpark);
-			taserSpark.kill();
+			(FlxG.state as PlayState).sparks.remove(spark);
+			spark.kill();
 		}
 		
 		public static function overlapShield(spark : TaserSpark, shield : Shield) : void
