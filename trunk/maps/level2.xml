@@ -30,16 +30,16 @@
 	<Conveyor x="2336" y="606" />
 	<Conveyor x="2368" y="606" />
 
-	<Conveyor x="2272" y="158" />
-	<Conveyor x="2304" y="158" />
-	<Conveyor x="2336" y="158" />
-	<Conveyor x="2368" y="158" />
-	<Conveyor x="2400" y="158" />
-	<Conveyor x="2432" y="158" />
-	<Conveyor x="2464" y="158" />
-	<Conveyor x="2496" y="158" />
-	<Conveyor x="2528" y="158" />
-	<Conveyor x="2560" y="158" />
+	<Conveyor x="2272" y="96" />
+	<Conveyor x="2304" y="96" />
+	<Conveyor x="2336" y="96" />
+	<Conveyor x="2368" y="96" />
+	<Conveyor x="2400" y="96" />
+	<Conveyor x="2432" y="96" />
+	<Conveyor x="2464" y="96" />
+	<Conveyor x="2496" y="96" />
+	<Conveyor x="2528" y="96" />
+	<Conveyor x="2560" y="96" />
 
 	<Conveyor x="2560" y="285" />
 	<Conveyor x="2592" y="285" />

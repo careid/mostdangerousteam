@@ -47,15 +47,15 @@
 	<Conveyor x="1184" y="129" />
 	<Conveyor x="1216" y="129" />
 	
-	<Conveyor x="2208" y="116" />
-	<Conveyor x="2240" y="116" />
-	<Conveyor x="2272" y="116" />
-	<Conveyor x="2304" y="116" />
-	<Conveyor x="2336" y="116" />
-	<Conveyor x="2368" y="116" />
-	<Conveyor x="2400" y="116" />
-	<Conveyor x="2432" y="116" />
-	<Conveyor x="2464" y="116" />
+	<Conveyor x="2208" y="102"  />
+	<Conveyor x="2240" y="102"  />
+	<Conveyor x="2272" y="102"  />
+	<Conveyor x="2304" y="102"  />
+	<Conveyor x="2336" y="102"  />
+	<Conveyor x="2368" y="102"  />
+	<Conveyor x="2400" y="102"  />
+	<Conveyor x="2432" y="102"  />
+	<Conveyor x="2464" y="102"  />
 
 	<DoorSwitch x="2448" y="87" id="2" />
 	<Door x="2496" y="64" id="2" />
